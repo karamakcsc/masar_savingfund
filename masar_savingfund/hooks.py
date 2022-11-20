@@ -102,7 +102,6 @@ app_license = "MIT"
 #		"on_trash": "method"
 #	}
 # }
-
 # Scheduled Tasks
 # ---------------
 
@@ -178,4 +177,3 @@ user_data_fields = [
 # auth_hooks = [
 #	"masar_savingfund.auth.validate"
 # ]
-

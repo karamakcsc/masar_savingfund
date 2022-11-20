@@ -1,0 +1,92 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-11-13 21:57:41.255144",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "basic_salary",
+  "column_break_3",
+  "employee_name",
+  "section_break_5",
+  "employee_contr",
+  "total_contr",
+  "column_break_8",
+  "bank_contr"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee Number",
+   "options": "Employee",
+   "search_index": 1
+  },
+  {
+   "bold": 1,
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Employee Name",
+   "search_index": 1
+  },
+  {
+   "fieldname": "basic_salary",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "B.Salary",
+   "search_index": 1
+  },
+  {
+   "fieldname": "employee_contr",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Employee Contribution",
+   "search_index": 1
+  },
+  {
+   "fieldname": "bank_contr",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Bank Contribution",
+   "search_index": 1
+  },
+  {
+   "fieldname": "total_contr",
+   "fieldtype": "Read Only",
+   "in_list_view": 1,
+   "label": "Total Contribution",
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break",
+   "label": "Contributions"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-11-15 09:33:55.723944",
+ "modified_by": "Administrator",
+ "module": "Masar Saving Fund",
+ "name": "Employee Contribution Line",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1,
+ "track_seen": 1
+}

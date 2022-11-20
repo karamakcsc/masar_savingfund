@@ -1,0 +1,46 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-11-13 12:21:26.838019",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "employee_contr_per",
+  "bankk_contr_per"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee_contr_per",
+   "fieldtype": "Percent",
+   "label": "Employee Contr Percent"
+  },
+  {
+   "fieldname": "bankk_contr_per",
+   "fieldtype": "Percent",
+   "label": "Bankk Contr Percent"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2022-11-13 12:23:51.008319",
+ "modified_by": "Administrator",
+ "module": "Masar Saving Fund",
+ "name": "Saving Fund Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

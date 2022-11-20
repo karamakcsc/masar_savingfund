@@ -1,0 +1,136 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-11-13 23:13:06.828025",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "column_break_3",
+  "employee_name",
+  "income_section",
+  "pl_employee_contr",
+  "pl_total",
+  "column_break_13",
+  "pl_bank_contr",
+  "total_rights_section",
+  "employee_contr",
+  "pl_employee_contr_prev",
+  "total_right",
+  "column_break_6",
+  "bank_contr",
+  "pl_bank_contr_prev"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee Number",
+   "options": "Employee",
+   "search_index": 1
+  },
+  {
+   "bold": 1,
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Employee Name",
+   "search_index": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "employee_contr",
+   "fieldtype": "Float",
+   "label": "Employee Contribution"
+  },
+  {
+   "fieldname": "bank_contr",
+   "fieldtype": "Float",
+   "label": "Bank Contribution"
+  },
+  {
+   "fieldname": "pl_employee_contr_prev",
+   "fieldtype": "Float",
+   "label": "P&L Employee Contr Till Previous Month",
+   "search_index": 1
+  },
+  {
+   "fieldname": "pl_bank_contr_prev",
+   "fieldtype": "Float",
+   "label": "P&L Bank Contr Till Previous Month"
+  },
+  {
+   "bold": 1,
+   "default": "0",
+   "fieldname": "total_right",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total Right",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "pl_employee_contr",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "P&L Employee Contribution",
+   "search_index": 1
+  },
+  {
+   "fieldname": "pl_bank_contr",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "P&L Bank Contribution",
+   "search_index": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.pl_bank_contr>0; style=\"background-color:Tomato;\"",
+   "fieldname": "pl_total",
+   "fieldtype": "Read Only",
+   "in_list_view": 1,
+   "label": "P&L Total"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "bold": 1,
+   "collapsible": 1,
+   "fieldname": "total_rights_section",
+   "fieldtype": "Section Break",
+   "label": "Total Rights"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "bold": 1,
+   "fieldname": "income_section",
+   "fieldtype": "Section Break",
+   "label": "Income"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-11-19 23:55:51.147885",
+ "modified_by": "Administrator",
+ "module": "Masar Saving Fund",
+ "name": "Income Allocation Line",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1,
+ "track_seen": 1
+}
