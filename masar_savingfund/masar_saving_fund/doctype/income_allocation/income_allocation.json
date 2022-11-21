@@ -15,9 +15,9 @@
   "employees",
   "totals_section",
   "total_employee_contr",
-  "total_bank_contr",
-  "column_break_8",
   "total_pl",
+  "column_break_8",
+  "total_bank_contr",
   "amended_from"
  ],
  "fields": [
@@ -30,6 +30,7 @@
   {
    "fieldname": "date",
    "fieldtype": "Date",
+   "in_list_view": 1,
    "label": "Date"
   },
   {
@@ -103,7 +104,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-11-20 11:25:41.945792",
+ "modified": "2022-11-21 13:42:21.585781",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Income Allocation",

@@ -1,7 +1,63 @@
 {
  "add_total_row": 1,
- "columns": [],
- "creation": "2022-11-20 10:49:27.405728",
+ "columns": [
+  {
+   "fieldname": "Employee #",
+   "fieldtype": "Link",
+   "label": "Employee #",
+   "options": "Employee",
+   "width": 200
+  },
+  {
+   "fieldname": "Employee Name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "width": 300
+  },
+  {
+   "fieldname": "Total Employee Contr",
+   "fieldtype": "Data",
+   "label": "Total Employee Contr",
+   "width": 0
+  },
+  {
+   "fieldname": "Total Bank Contr",
+   "fieldtype": "Data",
+   "label": "Total Bank Contr",
+   "width": 0
+  },
+  {
+   "fieldname": "Total Contrt",
+   "fieldtype": "Data",
+   "label": "Total Contrt",
+   "width": 0
+  },
+  {
+   "fieldname": "Total Employee P&L",
+   "fieldtype": "Data",
+   "label": "Total Employee P&L",
+   "width": 0
+  },
+  {
+   "fieldname": "Total Bank P&L",
+   "fieldtype": "Data",
+   "label": "Total Bank P&L",
+   "width": 0
+  },
+  {
+   "fieldname": "Total P&L",
+   "fieldtype": "Data",
+   "label": "Total P&L",
+   "width": 0
+  },
+  {
+   "fieldname": "Total Rights",
+   "fieldtype": "Data",
+   "label": "Total Rights",
+   "width": 0
+  }
+ ],
+ "creation": "2022-11-21 10:32:25.327441",
  "disable_prepared_report": 0,
  "disabled": 0,
  "docstatus": 0,
@@ -9,15 +65,16 @@
  "filters": [],
  "idx": 0,
  "is_standard": "Yes",
- "modified": "2022-11-20 10:49:27.405728",
+ "modified": "2022-11-21 13:44:30.584891",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
- "name": "Employee Total Rights",
+ "name": "Employee Total Rights-2",
  "owner": "Administrator",
  "prepared_report": 0,
+ "query": "Select tial.employee AS `Employee #`, tial.employee_name AS `Employee Name`, tecn.`Total Employee Contr`,\r\n\t\t\t\t\t\t\t\ttecn.`Total Bank Contr`,tecn.`Total Contrt`, SUM(tial.pl_employee_contr) AS `Total Employee P&L`,\r\n\t\t\t\t\t\t\t\tSUM(tial.pl_bank_contr) AS `Total Bank P&L`,SUM(tial.pl_employee_contr) + SUM(tial.pl_bank_contr) as`Total P&L`, (SUM(tecn.`Total Contrt`) + SUM(tial.pl_bank_contr) ) as`Total Rights`, tia.date AS `Date`\r\n\t\t\t\t\t\t\t\tFrom `tabIncome Allocation Line` tial\r\n\t\t\t\t\t\t\t\tINNER JOIN `tabIncome Allocation` tia on tia.name = tial.parent\r\n\t\t\t\t\t\t\t\tINNER  JOIN (Select tecl.employee, SUM(tecl.employee_contr) AS `Total Employee Contr`, SUM(tecl.bank_contr) AS `Total Bank Contr`,\r\n\t\t\t\t\t\t\t\t(SUM(tecl.employee_contr)+SUM(tecl.bank_contr)) AS `Total Contrt`\r\n\t\t\t\t\t\t\t\tFROM `tabEmployee Contribution Line` tecl \r\n\t\t\t\t\t\t\t\tINNER join `tabEmployee Contribution` tec on tecl.parent = tec.name\r\n\t\t\t\t\t\t\t\tGROUP BY tecl.employee ) AS tecn on tial.employee = tecn.employee\r\n\t\t\t\t\t\t\t\tWhere tia.docstatus =1\r\n\t\t\t\t\t\t\t\tGROUP BY tial.employee, tial.employee_name,tia.date, tecn.employee, tecn.employee, tecn.`Total Employee Contr`, tecn.`Total Bank Contr`, tecn.`Total Contrt`",
  "ref_doctype": "Income Allocation",
- "report_name": "Employee Total Rights",
- "report_type": "Script Report",
+ "report_name": "Employee Total Rights-2",
+ "report_type": "Query Report",
  "roles": [
   {
    "role": "System Manager"

@@ -54,13 +54,13 @@
   {
    "fieldname": "pl_employee_contr_prev",
    "fieldtype": "Float",
-   "label": "P&L Employee Contr Till Previous Month",
+   "label": "P&L Employee Contr till Previous Month",
    "search_index": 1
   },
   {
    "fieldname": "pl_bank_contr_prev",
    "fieldtype": "Float",
-   "label": "P&L Bank Contr Till Previous Month"
+   "label": "P&L Bank Contr till Previous Month"
   },
   {
    "bold": 1,
@@ -123,7 +123,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-11-19 23:55:51.147885",
+ "modified": "2022-11-21 12:20:34.125843",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Income Allocation Line",
