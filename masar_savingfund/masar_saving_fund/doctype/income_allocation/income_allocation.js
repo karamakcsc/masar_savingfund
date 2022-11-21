@@ -1,17 +1,25 @@
 // Copyright (c) 2022, Karama kcsc and contributors
 // For license information, please see license.txt
 
+// frappe.ui.form.on('Income Allocation', {
+//     refresh: function(frm) {
+//         $('[data-fieldname="income"]').css('color','red');
+//  $('[data-fieldname="total_right"]').css('color','red');
+//         $('[data-fieldname="total_right"]').css('background','#f5f5f5');
+//     }
+// });
+
 frappe.ui.form.on('Income Allocation', {
     refresh: function(frm) {
-      //$('input[data-fieldname="income"]').css("color","red")
-      var child = locals[cdt][cdn];
-      frm.doc.employees.forEach(function(child){
-            $('div[data-fieldname="employees"]').find(format('.grid-static-col[data-fieldname="total_right"]')).css('background','blue')
-
-      });
-	 }
+        if (!frm._color_rows) {
+            frm._color_rows = 1;
+            $('[data-fieldname="income"]').addClass('text-danger');
+            $('div[data-fieldname="total_right"]').each(function(i, row) {
+                if (i > 0)$(row).addClass('text-danger');
+            });
+        }
+    }
 });
-
 
 frappe.ui.form.on('Income Allocation', {
   validate: function(frm) {
@@ -51,7 +59,7 @@ frappe.ui.form.on('Income Allocation', {
               if (vr_employees[e].employee == d.employee){
                  vr_employees[e].employee_contr = d.total_employee_contr;
                  vr_employees[e].bank_contr = d.total_bank_contr;
-                 frappe.msgprint(d.total_employee_pl.toString());
+                 // frappe.msgprint(d.total_employee_pl.toString());
                  vr_employees[e].pl_employee_contr_prev = d.total_employee_pl;
                  vr_employees[e].pl_bank_contr_prev = d.total_bank_pl;
                  vr_employees[e].total_right = d.total_right; // yasser
@@ -120,11 +128,29 @@ frappe.ui.form.on("Income Allocation Line","employee", function(frm, cdt, cdn) {
     });
   });
 
-////Siam ///////////////////////
+////Add Multiple button /////Siam//////Start Code//
 frappe.ui.form.on('Income Allocation', {
-    onload: function(frm) {
-      frm.get_field('employees').grid.set_multiple_add('employee', '');
-      frm.refresh_field('employees');
-	 }
+    refresh: function(frm) {
+        if (!frm._add_multiple) {
+            frm._add_multiple = 1;
+            var grid = frm.get_field('employees').grid;
+            var link_field = frappe.meta.get_docfield(grid.df.options, 'employee');
+    		var btn = $(grid.wrapper).find('.grid-add-multiple-rows');
+    		btn.removeClass('hidden').toggle(true);
+    		btn.on('click', function() {
+    			new frappe.ui.form.LinkSelector({
+    				doctype: link_field.options,
+    				fieldname: 'employee',
+    				qty_fieldname: '',
+    				get_query: link_field.get_query,
+    				target: grid,
+    				txt: ''
+    			});
+    			grid.grid_pagination.go_to_last_page_to_add_row();
+    			return false;
+    		});
+        }
+    }
 });
-////// Siam //////////////////////
+
+////Add Multiple button /////Siam//////END Code//

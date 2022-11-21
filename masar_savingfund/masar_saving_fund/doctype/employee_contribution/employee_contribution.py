@@ -35,7 +35,13 @@ def get_exist_employee_in_month(selected_employees,date_to):
 			Where tecl.employee  = '{emp}' and month(tec.date_transaction) + ((year(tec.date_transaction) - 1) * 12) = {up_to}
 				  and tec.docstatus = 1""",as_dict=True)
 
+@frappe.whitelist()
+def get_employee_contr_perc(employee):
+	return frappe.db.get_single_value('Saving Fund Settings', 'employee_contr_per')
 
+@frappe.whitelist()
+def get_bank_contr_perc(employee):
+	return frappe.db.get_single_value('Saving Fund Settings', 'bank_contr_per')	
 
 class EmployeeContribution(Document):
 	pass

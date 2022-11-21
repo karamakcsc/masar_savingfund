@@ -7,7 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "employee_contr_per",
-  "bankk_contr_per"
+  "bank_contr_per"
  ],
  "fields": [
   {
@@ -16,15 +16,15 @@
    "label": "Employee Contr Percent"
   },
   {
-   "fieldname": "bankk_contr_per",
+   "fieldname": "bank_contr_per",
    "fieldtype": "Percent",
-   "label": "Bankk Contr Percent"
+   "label": "Bank Contr Percent"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-11-13 12:23:51.008319",
+ "modified": "2022-11-22 00:12:07.652782",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Settings",
