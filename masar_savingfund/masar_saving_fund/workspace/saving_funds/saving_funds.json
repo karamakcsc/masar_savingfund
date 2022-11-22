@@ -1,7 +1,16 @@
 {
  "cards_label": "",
  "category": "Modules",
- "charts": [],
+ "charts": [
+  {
+   "chart_name": "Total Rights",
+   "label": "Total Rights"
+  },
+  {
+   "chart_name": "Total Contributions",
+   "label": "Total Contributions"
+  }
+ ],
  "creation": "2022-11-21 15:56:20.037093",
  "developer_mode_only": 0,
  "disable_user_customization": 0,
@@ -71,7 +80,7 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Total Rights",
    "link_to": "Employee Total Rights",
    "link_type": "Report",
@@ -79,7 +88,7 @@
    "type": "Link"
   }
  ],
- "modified": "2022-11-21 16:00:18.341441",
+ "modified": "2022-11-22 05:00:20.950531",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Funds",

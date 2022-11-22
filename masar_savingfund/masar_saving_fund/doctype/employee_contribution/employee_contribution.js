@@ -92,3 +92,30 @@ frappe.ui.form.on("Employee Contribution Line", "bank_contr", function(frm, cdt,
 	frm.set_value("total_bank_contr",total)
 
 });
+
+////Add Multiple button /////Siam//////Start Code//
+frappe.ui.form.on('Employee Contribution', {
+    refresh: function(frm) {
+        if (!frm._add_multiple) {
+            frm._add_multiple = 1;
+            var grid = frm.get_field('employee_contr_lines').grid;
+            var link_field = frappe.meta.get_docfield(grid.df.options, 'employee');
+    		var btn = $(grid.wrapper).find('.grid-add-multiple-rows');
+    		btn.removeClass('hidden').toggle(true);
+    		btn.on('click', function() {
+    			new frappe.ui.form.LinkSelector({
+    				doctype: link_field.options,
+    				fieldname: 'employee',
+    				qty_fieldname: '',
+    				get_query: link_field.get_query,
+    				target: grid,
+    				txt: ''
+    			});
+    			grid.grid_pagination.go_to_last_page_to_add_row();
+    			return false;
+    		});
+        }
+    }
+});
+
+////Add Multiple button /////Siam//////END Code//
