@@ -34,9 +34,6 @@ frappe.ui.form.on("Employee Contribution Line", "basic_salary", function(frm, cd
 		  var d = locals[cdt][cdn];
 			frappe.call({
 					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_employee_contr_perc",
-					args: {
-						employee: d.employee
-					},
 					callback: function(r) {
 						if(d.employee){
 							d.employee_contr = flt(d.basic_salary) * flt(r.message) /100;
@@ -46,9 +43,6 @@ frappe.ui.form.on("Employee Contribution Line", "basic_salary", function(frm, cd
 						});
 			frappe.call({
 					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_bank_contr_perc",
-					args: {
-						employee: d.employee
-					},
 					callback: function(z) {
 						if(d.employee){
 							d.bank_contr = flt(d.basic_salary) * flt(z.message) /100;
@@ -57,7 +51,7 @@ frappe.ui.form.on("Employee Contribution Line", "basic_salary", function(frm, cd
 					}
 						});
 
-        //cur_frm.refresh_field(employee_contr_lines);
+        cur_frm.refresh_field(employee_contr_lines);
 });
 //end calculate for employee and bank contr
 

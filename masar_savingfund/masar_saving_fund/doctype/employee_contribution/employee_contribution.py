@@ -36,11 +36,11 @@ def get_exist_employee_in_month(selected_employees,date_to):
 				  and tec.docstatus = 1""",as_dict=True)
 
 @frappe.whitelist()
-def get_employee_contr_perc(employee):
+def get_employee_contr_perc():
 	return frappe.db.get_single_value('Saving Fund Settings', 'employee_contr_per')
 
 @frappe.whitelist()
-def get_bank_contr_perc(employee):
+def get_bank_contr_perc():
 	return frappe.db.get_single_value('Saving Fund Settings', 'bank_contr_per')
 
 
