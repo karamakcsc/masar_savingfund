@@ -12,8 +12,8 @@
  "idx": 0,
  "is_public": 1,
  "is_standard": 1,
- "last_synced_on": "2022-11-22 05:01:32.092667",
- "modified": "2022-11-22 05:02:01.098920",
+ "last_synced_on": "2022-11-22 14:36:53.987768",
+ "modified": "2022-11-22 14:37:05.870580",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Total Contributions",
@@ -27,6 +27,6 @@
  "timespan": "Last Year",
  "type": "Percentage",
  "use_report_chart": 0,
- "value_based_on": "employee_contr",
+ "value_based_on": "total_contr",
  "y_axis": []
 }

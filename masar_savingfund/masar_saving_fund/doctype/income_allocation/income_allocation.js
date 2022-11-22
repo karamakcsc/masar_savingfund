@@ -10,6 +10,35 @@
 // });
 
 frappe.ui.form.on('Income Allocation', {
+	validate: function(frm) {
+		//Get the employees listed in the form
+		var selected_employees = new Array();
+		for (let e = 0; e < frm.doc.employees.length; e++) {
+				selected_employees.push(frm.doc.employees[e].employee);
+			}
+
+			frappe.call({
+	        method: "masar_savingfund.masar_saving_fund.doctype.income_allocation.income_allocation.get_exist_income_allocation_in_month",
+	        args: {
+	          selected_employees: selected_employees,
+	          date_to: frm.doc.date
+	        },
+	        callback: function(r) {
+	          let vr_employees = frm.doc.employees;
+	          $.each(r.message, function(i, d) {
+	            for (let e = 0; e < vr_employees.length; e++) {
+	              if (vr_employees[e].employee == d.employee){
+									msgprint('(' + d.employee +' '+ d.employee_name + ') is already exist in another voucher for this month');
+									validated = false;
+		               }
+	            }
+	          });
+	        }
+	    });
+	}
+});
+
+frappe.ui.form.on('Income Allocation', {
     refresh: function(frm) {
         if (!frm._color_rows) {
             frm._color_rows = 1;

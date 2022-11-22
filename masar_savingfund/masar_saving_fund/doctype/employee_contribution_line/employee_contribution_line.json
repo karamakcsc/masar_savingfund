@@ -56,13 +56,6 @@
    "search_index": 1
   },
   {
-   "fieldname": "total_contr",
-   "fieldtype": "Read Only",
-   "in_list_view": 1,
-   "label": "Total Contribution",
-   "search_index": 1
-  },
-  {
    "fieldname": "column_break_3",
    "fieldtype": "Column Break"
   },
@@ -74,12 +67,19 @@
   {
    "fieldname": "column_break_8",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_contr",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total Contribution",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-11-22 01:34:56.305225",
+ "modified": "2022-11-22 13:47:01.442821",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Contribution Line",

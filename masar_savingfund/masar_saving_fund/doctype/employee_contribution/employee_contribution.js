@@ -29,7 +29,7 @@ frappe.ui.form.on('Employee Contribution', {
 	    });
 	}
 });
-
+//calculate for employee and bank contr
 frappe.ui.form.on("Employee Contribution Line", "basic_salary", function(frm, cdt, cdn) {
 		  var d = locals[cdt][cdn];
 			frappe.call({
@@ -39,6 +39,8 @@ frappe.ui.form.on("Employee Contribution Line", "basic_salary", function(frm, cd
 					},
 					callback: function(r) {
 						d.employee_contr = flt(d.basic_salary) * flt(r.message) /100;
+						d.total_contr=flt(d.basic_salary)*flt(r.message)/100;
+
 					}
 						});
 
@@ -49,30 +51,20 @@ frappe.ui.form.on("Employee Contribution Line", "basic_salary", function(frm, cd
 					},
 					callback: function(z) {
 						d.bank_contr = flt(d.basic_salary) * flt(z.message) /100;
+						d.total_contr+=flt(d.basic_salary)*flt(z.message)/100;
 					}
 						});
+
         cur_frm.refresh_field(employee_contr_lines);
 });
+//end calculate for employee and bank contr
 
 
-
-frappe.ui.form.on("Employee Contribution Line", "employee_contr", function(frm, cdt, cdn) {
-		  var d = locals[cdt][cdn];
-         d.total_contr = flt(d.employee_contr + d.bank_contr)
-         cur_frm.refresh_field();
-});
-
-frappe.ui.form.on("Employee Contribution Line", "bank_contr", function(frm, cdt, cdn) {
-		  var d = locals[cdt][cdn];
-         d.total_contr = flt(d.employee_contr + d.bank_contr)
-         cur_frm.refresh_field();
-});
-
-frappe.ui.form.on("Employee Contribution Line", "employee_contr", function(frm, cdt, cdn) {
+frappe.ui.form.on("Employee Contribution", "validate", function(frm, cdt, cdn) {
 
    var contr_lines = frm.doc.employee_contr_lines;
    var total = 0
-   for(var i in contr_lines) {
+	 for (let i = 0; i < contr_lines.length; i++) {
 	total = total + contr_lines[i].employee_contr
 	}
 
@@ -81,17 +73,18 @@ frappe.ui.form.on("Employee Contribution Line", "employee_contr", function(frm, 
 });
 
 
-frappe.ui.form.on("Employee Contribution Line", "bank_contr", function(frm, cdt, cdn) {
+frappe.ui.form.on("Employee Contribution", "validate", function(frm, cdt, cdn) {
 
    var contr_lines = frm.doc.employee_contr_lines;
    var total = 0
-   for(var i in contr_lines) {
+	 for (let i = 0; i < contr_lines.length; i++) {
 	total = total + contr_lines[i].bank_contr
 	}
 
 	frm.set_value("total_bank_contr",total)
 
 });
+
 
 ////Add Multiple button /////Siam//////Start Code//
 frappe.ui.form.on('Employee Contribution', {

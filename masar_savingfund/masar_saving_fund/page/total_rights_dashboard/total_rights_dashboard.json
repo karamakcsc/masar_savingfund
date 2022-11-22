@@ -1,0 +1,27 @@
+{
+ "content": null,
+ "creation": "2022-11-22 05:38:33.074071",
+ "docstatus": 0,
+ "doctype": "Page",
+ "icon": "loan",
+ "idx": 0,
+ "modified": "2022-11-22 05:40:30.317859",
+ "modified_by": "Administrator",
+ "module": "Masar Saving Fund",
+ "name": "total-rights-dashboard",
+ "owner": "Administrator",
+ "page_name": "total-rights-dashboard",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "All"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "Total Rights dashboard"
+}

@@ -41,7 +41,8 @@ def get_employee_contr_perc(employee):
 
 @frappe.whitelist()
 def get_bank_contr_perc(employee):
-	return frappe.db.get_single_value('Saving Fund Settings', 'bank_contr_per')	
+	return frappe.db.get_single_value('Saving Fund Settings', 'bank_contr_per')
+
 
 class EmployeeContribution(Document):
 	pass
