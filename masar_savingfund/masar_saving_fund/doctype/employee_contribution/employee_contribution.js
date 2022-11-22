@@ -38,9 +38,10 @@ frappe.ui.form.on("Employee Contribution Line", "basic_salary", function(frm, cd
 						employee: d.employee
 					},
 					callback: function(r) {
-						d.employee_contr = flt(d.basic_salary) * flt(r.message) /100;
-						d.total_contr=flt(d.basic_salary)*flt(r.message)/100;
-
+						if(d.employee){
+							d.employee_contr = flt(d.basic_salary) * flt(r.message) /100;
+							d.total_contr=flt(d.basic_salary)*flt(r.message)/100;
+						}
 					}
 						});
 
@@ -50,8 +51,10 @@ frappe.ui.form.on("Employee Contribution Line", "basic_salary", function(frm, cd
 						employee: d.employee
 					},
 					callback: function(z) {
-						d.bank_contr = flt(d.basic_salary) * flt(z.message) /100;
-						d.total_contr+=flt(d.basic_salary)*flt(z.message)/100;
+						if(d.employee){
+							d.bank_contr = flt(d.basic_salary) * flt(z.message) /100;
+							d.total_contr+=flt(d.basic_salary)*flt(z.message)/100;
+						}
 					}
 						});
 
