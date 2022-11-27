@@ -21,7 +21,7 @@ frappe.ui.form.on('Income Allocation', {
 	        method: "masar_savingfund.masar_saving_fund.doctype.income_allocation.income_allocation.get_exist_income_allocation_in_month",
 	        args: {
 	          selected_employees: selected_employees,
-	          date_to: frm.doc.date
+	          date_to: frm.doc.posting_date
 	        },
 	        callback: function(r) {
 	          let vr_employees = frm.doc.employees;
@@ -72,7 +72,7 @@ frappe.ui.form.on('Income Allocation', {
         method: "masar_savingfund.custom.employee.employee.get_employee_savefund_balance",
         args: {
           selected_employees: selected_employees,
-          date_to: frm.doc.date
+          date_to: frm.doc.posting_date
         },
         callback: function(r) {
           var sum_total_rights=0;
@@ -141,7 +141,7 @@ frappe.ui.form.on("Income Allocation Line","employee", function(frm, cdt, cdn) {
         method: "masar_savingfund.custom.employee.employee.get_employee_savefund_balance",
         args: {
           selected_employees: selected_employees,
-          date_to: frm.doc.date
+          date_to: frm.doc.posting_date
         },
         callback: function(r) {
               $.each(r.message, function(i, d) {

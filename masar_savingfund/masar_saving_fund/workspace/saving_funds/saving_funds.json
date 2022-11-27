@@ -63,6 +63,15 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Saving Fund Payment",
+   "link_to": "Saving Fund Payment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "Setting",
    "link_to": "Saving Fund Settings",
    "link_type": "DocType",
@@ -80,15 +89,24 @@
   },
   {
    "hidden": 0,
+   "is_query_report": 0,
+   "label": "Dashboard",
+   "link_to": "saving-funds-dashboard",
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
    "is_query_report": 1,
    "label": "Total Rights",
-   "link_to": "Employee Total Rights",
+   "link_to": "Employee Total Right",
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
   }
  ],
- "modified": "2022-11-22 05:00:20.950531",
+ "modified": "2022-11-27 16:55:47.797057",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Funds",

@@ -1,6 +1,35 @@
 // Copyright (c) 2022, Karama kcsc and contributors
 // For license information, please see license.txt
 
+//Get Default Accounts
+frappe.ui.form.on('Employee Contribution', {
+	onload: function(frm) {
+			frappe.call({
+					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_cash_account",
+					callback: function(r) {
+						frm.doc.cash_account = r.message
+					}
+						});
+			frappe.call({
+					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_employee_equity_account",
+					callback: function(r) {
+						frm.doc.employee_equity = r.message
+					}
+						});
+
+			frappe.call({
+					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_bank_equity_account",
+					callback: function(r) {
+						frm.doc.bank_equity = r.message
+					}
+						});
+
+        cur_frm.refresh_field(employee_contr_lines);
+}
+});
+//end Default Accounts
+
+//Validate If Employee exist in the same month
 frappe.ui.form.on('Employee Contribution', {
 	validate: function(frm) {
 		//Get the employees listed in the form
@@ -13,7 +42,7 @@ frappe.ui.form.on('Employee Contribution', {
 	        method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_exist_employee_in_month",
 	        args: {
 	          selected_employees: selected_employees,
-	          date_to: frm.doc.date_transaction
+	          date_to: frm.doc.posting_date
 	        },
 	        callback: function(r) {
 	          let vr_employees = frm.doc.employee_contr_lines;
@@ -29,6 +58,8 @@ frappe.ui.form.on('Employee Contribution', {
 	    });
 	}
 });
+//End Validate If Employee exist in the same month
+
 //calculate for employee and bank contr
 frappe.ui.form.on("Employee Contribution Line", "basic_salary", function(frm, cdt, cdn) {
 		  var d = locals[cdt][cdn];
@@ -54,6 +85,7 @@ frappe.ui.form.on("Employee Contribution Line", "basic_salary", function(frm, cd
         cur_frm.refresh_field(employee_contr_lines);
 });
 //end calculate for employee and bank contr
+
 
 
 frappe.ui.form.on("Employee Contribution", "validate", function(frm, cdt, cdn) {
@@ -107,4 +139,32 @@ frappe.ui.form.on('Employee Contribution', {
     }
 });
 
-////Add Multiple button /////Siam//////END Code//
+// End Add Multiple button /////Siam//////END Code//
+
+// Show General Ledger
+frappe.ui.form.on('Employee Contribution', {
+  refresh: function(frm) {
+    frm.events.show_general_ledger(frm);
+  }
+});
+
+
+
+frappe.ui.form.on('Employee Contribution', {
+show_general_ledger: function(frm) {
+  if(frm.doc.docstatus > 0) {
+    frm.add_custom_button(__('Show GL Ledger'), function() {
+      frappe.route_options = {
+        "voucher_no": frm.doc.name,
+        "from_date": frm.doc.posting_date,
+        "to_date": moment(frm.doc.modified).format('YYYY-MM-DD'),
+        "company": frm.doc.company,
+        "group_by": "",
+        "show_cancelled_entries": frm.doc.docstatus === 2
+      };
+      frappe.set_route("query-report", "General Ledger");
+    }, "fa fa-table");
+  }
+}
+});
+// END Show General Ledger

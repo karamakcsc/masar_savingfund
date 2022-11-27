@@ -10,7 +10,7 @@
   "naming_series",
   "income",
   "column_break_3",
-  "date",
+  "posting_date",
   "employees_section",
   "employees",
   "totals_section",
@@ -18,6 +18,10 @@
   "total_pl",
   "column_break_8",
   "total_bank_contr",
+  "accounts_section",
+  "interim_revenue",
+  "column_break_14",
+  "current_year_profit",
   "amended_from"
  ],
  "fields": [
@@ -25,13 +29,7 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",
-   "options": "SFC-.YY.-.MM.-.####"
-  },
-  {
-   "fieldname": "date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "Date"
+   "options": "SFIA-.YY.-.MM.-.####"
   },
   {
    "fieldname": "employees_section",
@@ -99,12 +97,41 @@
    "fieldname": "total_pl",
    "fieldtype": "Read Only",
    "label": "Total PL"
+  },
+  {
+   "bold": 1,
+   "fieldname": "accounts_section",
+   "fieldtype": "Section Break",
+   "label": "Accounts"
+  },
+  {
+   "fieldname": "interim_revenue",
+   "fieldtype": "Link",
+   "label": "Interim Revenue",
+   "options": "Account"
+  },
+  {
+   "fieldname": "current_year_profit",
+   "fieldtype": "Link",
+   "label": "Current Year Profit",
+   "options": "Account"
+  },
+  {
+   "fieldname": "column_break_14",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-11-21 13:42:21.585781",
+ "modified": "2022-11-28 00:23:43.746501",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Income Allocation",

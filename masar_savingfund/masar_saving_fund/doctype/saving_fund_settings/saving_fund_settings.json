@@ -7,7 +7,14 @@
  "engine": "InnoDB",
  "field_order": [
   "employee_contr_per",
-  "bank_contr_per"
+  "bank_contr_per",
+  "default_accounts_section",
+  "cash_account",
+  "employee_equity",
+  "current_year_profit",
+  "column_break_6",
+  "bank_equity",
+  "interim_revenue"
  ],
  "fields": [
   {
@@ -19,12 +26,57 @@
    "fieldname": "bank_contr_per",
    "fieldtype": "Percent",
    "label": "Bank Contr Percent"
+  },
+  {
+   "bold": 1,
+   "fieldname": "default_accounts_section",
+   "fieldtype": "Section Break",
+   "label": "Default Accounts"
+  },
+  {
+   "bold": 1,
+   "fieldname": "cash_account",
+   "fieldtype": "Link",
+   "label": "Cash Account",
+   "options": "Account"
+  },
+  {
+   "bold": 1,
+   "fieldname": "employee_equity",
+   "fieldtype": "Link",
+   "label": "Employee Equity",
+   "options": "Account"
+  },
+  {
+   "bold": 1,
+   "fieldname": "bank_equity",
+   "fieldtype": "Link",
+   "label": "Bank Equity",
+   "options": "Account"
+  },
+  {
+   "bold": 1,
+   "fieldname": "interim_revenue",
+   "fieldtype": "Link",
+   "label": "Interim Revenue",
+   "options": "Account"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "bold": 1,
+   "fieldname": "current_year_profit",
+   "fieldtype": "Link",
+   "label": "Current Year Profit",
+   "options": "Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-11-22 00:12:07.652782",
+ "modified": "2022-11-24 16:17:09.839107",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Settings",

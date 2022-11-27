@@ -24,7 +24,7 @@ def get_exist_income_allocation_in_month(selected_employees,date_to):
 		Select tial.employee,tial.employee_name
 		From `tabIncome Allocation Line` tial
 		Inner Join `tabIncome Allocation` tia on tial.parent =tia.name
-		Where tial.employee  in {employees_tuple} and month(tia.date) + ((year(tia.date) - 1) * 12) = {up_to}
+		Where tial.employee  in {employees_tuple} and month(tia.posting_date) + ((year(tia.posting_date) - 1) * 12) = {up_to}
 			  and tia.docstatus = 1""",as_dict=True)
 	else:
 
@@ -32,7 +32,7 @@ def get_exist_income_allocation_in_month(selected_employees,date_to):
 		Select tial.employee,tial.employee_name
 		From `tabIncome Allocation Line` tial
 		Inner Join `tabIncome Allocation` tia on tial.parent =tia.name
-		Where tial.employee  = '{emp}' and month(tia.date) + ((year(tia.date) - 1) * 12) = {up_to}
+		Where tial.employee  = '{emp}' and month(tia.posting_date) + ((year(tia.posting_date) - 1) * 12) = {up_to}
 			  and tia.docstatus = 1""",as_dict=True)
 #
 # @frappe.whitelist()
