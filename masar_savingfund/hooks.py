@@ -102,9 +102,7 @@ app_license = "MIT"
 #		"on_trash": "method"
 #	}
 # }
-doctype_js = {
-    "Payment Entry" : "custom/payment_entry/payment_entry.js"
-}
+
 # Scheduled Tasks
 # ---------------
 
@@ -180,13 +178,3 @@ user_data_fields = [
 # auth_hooks = [
 #	"masar_savingfund.auth.validate"
 # ]
-fixtures = [
-    {"dt": "Custom Field", "filters": [
-        [
-            "name", "in", [
-                  "Payment Entry-total_right"
-
-                  ]
-        ]
-    ]}
-]
