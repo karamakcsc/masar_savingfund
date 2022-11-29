@@ -7,7 +7,32 @@ frappe.ui.form.on('Saving Fund Payment', {
 	// }
 });
 
+//Get Default Accounts
+frappe.ui.form.on('Saving Fund Payment', {
+	onload: function(frm) {
+			frappe.call({
+					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_cash_account",
+					callback: function(r) {
+						frm.set_value('cash_account', r.message);
+					}
+						});
+			frappe.call({
+					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_employee_equity_account",
+					callback: function(r) {
+						frm.set_value('employee_equity', r.message);
+					}
+						});
 
+			frappe.call({
+					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_bank_equity_account",
+					callback: function(r) {
+						frm.set_value('bank_equity', r.message);
+					}
+						});
+
+}
+});
+//end Default Accounts
 frappe.ui.form.on('Saving Fund Payment', {
 	employee: function(frm) {
     //Get the employees listed in the form
@@ -33,3 +58,40 @@ frappe.ui.form.on('Saving Fund Payment', {
     });
 	}
 });
+
+frappe.ui.form.on('Saving Fund Payment',  {
+    validate: function(frm) {
+    if(frm.doc.paid_amount > frm.doc.deserved_amount){
+        msgprint('Paid Amount Cannot Be Greater Than Deserved Amount');
+        validated = false;
+     }
+    }
+});
+
+// Show General Ledger
+frappe.ui.form.on('Saving Fund Payment', {
+  refresh: function(frm) {
+    frm.events.show_general_ledger(frm);
+  }
+});
+
+
+
+frappe.ui.form.on('Saving Fund Payment', {
+show_general_ledger: function(frm) {
+  if(frm.doc.docstatus > 0) {
+    frm.add_custom_button(__('Show GL Ledger'), function() {
+      frappe.route_options = {
+        "voucher_no": frm.doc.name,
+        "from_date": frm.doc.posting_date,
+        "to_date": moment(frm.doc.modified).format('YYYY-MM-DD'),
+        "company": frm.doc.company,
+        "group_by": "",
+        "show_cancelled_entries": frm.doc.docstatus === 2
+      };
+      frappe.set_route("query-report", "General Ledger");
+    }, "fa fa-table");
+  }
+}
+});
+// END Show General Ledger

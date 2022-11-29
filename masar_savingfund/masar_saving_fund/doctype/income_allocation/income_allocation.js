@@ -9,6 +9,29 @@
 //     }
 // });
 
+
+//Get Default Accounts
+frappe.ui.form.on('Income Allocation', {
+	onload: function(frm) {
+			frappe.call({
+					method: "masar_savingfund.masar_saving_fund.doctype.income_allocation.income_allocation.get_interim_revenue_account",
+					callback: function(r) {
+
+						frm.set_value('interim_revenue', r.message);
+					}
+						});
+			frappe.call({
+					method: "masar_savingfund.masar_saving_fund.doctype.income_allocation.income_allocation.get_current_year_profit_account",
+					callback: function(r) {
+						frm.set_value('current_year_profit', r.message);
+					}
+						});
+
+
+}
+});
+//end Default Accounts
+
 frappe.ui.form.on('Income Allocation', {
 	validate: function(frm) {
 		//Get the employees listed in the form
@@ -183,3 +206,32 @@ frappe.ui.form.on('Income Allocation', {
 });
 
 ////Add Multiple button /////Siam//////END Code//
+
+
+// Show General Ledger
+frappe.ui.form.on('Income Allocation', {
+  refresh: function(frm) {
+    frm.events.show_general_ledger(frm);
+  }
+});
+
+
+
+frappe.ui.form.on('Income Allocation', {
+show_general_ledger: function(frm) {
+  if(frm.doc.docstatus > 0) {
+    frm.add_custom_button(__('Show GL Ledger'), function() {
+      frappe.route_options = {
+        "voucher_no": frm.doc.name,
+        "from_date": frm.doc.posting_date,
+        "to_date": moment(frm.doc.modified).format('YYYY-MM-DD'),
+        "company": frm.doc.company,
+        "group_by": "",
+        "show_cancelled_entries": frm.doc.docstatus === 2
+      };
+      frappe.set_route("query-report", "General Ledger");
+    }, "fa fa-table");
+  }
+}
+});
+// END Show General Ledger

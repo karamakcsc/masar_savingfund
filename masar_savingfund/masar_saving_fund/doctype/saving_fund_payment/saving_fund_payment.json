@@ -9,12 +9,13 @@
  "field_order": [
   "naming_series",
   "employee",
+  "employee_name",
   "date_of_joining",
+  "company",
   "column_break_3",
   "posting_date",
   "resignation_date",
   "section_break_7",
-  "company",
   "column_break_10",
   "paid_amount",
   "total_rights_section",
@@ -25,6 +26,11 @@
   "pl_employee_contr",
   "pl_bank_contr",
   "deserved_amount",
+  "section_break_19",
+  "cash_account",
+  "bank_equity",
+  "column_break_22",
+  "employee_equity",
   "amended_from"
  ],
  "fields": [
@@ -147,12 +153,46 @@
   {
    "fieldname": "column_break_10",
    "fieldtype": "Column Break"
+  },
+  {
+   "bold": 1,
+   "fieldname": "section_break_19",
+   "fieldtype": "Section Break",
+   "label": "Accounts"
+  },
+  {
+   "fieldname": "cash_account",
+   "fieldtype": "Link",
+   "label": "Cash Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "bank_equity",
+   "fieldtype": "Link",
+   "label": "Bank Equity",
+   "options": "Account"
+  },
+  {
+   "fieldname": "column_break_22",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "employee_equity",
+   "fieldtype": "Link",
+   "label": "Employee Equity",
+   "options": "Account"
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-11-27 17:03:00.792094",
+ "modified": "2022-11-29 15:34:17.547697",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Payment",

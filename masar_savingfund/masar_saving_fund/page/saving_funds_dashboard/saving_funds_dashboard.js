@@ -1,3 +1,4 @@
+
 frappe.pages['saving-funds-dashboard'].on_page_load = function(wrapper) {
 	new MyPage(wrapper);
 }
@@ -12,92 +13,89 @@ MyPage=Class.extend({
 		this.make();
 	},
 	make: function(){
+		// test()
 		let me=$(this);
 
 		let chart_emps=[]
 		let chart_emp_contr=[]
 		let chart_bank_contr=[]
-
-
-		let totals=function(){
+		total_emp_contr=0
+		total_bank_contr=0
+		total_contr=0
+		total_emp_contr_pl=0
+		total_bank_contr_pl=0
+		total_contr_pl=0
+		total_rights=0
 			frappe.call({
-				method:"masar_savingfund.masar_saving_fund.page.saving_funds_dashboard.saving_funds_dashboard.get_contr_totals",
-				callback: function(r){
-					$.each(r.message, function(i, d) {
-             $("#total_emp_contr")[0].innerText = d.total_employee_contr.toFixed(3);
-						 $("#total_bank_contr")[0].innerText = d.total_bank_contr.toFixed(3);
-						 $("#total_contr")[0].innerText = d.total_contr.toFixed(3);
+				method:"masar_savingfund.masar_saving_fund.page.saving_funds_dashboard.saving_funds_dashboard.get_saving_funds",
+				callback: function (r){
+					$.each(r.message, function (i, d) {
+						total_emp_contr+=parseFloat(d.total_employee_contr.toFixed(3));
+						total_bank_contr+=parseFloat(d.total_bank_contr.toFixed(3));
+						total_contr+=parseFloat(d.total_contr.toFixed(3));
+						total_emp_contr_pl+=parseFloat(d.total_employee_pl.toFixed(3));
+						total_bank_contr_pl+=parseFloat(d.total_bank_pl.toFixed(3));
+						total_contr_pl+=parseFloat(d.total_pl.toFixed(3));
+						total_rights+=parseFloat(d.total_right.toFixed(3));
+						 chart_emps.push(d["employee_name"])
+						 chart_emp_contr.push(d["total_employee_contr"])
+						 chart_bank_contr.push(d["total_bank_contr"])
           });
-				}
-			})
-			frappe.call({
-				method:"masar_savingfund.masar_saving_fund.page.saving_funds_dashboard.saving_funds_dashboard.get_pl_totals",
-				callback: function(z){
-					$.each(z.message, function(i, d) {
-						$("#total_emp_contr_pl")[0].innerText = d.total_employee_contr_pl.toFixed(3);
-						$("#total_bank_contr_pl")[0].innerText = d.total_bank_contr_pl.toFixed(3);
-						$("#total_contr_pl")[0].innerText = d.total_contr_pl.toFixed(3);
-						$("#total_rights")[0].innerText =(parseInt($("#total_contr")[0].innerText)+ parseInt($("#total_contr_pl")[0].innerText)).toFixed(3);
+					$("#total_emp_contr")[0].innerText = total_emp_contr.toFixed(3)
+					$("#total_bank_contr")[0].innerText = total_bank_contr.toFixed(3)
+					$("#total_contr")[0].innerText =total_contr.toFixed(3)
+					$("#total_emp_contr_pl")[0].innerText =total_emp_contr_pl.toFixed(3)
+					$("#total_bank_contr_pl")[0].innerText = total_bank_contr_pl.toFixed(3)
+					$("#total_contr_pl")[0].innerText = total_contr_pl.toFixed(3)
+					$("#total_rights")[0].innerText =total_rights.toFixed(3)
 
-					});
-				}
-			})
-		}
+					page_chart(chart_emps, chart_emp_contr, chart_bank_contr)
 
-		let funds=function(){
-			// frappe.msgprint("Khabour")
-			frappe.call({
-				method:"masar_savingfund.masar_saving_fund.page.saving_funds_dashboard.saving_funds_dashboard.get_chart",
-				callback: function(r){
-					$.each(r.message, function(i, d) {
-							chart_emps.push(d[i].employee_name)
-							// chart_emp_contr.push(rsp[1])
-							// chart_bank_contr.push(rsp[2])
-          });
 				}
 			})
 
-		}
+		let page_chart=function(chart_emps, chart_emp_contr, chart_bank_contr){ // equals to -> function page_chart(){
 
-		// let body='<h1>Hello, World</h1>'
-
-		let page_chart=function(){
 			const data = {
-			labels: chart_emps,
-			datasets: [
-					{
-							name: "Employee Contribution", type: "bar",
-							values: [25, 40, 30, 35, 8, 52 , 17, -4]
-					},
-					{
-							name: "Bank Contribution", type: "bar",
-							values: [25, 50, -10, 15, 18, 32, 27, 14]
-					}
-			]
-	}
+				labels: chart_emps,
+				datasets: [
+						{
+								name: "Employee Contribution", type: "bar",
+								values: chart_emp_contr
+						},
+						{
+								name: "Bank Contribution", type: "bar",
+								values: chart_bank_contr
+						}
+				]
+			}
 
-	const chart = new frappe.Chart("#chart", {  // or a DOM element,
-																							// new Chart() in case of ES6 module with above usage
-			title: "Saving Funds Chart",
-			data: data,
-			type: 'axis-mixed', // or 'bar', 'line', 'scatter', 'pie', 'percentage'
-			height: 250,
-			colors: ['#7cd6fd', '#743ee2']
-	})
+
+			const chart = new frappe.Chart("#chart", {  // or a DOM element,
+																									// new Chart() in case of ES6 module with above usage
+					title: "Saving Funds Chart",
+					data: data,
+					type: 'bar', // 'axis-mixed' or 'bar', 'line', 'scatter', 'pie', 'percentage'
+					height: 250,
+					colors: ['#7cd6fd', '#743ee2'],
+					tooltipOptions: {
+					    formatTooltipX: (d) => (d).toUpperCase(),
+					    formatTooltipY: (d) => d
+					}
+
+
+			})
 
 		}
 
 		$(frappe.render_template(frappe.saving_funds.body, this)).appendTo(this.page.main)
-		totals()
-		funds()
 		page_chart()
 
-
 	}
-
 })
 
-let body='<script src="https://unpkg.com/frappe-charts@1.2.4/dist/frappe-charts.min.iife.js"></script>'
+
+let body='<script src="https://unpkg.com/frappe-charts@latest"></script>'
 body+='<div class="widget-group ">'
 body+='			<div class="widget-group-head">'
 body+='				<div class="widget-group-control"></div>'

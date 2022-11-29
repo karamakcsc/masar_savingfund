@@ -70,17 +70,17 @@ class EmployeeContribution(AccountsController):
 	def on_submit(self):
 		self.make_gl()
 
-	# def on_cancel(self, method):
-	#     delete_cheque(self)
+	def on_cancel(self, method):
+	    pass
 
 	def make_gl(self):
 		gl_entries = []
 		for d in self.get("employee_contr_lines"):
 			gl_entries.append(
 					self.get_gl_dict({
-						"account": self.cash_account,
+						"account": self.employee_equity,
 						#"account_currency": d.paid_from_account_currency,
-						"against": self.employee_equity,
+						"against": self.cash_account,
 						"credit_in_account_currency": d.employee_contr,
 						"credit": d.employee_contr,
 						"employee": d.employee,
@@ -88,9 +88,9 @@ class EmployeeContribution(AccountsController):
 						}))
 			gl_entries.append(
 					self.get_gl_dict({
-						"account": self.employee_equity,
+						"account": self.cash_account,
 						#"account_currency": d.paid_to_account_currency,
-						"against": self.cash_account,
+						"against": self.employee_equity,
 						"debit_in_account_currency": d.employee_contr,
 						"debit": d.employee_contr,
 						"employee": d.employee,
@@ -98,9 +98,9 @@ class EmployeeContribution(AccountsController):
 						}))
 			gl_entries.append(
 					self.get_gl_dict({
-						"account": self.cash_account,
+						"account": self.bank_equity,
 						#"account_currency": d.paid_from_account_currency,
-						"against": self.bank_equity,
+						"against": self.cash_account,
 						"credit_in_account_currency": d.bank_contr,
 						"credit": d.bank_contr,
 						"employee": d.employee,
@@ -108,9 +108,9 @@ class EmployeeContribution(AccountsController):
 						}))
 			gl_entries.append(
 					self.get_gl_dict({
-							"account": self.bank_equity,
+							"account": self.cash_account,
 							#"account_currency": d.paid_to_account_currency,
-							"against": self.cash_account,
+							"against": self.bank_equity,
 							"debit_in_account_currency": d.bank_contr,
 							"debit": d.bank_contr,
 							"employee": d.employee,

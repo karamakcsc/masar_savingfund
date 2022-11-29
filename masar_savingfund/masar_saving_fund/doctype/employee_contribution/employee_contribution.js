@@ -7,24 +7,23 @@ frappe.ui.form.on('Employee Contribution', {
 			frappe.call({
 					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_cash_account",
 					callback: function(r) {
-						frm.doc.cash_account = r.message
+						frm.set_value('cash_account', r.message);
 					}
 						});
 			frappe.call({
 					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_employee_equity_account",
 					callback: function(r) {
-						frm.doc.employee_equity = r.message
+						frm.set_value('employee_equity', r.message);
 					}
 						});
 
 			frappe.call({
 					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_bank_equity_account",
 					callback: function(r) {
-						frm.doc.bank_equity = r.message
+						frm.set_value('bank_equity', r.message);
 					}
 						});
 
-        cur_frm.refresh_field(employee_contr_lines);
 }
 });
 //end Default Accounts
