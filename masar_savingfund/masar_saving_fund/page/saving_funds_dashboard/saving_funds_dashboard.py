@@ -24,3 +24,4 @@ def get_saving_funds():
     from contr as c
     Inner Join tabEmployee e on c.employee = e.employee
     Left Join pl as p on c.employee = p.employee;""",as_dict=True)
+    #hhhhh
