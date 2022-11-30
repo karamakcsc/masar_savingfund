@@ -79,7 +79,7 @@ MyPage=Class.extend({
 					height: 250,
 					colors: ['#7cd6fd', '#743ee2'],
 					tooltipOptions: {
-					    formatTooltipX: (d) => (d).toUpperCase(),
+					    //formatTooltipX: (d) => (d).toUpperCase(),
 					    formatTooltipY: (d) => d
 					}
 

@@ -12,16 +12,6 @@ def execute(filters=None):
 def get_data(filters):
 	date_to = filters.get('date_to') #date range
 	trans_date = datetime.datetime.strptime(date_to, '%Y-%m-%d')
-	# month_to = trans_date.month
-	# year_to = trans_date.year
-	# up_to = month_to + ((year_to - 1) * 12)
-	# date_prev = frappe.utils.add_months(date_to, -1)
-
-	#Conditions
-	# conditions = " "
-	# if(filters.get('employee')):conditions += f" AND tial.employee LIKE '%{filters.get('employee')}' "
-	# if(filters.get('item_group')):conditions += f" AND tsii.item_group='{filters.get('item_group')}' "
-	# if(filters.get('customer_name')):conditions += f" AND tsi.customer_name LIKE '%{filters.get('customer_name')}' "
 
 	#SQL Query
 

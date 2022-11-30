@@ -67,7 +67,7 @@ frappe.ui.form.on("Employee Contribution Line", "basic_salary", function(frm, cd
 					callback: function(r) {
 						if(d.employee){
 							d.employee_contr = flt(d.basic_salary) * flt(r.message) /100;
-							d.total_contr=flt(d.basic_salary)*flt(r.message)/100;
+							//d.total_contr=flt(d.basic_salary)*flt(r.message)/100;
 						}
 					}
 						});
@@ -76,7 +76,7 @@ frappe.ui.form.on("Employee Contribution Line", "basic_salary", function(frm, cd
 					callback: function(z) {
 						if(d.employee){
 							d.bank_contr = flt(d.basic_salary) * flt(z.message) /100;
-							d.total_contr+=flt(d.basic_salary)*flt(z.message)/100;
+							//d.total_contr+=flt(d.basic_salary)*flt(z.message)/100;
 						}
 					}
 						});
@@ -85,7 +85,15 @@ frappe.ui.form.on("Employee Contribution Line", "basic_salary", function(frm, cd
 });
 //end calculate for employee and bank contr
 
+frappe.ui.form.on('Employee Contribution', {
+	validate: function(frm) {
+		for (let e = 0; e < frm.doc.employee_contr_lines.length; e++) {
+				frm.doc.employee_contr_lines[e].total_contr = flt(frm.doc.employee_contr_lines[e].employee_contr + frm.doc.employee_contr_lines[e].bank_contr)
+				}
 
+
+}
+});
 
 frappe.ui.form.on("Employee Contribution", "validate", function(frm, cdt, cdn) {
 
