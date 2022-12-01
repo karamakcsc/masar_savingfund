@@ -50,6 +50,7 @@ MyPage=Class.extend({
 					$("#total_rights")[0].innerText =total_rights.toFixed(3)
 
 					page_chart(chart_emps, chart_emp_contr, chart_bank_contr)
+					line_chart(chart_emps, chart_emp_contr, chart_bank_contr)
 
 				}
 			})
@@ -78,10 +79,44 @@ MyPage=Class.extend({
 					type: 'bar', // 'axis-mixed' or 'bar', 'line', 'scatter', 'pie', 'percentage'
 					height: 250,
 					colors: ['#7cd6fd', '#743ee2'],
-					tooltipOptions: {
-					    //formatTooltipX: (d) => (d).toUpperCase(),
-					    formatTooltipY: (d) => d
-					}
+					// tooltipOptions: {
+					//     //formatTooltipX: (d) => (d).toUpperCase(),
+					//     formatTooltipY: (d) => d
+					// }
+
+
+			})
+
+		}
+
+		let line_chart=function(chart_emps, chart_emp_contr, chart_bank_contr){ // equals to -> function page_chart(){
+
+			const data = {
+				labels: chart_emps,
+				datasets: [
+						{
+								name: "Employee Contribution", type: "bar",
+								values: chart_emp_contr
+						},
+						{
+								name: "Bank Contribution", type: "bar",
+								values: chart_bank_contr
+						}
+				]
+			}
+
+
+			const chart = new frappe.Chart("#line-chart", {  // or a DOM element,
+																									// new Chart() in case of ES6 module with above usage
+					title: "Saving Funds Chart",
+					data: data,
+					type: 'axis-mixed', // 'axis-mixed' or 'bar', 'line', 'scatter', 'pie', 'percentage'
+					height: 250,
+					colors: ['#7cd6fd', '#743ee2'],
+					// tooltipOptions: {
+					// 		//formatTooltipX: (d) => (d).toUpperCase(),
+					// 		formatTooltipY: (d) => d
+					// }
 
 
 			})
@@ -90,6 +125,7 @@ MyPage=Class.extend({
 
 		$(frappe.render_template(frappe.saving_funds.body, this)).appendTo(this.page.main)
 		page_chart()
+		line_chart()
 
 	}
 })
@@ -226,6 +262,7 @@ body+='			</div>'
 body+='		</div>'
 body+='	</div>'
 body+='<div id="chart"></div>'
+body+='<div id="line-chart"></div>'
 
 frappe.saving_funds={
 	body: body
