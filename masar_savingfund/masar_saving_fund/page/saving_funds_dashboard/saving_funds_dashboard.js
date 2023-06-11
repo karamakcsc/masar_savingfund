@@ -267,3 +267,26 @@ body+='<div id="line-chart"></div>'
 frappe.saving_funds={
 	body: body
 }
+
+
+frappe.dom.set_style(`
+:root {
+  --charts-label-color: #f4f5f6;
+  --charts-axis-line-color: #f4f5f6;
+  --charts-tooltip-title: var(--charts-label-color);
+  --charts-tooltip-label: var(--charts-label-color);
+  --charts-tooltip-value: yellow;
+  --charts-tooltip-bg: #f4f5f6;
+  --charts-dataset-circle-stroke: #f4f5f6;
+  --charts-legend-label: #959da5;
+  --charts-legend-value: var(--charts-label-color);
+}
+
+.graph-svg-tip{background:#959da5;}
+
+
+.graph-svg-tip.comparison li .tooltip-legend {
+  width: 12px;
+  margin-right: 8px;
+}
+`);

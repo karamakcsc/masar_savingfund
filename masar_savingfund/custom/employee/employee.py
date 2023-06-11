@@ -6,6 +6,7 @@ from erpnext.setup.utils import get_exchange_rate
 from erpnext.accounts.general_ledger import make_gl_entries
 from erpnext.controllers.accounts_controller import AccountsController
 from frappe.model.document import Document
+from frappe.model.naming import set_name_by_naming_series
 
 
 @frappe.whitelist()

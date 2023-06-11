@@ -11,7 +11,6 @@ app_license = "MIT"
 
 # Includes in <head>
 # ------------------
-
 # include js, css files in header of desk.html
 # app_include_css = "/assets/masar_savingfund/css/masar_savingfund.css"
 # app_include_js = "/assets/masar_savingfund/js/masar_savingfund.js"
@@ -102,6 +101,15 @@ app_license = "MIT"
 #		"on_trash": "method"
 #	}
 # }
+doc_events = {
+	"*": {
+		"on_cancel": [
+			"erpnext.regional.italy.utils.sales_invoice_on_cancel",
+			"erpnext.erpnext_integrations.taxjar_integration.delete_transaction",
+			"erpnext.regional.saudi_arabia.utils.delete_qr_code_file",
+		],
+	}
+}
 
 # Scheduled Tasks
 # ---------------

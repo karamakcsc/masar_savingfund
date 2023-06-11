@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 from frappe import _
 import frappe, erpnext, json,datetime
+from typing import Dict, List, Optional, Tuple
 
 def execute(filters=None):
 	return get_columns(), get_data(filters)

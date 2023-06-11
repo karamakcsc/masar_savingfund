@@ -60,7 +60,7 @@ frappe.ui.form.on('Employee Contribution', {
 //End Validate If Employee exist in the same month
 
 //calculate for employee and bank contr
-frappe.ui.form.on("Employee Contribution Line", "basic_salary", function(frm, cdt, cdn) {
+frappe.ui.form.on("Employee Contribution Line", "validate", function(frm, cdt, cdn) {
 		  var d = locals[cdt][cdn];
 			frappe.call({
 					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_employee_contr_perc",
@@ -175,3 +175,34 @@ show_general_ledger: function(frm) {
 }
 });
 // END Show General Ledger
+
+// Insert All Employee Auto///Siam
+
+// frappe.ui.form.on('Employee Contribution', {
+//     onload: function(frm) {
+//         if (frm.is_new()) {
+//             frappe.db.get_list('Employee', {
+//                 fields: ['name'],
+//                 filters: {
+//                     status: 'Active',
+//                 },
+//                 limit: 1000,
+//                 pluck: 'name',
+//             }).then(function(ret) {
+//                 if (!$.isArray(ret)) return;
+//                 $.each(ret, function(i, name) {
+//                     frm.add_child('employee_contr_lines', {
+//                         employee: name,
+//                     });
+//                 });
+//             });
+//         }
+//         frm.set_df_property('employee_contr_lines', 'cannot_add_rows', 1);
+//         frm.set_df_property('employee_contr_lines', 'cannot_delete_rows', 1);
+//         let employee_grid = frm.get_field('employee_contr_lines').grid;
+//         if (employee_grid.meta) employee_grid.meta.editable_grid = true;
+//         employee_grid.only_sortable();
+//     },
+// });
+
+// End Insert All Employee Auto///Siam

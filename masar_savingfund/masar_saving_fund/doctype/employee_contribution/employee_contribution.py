@@ -7,9 +7,9 @@ import frappe, erpnext, json,datetime
 from frappe import _, scrub, ValidationError
 from frappe.utils import flt, comma_or, nowdate, getdate
 from erpnext.setup.utils import get_exchange_rate
-from erpnext.accounts.general_ledger import make_gl_entries
 from erpnext.controllers.accounts_controller import AccountsController
 from frappe.model.document import Document
+from erpnext.accounts.general_ledger import make_gl_entries, process_gl_map, make_reverse_gl_entries
 
 @frappe.whitelist()
 def get_exist_employee_in_month(selected_employees,date_to):
@@ -70,8 +70,8 @@ class EmployeeContribution(AccountsController):
 	def on_submit(self):
 		self.make_gl()
 
-	def on_cancel(self, method):
-	    pass
+	def on_cancel(self):
+		self.make_gl_entries(cancel=1)
 
 	def make_gl(self):
 		gl_entries = []

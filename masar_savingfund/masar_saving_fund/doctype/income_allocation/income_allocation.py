@@ -61,7 +61,7 @@ class IncomeAllocation(AccountsController):
 	def on_submit(self):
 		self.make_gl()
 
-	def on_cancel(self, method):
+	def on_cancel(self):
 	    pass
 
 	def make_gl(self):
