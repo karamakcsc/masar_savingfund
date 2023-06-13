@@ -53,6 +53,7 @@ frappe.ui.form.on('Saving Fund Payment', {
                 frm.set_value('pl_bank_contr', d.total_bank_pl);
                 frm.set_value('total_right', d.total_right);
                 frm.set_value('deserved_amount', d.deserved_amount);
+                frm.set_value('withdraw_amount', d.withdraw);
           });
         }
     });
@@ -95,3 +96,20 @@ show_general_ledger: function(frm) {
 }
 });
 // END Show General Ledger
+
+
+
+frappe.ui.form.on("Saving Fund Payment", {
+  paid_perc: function(frm) {
+    paid_amount(frm);
+    deserved_amount(frm);
+  },
+  paid_perc: function(frm) {
+      calculate_deserved_amount(frm);
+  }
+});
+
+var paid_amount = function(frm) {
+  var doc = frm.doc;
+  frm.set_value("paid_amount", doc.paid_perc * doc.deserved_amount);
+};

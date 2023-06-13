@@ -16,16 +16,18 @@
   "posting_date",
   "resignation_date",
   "section_break_7",
+  "paid_perc",
   "column_break_10",
   "paid_amount",
   "total_rights_section",
   "employee_contr",
   "bank_contr",
   "total_right",
+  "deserved_amount",
   "column_break_9",
   "pl_employee_contr",
   "pl_bank_contr",
-  "deserved_amount",
+  "withdraw_amount",
   "section_break_19",
   "cash_account",
   "bank_equity",
@@ -84,6 +86,7 @@
    "fieldname": "employee_contr",
    "fieldtype": "Float",
    "label": "Employee Contribution",
+   "precision": "3",
    "read_only": 1
   },
   {
@@ -98,6 +101,7 @@
    "fieldname": "pl_employee_contr",
    "fieldtype": "Float",
    "label": "P&L Employee Contribution",
+   "precision": "3",
    "read_only": 1
   },
   {
@@ -105,6 +109,7 @@
    "fieldname": "pl_bank_contr",
    "fieldtype": "Float",
    "label": "P&L Bank Contribution",
+   "precision": "3",
    "read_only": 1
   },
   {
@@ -112,6 +117,7 @@
    "fieldname": "total_right",
    "fieldtype": "Float",
    "label": "Total Right",
+   "precision": "3",
    "read_only": 1
   },
   {
@@ -130,6 +136,7 @@
    "fieldname": "deserved_amount",
    "fieldtype": "Float",
    "label": "Deserved Amount",
+   "precision": "3",
    "read_only": 1
   },
   {
@@ -137,9 +144,11 @@
    "fieldtype": "Section Break"
   },
   {
+   "default": "0",
    "fieldname": "paid_amount",
    "fieldtype": "Data",
    "label": "Paid Amount",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -186,12 +195,28 @@
    "fieldname": "employee_name",
    "fieldtype": "Data",
    "label": "Employee Name"
+  },
+  {
+   "default": "0",
+   "fieldname": "paid_perc",
+   "fieldtype": "Percent",
+   "label": "Paid Pecentage %",
+   "precision": "3",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "withdraw_amount",
+   "fieldtype": "Float",
+   "label": "Withdraw Amount",
+   "precision": "3",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-11 14:55:04.805413",
+ "modified": "2023-06-13 14:28:39.778501",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Payment",
