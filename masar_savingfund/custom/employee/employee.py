@@ -38,17 +38,24 @@ def get_employee_savefund_balance(selected_employees,date_to):
             Where tecl.employee  in {employees_tuple} and month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) <= {up_to}
                   and tec.docstatus = 1
             Group By tecl.employee,tecl.employee_name
-            )
+            ),
+            withdraw as (Select tsfp.employee,tsfp.employee_name ,SUM(tsfp.paid_amount) total_paid_amount
+            From `tabSaving Fund Payment` tsfp            
+            Where tsfp.employee in {employees_tuple} and month(tsfp.posting_date) + ((year(tsfp.posting_date) - 1) * 12) <= {up_to}
+                  and tsfp.docstatus = 1
+            Group By tsfp.employee,tsfp.employee_name)            
 
             Select c.employee,c.employee_name,total_employee_contr,total_bank_contr,total_contr,
             	   IFNULL(p.total_employee_pl,0)as total_employee_pl ,IFNULL(total_bank_pl,0) total_bank_pl,IFNULL(total_pl,0) total_pl,
-            	   (IFNULL(total_contr,0) + IFNULL(total_pl,0) ) as total_right,
-            	   (CASE WHEN DATEDIFF('{date_to}', e.date_of_joining)/365 >=3 Then  IFNULL(total_contr,0) + IFNULL(total_pl,0)
-            	   		 WHEN DATEDIFF('{date_to}', e.date_of_joining)/365 >= 1 And DATEDIFF('{date_to}', e.date_of_joining)/365 < 3  Then total_employee_contr + IFNULL(p.total_employee_pl,0)
-            	   		 ELSE total_employee_contr END ) as deserved_amount
-            from contr as c
-            Inner Join tabEmployee e on c.employee = e.employee
-            Left Join pl as p on c.employee = p.employee""",as_dict=True)
+            	   (IFNULL(total_contr,0) + IFNULL(total_pl,0) - IFNULL(total_paid_amount,0)) as total_right,
+            	   (CASE WHEN DATEDIFF('{date_to}', e.date_of_joining)/365 >=3 Then  IFNULL(total_contr,0) + IFNULL(total_pl,0) - IFNULL(total_paid_amount,0)
+            	   		 WHEN DATEDIFF('{date_to}', e.date_of_joining)/365 >= 1 And DATEDIFF('{date_to}', e.date_of_joining)/365 < 3  Then total_employee_contr + IFNULL(p.total_employee_pl,0) - IFNULL(total_paid_amount,0)
+            	   		 ELSE total_employee_contr - IFNULL(total_paid_amount,0) END ) as deserved_amount
+            from tabEmployee as e
+            left Join contr c on e.employee = c.employee
+            Left Join pl as p on c.employee = p.employee
+            Left Join withdraw as w on c.employee = w.employee""",as_dict=True)
+    
     else:
 
         return frappe.db.sql(f"""
@@ -68,14 +75,20 @@ def get_employee_savefund_balance(selected_employees,date_to):
             Where tecl.employee  = '{emp}' and month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) <= {up_to}
                   and tec.docstatus = 1
             Group By tecl.employee,tecl.employee_name
-            )
+            ),
+            withdraw as (Select tsfp.employee,tsfp.employee_name ,SUM(tsfp.paid_amount) total_paid_amount
+            From `tabSaving Fund Payment` tsfp            
+            Where tsfp.employee = '{emp}' and month(tsfp.posting_date) + ((year(tsfp.posting_date) - 1) * 12) <= {up_to}
+                  and tsfp.docstatus = 1
+            Group By tsfp.employee,tsfp.employee_name)                        
 
             Select c.employee,c.employee_name,total_employee_contr,total_bank_contr,total_contr,
             	   IFNULL(p.total_employee_pl,0)as total_employee_pl ,IFNULL(total_bank_pl,0) total_bank_pl,IFNULL(total_pl,0) total_pl,
-            	   (IFNULL(total_contr,0) + IFNULL(total_pl,0) ) as total_right,
-            	   (CASE WHEN DATEDIFF('{date_to}', e.date_of_joining)/365 >=3 Then  IFNULL(total_contr,0) + IFNULL(total_pl,0)
-            	   		 WHEN DATEDIFF('{date_to}', e.date_of_joining)/365 >= 1 And DATEDIFF('{date_to}', e.date_of_joining)/365 < 3  Then total_employee_contr + IFNULL(p.total_employee_pl,0)
-            	   		 ELSE total_employee_contr END ) as deserved_amount
-            from contr as c
-            Inner Join tabEmployee e on c.employee = e.employee
-            Left Join pl as p on c.employee = p.employee""",as_dict=True)
+            	   (IFNULL(total_contr,0) + IFNULL(total_pl,0) - IFNULL(total_paid_amount,0)) as total_right,
+            	   (CASE WHEN DATEDIFF('{date_to}', e.date_of_joining)/365 >=3 Then  IFNULL(total_contr,0) + IFNULL(total_pl,0) - IFNULL(total_paid_amount,0)
+            	   		 WHEN DATEDIFF('{date_to}', e.date_of_joining)/365 >= 1 And DATEDIFF('{date_to}', e.date_of_joining)/365 < 3  Then total_employee_contr + IFNULL(p.total_employee_pl,0) - IFNULL(total_paid_amount,0)
+            	   		 ELSE total_employee_contr - IFNULL(total_paid_amount,0) END ) as deserved_amount
+            from tabEmployee as e
+            left Join contr c on e.employee = c.employee
+            Left Join pl as p on c.employee = p.employee
+            Left Join withdraw as w on c.employee = w.employee""",as_dict=True)
