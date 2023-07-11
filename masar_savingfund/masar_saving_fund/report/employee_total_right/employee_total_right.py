@@ -17,30 +17,37 @@ def get_data(filters):
 	#SQL Query
 
 	return frappe.db.sql(f"""
-							With pl
-						as (Select tial.employee,tial.employee_name ,SUM(tial.pl_employee_contr) as total_employee_pl,
-						SUM(tial.pl_bank_contr) as total_bank_pl,
-							   SUM(tial.pl_employee_contr) + SUM(tial.pl_bank_contr) as total_pl
-						From `tabIncome Allocation Line` tial
-						Inner Join `tabIncome Allocation` tia on tial.parent =tia.name
+					With pl
+						as (Select tial.employee,tial.employee_name ,SUM(tial.pl_employee_contr) as total_employee_pl,SUM(tial.pl_bank_contr) as total_bank_pl,
+			            	   SUM(tial.pl_employee_contr) + SUM(tial.pl_bank_contr) as total_pl
+			            From `tabIncome Allocation Line` tial
+			            Inner Join `tabIncome Allocation` tia on tial.parent =tia.name
 						Where tia.posting_date < '{date_to}'
 							  and tia.docstatus = 1
 						Group By tial.employee,tial.employee_name),
 
 						contr as (Select tecl.employee,tecl.employee_name ,SUM(tecl.employee_contr) total_employee_contr,SUM(tecl.bank_contr) total_bank_contr,
-						(SUM(tecl.employee_contr)+SUM(tecl.bank_contr)) total_contr
-						From `tabEmployee Contribution Line` tecl
-						Inner Join `tabEmployee Contribution` tec on tecl.parent =tec.name
+			            (SUM(tecl.employee_contr)+SUM(tecl.bank_contr)) total_contr
+			            From `tabEmployee Contribution Line` tecl
+			            Inner Join `tabEmployee Contribution` tec on tecl.parent =tec.name
 						Where tec.posting_date <= '{date_to}'
 							  and tec.docstatus = 1
 						Group By tecl.employee,tecl.employee_name
-						)
+						),
+			            withdraw as (Select tsfp.employee,tsfp.employee_name ,SUM(tsfp.paid_amount) total_paid_amount
+			            From `tabSaving Fund Payment` tsfp
+			            Where tsfp.posting_date <= '{date_to}'
+			                  and tsfp.docstatus = 1
+			            Group By tsfp.employee,tsfp.employee_name)
 
 						Select c.employee,c.employee_name,total_employee_contr,total_bank_contr,total_contr,
 							   IFNULL(p.total_employee_pl,0)as total_employee_pl ,IFNULL(total_bank_pl,0) total_bank_pl,IFNULL(total_pl,0) total_pl,
-							   (IFNULL(total_contr,0) + IFNULL(total_pl,0) ) as total_right
-						from contr as c
-						Left Join pl as p on c.employee = p.employee;""")
+							   IFNULL(w.total_paid_amount,0)as total_withdraw,
+							   (IFNULL(total_contr,0) + IFNULL(total_pl,0) - IFNULL(total_paid_amount,0)) as total_right
+            				from tabEmployee as e
+            				left Join contr c on e.employee = c.employee
+            				Left Join pl as p on c.employee = p.employee
+            				Left Join withdraw as w on c.employee = w.employee;""")
 
 
 
@@ -49,12 +56,13 @@ def get_columns():
 	return [
 	   "Employee #: Link/Employee:200",
 	   "Employee Name: Data:120",
-	   "Total Employee Contr: Data:200",
-	   "Total Bank Contr: Data:200",
-	   "Total Contr: Data:200",
-	   "Total Employee P&L: Data:200",
-	   "Total Bank P&L: Data:200",
-	   "Total P&L: Data:200",
-	   "Total Rights: Data:200"
+	   "Total Employee Contr: Currency:200",
+	   "Total Bank Contr: Currency:200",
+	   "Total Contr: Currency:200",
+	   "Total Employee P&L: Currency:200",
+	   "Total Bank P&L: Currency:200",
+	   "Total P&L: Currency:200",
+	   "Total Withdraw: Currency:200",
+	   "Total Rights: Currency:200"
 
 	]
