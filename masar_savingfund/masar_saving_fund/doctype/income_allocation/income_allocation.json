@@ -9,6 +9,7 @@
  "field_order": [
   "naming_series",
   "income",
+  "cost_center",
   "column_break_3",
   "posting_date",
   "company",
@@ -22,8 +23,7 @@
   "accounts_section",
   "interim_revenue",
   "column_break_14",
-  "current_year_profit",
-  "amended_from"
+  "current_year_profit"
  ],
  "fields": [
   {
@@ -64,24 +64,6 @@
    "fieldname": "total_bank_contr",
    "fieldtype": "Read Only",
    "label": "Total P&L Bank",
-   "read_only": 1
-  },
-  {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Income Allocation",
-   "print_hide": 1,
-   "read_only": 1
-  },
-  {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Income Allocation",
-   "print_hide": 1,
    "read_only": 1
   },
   {
@@ -133,12 +115,25 @@
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company"
-  }
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center",
+   "reqd": 1
+  },
+  {
+    "fieldname": "amended_from",
+    "fieldtype": "Link",
+    "label": "Amended From",
+    "options": "Income Allocation"
+   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-11-28 23:46:51.444065",
+ "modified": "2023-09-10 12:56:12.928663",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Income Allocation",

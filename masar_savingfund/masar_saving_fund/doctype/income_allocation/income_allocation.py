@@ -75,7 +75,8 @@ class IncomeAllocation(AccountsController):
 						"credit_in_account_currency": d.pl_employee_contr,
 						"credit": d.pl_employee_contr,
 						"employee": d.employee,
-						"remarks": d.employee + ' : ' + d.employee_name
+						"remarks": d.employee + ' : ' + d.employee_name,
+						"cost_center": self.cost_center
 						}))
 			gl_entries.append(
 					self.get_gl_dict({
@@ -85,7 +86,8 @@ class IncomeAllocation(AccountsController):
 						"debit_in_account_currency": d.pl_employee_contr,
 						"debit": d.pl_employee_contr,
 						"employee": d.employee,
-						"remarks": d.employee + ' : ' + d.employee_name
+						"remarks": d.employee + ' : ' + d.employee_name,
+						"cost_center": self.cost_center
 						}))
 			gl_entries.append(
 					self.get_gl_dict({
@@ -95,7 +97,8 @@ class IncomeAllocation(AccountsController):
 						"credit_in_account_currency": d.pl_bank_contr,
 						"credit": d.pl_bank_contr,
 						"employee": d.employee,
-						"remarks": d.employee + ' : ' + d.employee_name
+						"remarks": d.employee + ' : ' + d.employee_name,
+						"cost_center": self.cost_center
 						}))
 			gl_entries.append(
 					self.get_gl_dict({
@@ -105,7 +108,8 @@ class IncomeAllocation(AccountsController):
 							"debit_in_account_currency": d.pl_bank_contr,
 							"debit": d.pl_bank_contr,
 							"employee": d.employee,
-							"remarks": d.employee + ' : ' + d.employee_name
+							"remarks": d.employee + ' : ' + d.employee_name,
+							"cost_center": self.cost_center
 						}))
 		if gl_entries:
 			make_gl_entries(gl_entries, cancel=0, adv_adj=0)

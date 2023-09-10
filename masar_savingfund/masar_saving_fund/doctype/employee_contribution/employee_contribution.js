@@ -4,6 +4,7 @@
 //Get Default Accounts
 frappe.ui.form.on('Employee Contribution', {
 	onload: function(frm) {
+		if (frm.doc.docstatus!= 1) {
 			frappe.call({
 					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_cash_account",
 					callback: function(r) {
@@ -23,6 +24,7 @@ frappe.ui.form.on('Employee Contribution', {
 						frm.set_value('bank_equity', r.message);
 					}
 						});
+		}
 
 }
 });
