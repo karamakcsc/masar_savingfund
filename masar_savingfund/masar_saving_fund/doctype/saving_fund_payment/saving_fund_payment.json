@@ -68,6 +68,8 @@
   {
    "fieldname": "employee",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Employee",
    "options": "Employee"
   },
@@ -148,7 +150,6 @@
    "fieldname": "paid_amount",
    "fieldtype": "Data",
    "label": "Paid Amount",
-   "read_only": 1,
    "reqd": 1
   },
   {
@@ -194,13 +195,15 @@
    "fetch_from": "employee.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Employee Name"
   },
   {
    "default": "0",
    "fieldname": "paid_perc",
    "fieldtype": "Percent",
-   "label": "Paid Pecentage %",
+   "label": "Paid Percentage %",
    "precision": "3",
    "reqd": 1
   },
@@ -216,7 +219,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-13 14:28:39.778501",
+ "modified": "2023-09-19 14:53:50.095969",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Payment",

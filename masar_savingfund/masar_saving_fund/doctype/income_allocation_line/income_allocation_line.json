@@ -14,13 +14,15 @@
   "pl_total",
   "column_break_13",
   "pl_bank_contr",
-  "employee_contr",
   "column_break_6",
-  "pl_employee_contr_prev",
-  "total_right",
   "total_rights_section",
+  "employee_contr",
+  "pl_employee_contr_prev",
+  "withdraw_amount",
+  "column_break_8ewng",
   "bank_contr",
-  "pl_bank_contr_prev"
+  "pl_bank_contr_prev",
+  "total_right"
  ],
  "fields": [
   {
@@ -44,23 +46,27 @@
    "default": "0",
    "fieldname": "employee_contr",
    "fieldtype": "Float",
-   "label": "Employee Contribution"
+   "label": "Employee Contribution",
+   "read_only": 1
   },
   {
    "fieldname": "bank_contr",
    "fieldtype": "Float",
-   "label": "Bank Contribution"
+   "label": "Bank Contribution",
+   "read_only": 1
   },
   {
    "fieldname": "pl_employee_contr_prev",
    "fieldtype": "Float",
    "label": "P&L Employee Contr till Previous Month",
+   "read_only": 1,
    "search_index": 1
   },
   {
    "fieldname": "pl_bank_contr_prev",
    "fieldtype": "Float",
-   "label": "P&L Bank Contr till Previous Month"
+   "label": "P&L Bank Contr till Previous Month",
+   "read_only": 1
   },
   {
    "bold": 1,
@@ -120,12 +126,22 @@
    "fieldname": "income_section",
    "fieldtype": "Section Break",
    "label": "Income"
+  },
+  {
+   "fieldname": "column_break_8ewng",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "withdraw_amount",
+   "fieldtype": "Float",
+   "label": "Withdraw Amount",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-09-11 12:59:34.322134",
+ "modified": "2023-09-19 11:30:12.627739",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Income Allocation Line",

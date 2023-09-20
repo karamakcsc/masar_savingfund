@@ -43,7 +43,7 @@ frappe.ui.form.on('Saving Fund Payment', {
         method: "masar_savingfund.custom.employee.employee.get_employee_savefund_balance",
         args: {
           selected_employees: selected_employees,
-          date_to: frm.doc.resignation_date
+          date_to: frm.doc.posting_date
         },
         callback: function(r) {
               $.each(r.message, function(i, d) {
@@ -53,12 +53,14 @@ frappe.ui.form.on('Saving Fund Payment', {
                 frm.set_value('pl_bank_contr', d.total_bank_pl);
                 frm.set_value('total_right', d.total_right);
                 frm.set_value('deserved_amount', d.deserved_amount);
-                frm.set_value('withdraw_amount', d.withdraw);
+                frm.set_value('withdraw_amount', d.total_paid_amount);
           });
         }
     });
+		cur_frm.refresh_field();
 	}
 });
+
 
 frappe.ui.form.on('Saving Fund Payment',  {
     validate: function(frm) {
