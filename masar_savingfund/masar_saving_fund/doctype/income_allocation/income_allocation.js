@@ -293,11 +293,13 @@ frappe.ui.form.on("Income Allocation", "refresh", function(frm) {
             frm.doc.total_employee_contr = sum_total_pl_emp.toFixed(3);
             frm.doc.total_bank_contr = sum_total_pl_bank.toFixed(3);
             frm.doc.total_pl = sum_total_pl.toFixed(3);
+						frm.doc.total_rights = sum_total_rights.toFixed(3);
 
             refresh_field("employees");
             refresh_field("total_employee_contr");
             refresh_field("total_bank_contr");
             refresh_field("total_pl");
+						refresh_field("total_rights");
 
               }
           });

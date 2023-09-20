@@ -20,10 +20,12 @@
   "total_pl",
   "column_break_8",
   "total_bank_contr",
+  "total_rights",
   "accounts_section",
   "interim_revenue",
   "column_break_14",
-  "current_year_profit"
+  "current_year_profit",
+  "amended_from"
  ],
  "fields": [
   {
@@ -124,16 +126,22 @@
    "reqd": 1
   },
   {
-    "fieldname": "amended_from",
-    "fieldtype": "Link",
-    "label": "Amended From",
-    "options": "Income Allocation"
-   }
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "options": "Income Allocation"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_rights",
+   "fieldtype": "Read Only",
+   "label": "Total Rights"
+  }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-09-10 12:56:12.928663",
+ "modified": "2023-09-20 14:18:33.218987",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Income Allocation",
