@@ -71,7 +71,7 @@ class EmployeeContribution(AccountsController):
 		self.make_gl()
 
 	def on_cancel(self):
-		self.make_gl_entries(cancel=1)
+		pass
 
 	def make_gl(self):
 		gl_entries = []

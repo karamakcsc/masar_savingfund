@@ -208,3 +208,39 @@ show_general_ledger: function(frm) {
 // });
 
 // End Insert All Employee Auto///Siam
+
+
+
+frappe.ui.form.on("Employee Contribution", "refresh", function(frm) {
+	if(frm.doc.docstatus != 1) {
+		frm.add_custom_button(__("Recalculate"), function() {
+			frappe.call({
+				method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_employee_contr_perc",
+				args: {
+					employee: frm.doc.employee, // Pass employee ID or necessary data as required
+					basic_salary: frm.doc.basic_salary // Pass basic salary as required
+				},
+				callback: function(r) {
+					if (r.message) {
+						frm.doc.employee_contr = flt(frm.doc.basic_salary) * flt(r.message) / 100;
+						frm.refresh_field('employee_contr');
+					}
+				}
+			});
+
+			frappe.call({
+				method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_bank_contr_perc",
+				args: {
+					employee: frm.doc.employee, // Pass employee ID or necessary data as required
+					basic_salary: frm.doc.basic_salary // Pass basic salary as required
+				},
+				callback: function(z) {
+					if (z.message) {
+						frm.doc.bank_contr = flt(frm.doc.basic_salary) * flt(z.message) / 100;
+						frm.refresh_field('bank_contr');
+					}
+				}
+			});
+		});
+	}
+});

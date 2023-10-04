@@ -18,6 +18,7 @@
  ],
  "fields": [
   {
+   "allow_on_submit": 1,
    "fieldname": "employee",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -26,6 +27,7 @@
    "search_index": 1
   },
   {
+   "allow_on_submit": 1,
    "bold": 1,
    "fetch_from": "employee.employee_name",
    "fieldname": "employee_name",
@@ -35,6 +37,7 @@
    "search_index": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "basic_salary",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -42,6 +45,7 @@
    "search_index": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "bank_contr",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -63,6 +67,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_contr",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -70,6 +75,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "employee_contr",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -80,7 +86,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-11-30 15:26:13.399113",
+ "modified": "2023-10-03 14:24:38.217631",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Contribution Line",
