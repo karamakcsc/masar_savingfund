@@ -19,14 +19,14 @@ def get_exist_employee_in_month(selected_employees,date_to):
 	trans_date = datetime.datetime.strptime(date_to, '%Y-%m-%d')
 	month_to = trans_date.month
 	year_to = trans_date.year
-	up_to = month_to + ((year_to - 1) * 12)
+	up_to = (month_to + ((year_to - 1) * 12)-1)
 
 	if len(selected_employees) != 1:
 		return frappe.db.sql(f"""
 		Select tecl.employee,tecl.employee_name
 			From `tabEmployee Contribution Line` tecl
 			Inner Join `tabEmployee Contribution` tec on tecl.parent =tec.name
-			Where tecl.employee  in {employees_tuple} and month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) = {up_to}
+			Where tecl.employee  in {employees_tuple} and (month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) -1) = {up_to}
 				  and tec.docstatus = 1""",as_dict=True)
 	else:
 
@@ -34,7 +34,7 @@ def get_exist_employee_in_month(selected_employees,date_to):
 		Select tecl.employee,tecl.employee_name
 			From `tabEmployee Contribution Line` tecl
 			Inner Join `tabEmployee Contribution` tec on tecl.parent =tec.name
-			Where tecl.employee  = '{emp}' and month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) = {up_to}
+			Where tecl.employee  = '{emp}' and (month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) -1 ) = {up_to}
 				  and tec.docstatus = 1""",as_dict=True)
 
 @frappe.whitelist()
