@@ -19,7 +19,7 @@ def get_data(filters):
 	return frappe.db.sql(f"""
 					With pl
 						as (Select tial.employee,tial.employee_name ,SUM(tial.pl_employee_contr) as total_employee_pl,SUM(tial.pl_bank_contr) as total_bank_pl,
-			            	   SUM(tial.pl_employee_contr) + SUM(tial.pl_bank_contr) as total_pl, pl_total as monthly_profit_loss
+			            	   SUM(tial.pl_employee_contr) + SUM(tial.pl_bank_contr) as total_pl, tial.pl_total as monthly_profit_loss
 			            From `tabIncome Allocation Line` tial
 			            Inner Join `tabIncome Allocation` tia on tial.parent =tia.name
 						Where tia.posting_date < '{date_to}'
@@ -42,7 +42,7 @@ def get_data(filters):
 
 						Select c.employee,c.employee_name,total_employee_contr,total_bank_contr,total_contr,
 							   IFNULL(p.total_employee_pl,0)as total_employee_pl ,IFNULL(total_bank_pl,0) total_bank_pl,IFNULL(total_pl,0) total_pl,
-							   IFNULL(monthly_profit_loss,0) monthly_profit_loss,IFNULL(w.total_paid_amount,0)as total_withdraw,
+							   IFNULL(p.monthly_profit_loss,0) monthly_profit_loss,IFNULL(w.total_paid_amount,0)as total_withdraw,
 							   (IFNULL(total_contr,0) + IFNULL(total_pl,0) - IFNULL(total_paid_amount,0)) as total_right
             				from tabEmployee as e
             				left Join contr c on e.employee = c.employee
