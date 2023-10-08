@@ -28,10 +28,6 @@ def get_data(filters):
 							 	{conditions};""")
 	return data
 
-
-
-
-
 	# return data
 
 def get_columns():
