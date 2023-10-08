@@ -40,7 +40,7 @@ def get_data(filters):
 			                  and tsfp.docstatus = 1
 			            Group By tsfp.employee,tsfp.employee_name)
 
-						Select c.employee,c.employee_name,total_employee_contr,total_bank_contr,total_contr,
+						Select e.employee,e.employee_name,total_employee_contr,total_bank_contr,total_contr,
 							   IFNULL(p.total_employee_pl,0)as total_employee_pl ,IFNULL(total_bank_pl,0) total_bank_pl,IFNULL(total_pl,0) total_pl,
 							   IFNULL(w.total_paid_amount,0)as total_withdraw,(IFNULL(total_contr,0) + IFNULL(total_pl,0) - IFNULL(total_paid_amount,0)) as total_right
             				from tabEmployee as e
