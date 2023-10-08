@@ -1,16 +1,7 @@
 {
  "cards_label": "",
  "category": "Modules",
- "charts": [
-  {
-   "chart_name": "Total Rights",
-   "label": "Total Rights"
-  },
-  {
-   "chart_name": "Total Contributions",
-   "label": "Total Contributions"
-  }
- ],
+ "charts": [],
  "creation": "2022-11-21 15:56:20.037093",
  "developer_mode_only": 0,
  "disable_user_customization": 0,
@@ -104,22 +95,24 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Monthly Profit/Loss Report",
+   "link_to": "Monthly Profit Loss Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-10-01 11:42:24.506858",
+ "modified": "2023-10-08 12:27:32.562413",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Funds",
  "owner": "Administrator",
  "pin_to_bottom": 0,
  "pin_to_top": 1,
- "shortcuts": [
-  {
-   "doc_view": "List",
-   "label": "Chart of Account",
-   "link_to": "Account",
-   "type": "DocType"
-  }
- ],
+ "shortcuts": [],
  "shortcuts_label": "My Shortcuts"
 }
