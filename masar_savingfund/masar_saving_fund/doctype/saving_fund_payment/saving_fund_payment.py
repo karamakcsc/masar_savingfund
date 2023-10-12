@@ -1,3 +1,10 @@
+# Copyright (c) 2022, Karama kcsc and contributors
+# For license information, please see license.txt
+# import frappe
+# Copyright (c) 2022, Karama kcsc and contributors
+# For license information, please see license.txt
+
+# import frappe
 from __future__ import unicode_literals
 import frappe, erpnext, json, datetime
 from frappe import _, scrub, ValidationError
