@@ -1,11 +1,6 @@
 // Copyright (c) 2022, Karama kcsc and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on('Saving Fund Payment', {
-	// refresh: function(frm) {
-
-	// }
-});
 
 //Get Default Accounts
 frappe.ui.form.on('Saving Fund Payment', {
@@ -29,7 +24,12 @@ frappe.ui.form.on('Saving Fund Payment', {
 						frm.set_value('bank_equity', r.message);
 					}
 						});
-
+      frappe.call({
+        method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_liability_account",
+        callback: function(r) {
+          frm.set_value('liability_account', r.message);
+        }
+          });
 }
 });
 //end Default Accounts

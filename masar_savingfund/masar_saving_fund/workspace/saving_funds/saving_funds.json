@@ -63,7 +63,16 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Setting",
+   "label": "Employee Resignation",
+   "link_to": "Employee Resignation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "setting",
    "link_to": "Saving Fund Settings",
    "link_type": "DocType",
    "onboard": 0,
@@ -106,13 +115,20 @@
    "type": "Link"
   }
  ],
- "modified": "2023-10-08 12:27:32.562413",
+ "modified": "2023-10-12 12:12:27.786599",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Funds",
  "owner": "Administrator",
  "pin_to_bottom": 0,
  "pin_to_top": 1,
- "shortcuts": [],
+ "shortcuts": [
+  {
+   "doc_view": "List",
+   "label": "Employee",
+   "link_to": "Employee",
+   "type": "DocType"
+  }
+ ],
  "shortcuts_label": "My Shortcuts"
 }

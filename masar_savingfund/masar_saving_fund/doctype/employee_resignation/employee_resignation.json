@@ -1,0 +1,222 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{employee_name}-{posting_date}",
+ "creation": "2023-10-12 02:01:27.397754",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "employee_name",
+  "company",
+  "column_break_7upws",
+  "posting_date",
+  "date_of_joining",
+  "resignation_date",
+  "section_break_fm18b",
+  "employee_contr",
+  "bank_contr",
+  "total_right",
+  "deserved_amount",
+  "column_break_mweni",
+  "pl_employee_contr",
+  "pl_bank_contr",
+  "withdraw_amount",
+  "section_break_zbjei",
+  "bank_equity",
+  "employee_equity",
+  "column_break_fkjb7",
+  "liability_account",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Employee Number",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Read Only",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Employee Name"
+  },
+  {
+   "fetch_from": "employee.date_of_joining",
+   "fieldname": "date_of_joining",
+   "fieldtype": "Data",
+   "label": "Date of Joining",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_7upws",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date"
+  },
+  {
+   "fieldname": "resignation_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Resignation Date"
+  },
+  {
+   "fieldname": "section_break_fm18b",
+   "fieldtype": "Section Break",
+   "label": "Total Rights"
+  },
+  {
+   "default": "0",
+   "fieldname": "employee_contr",
+   "fieldtype": "Float",
+   "label": "Employee Contribution",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "bank_contr",
+   "fieldtype": "Float",
+   "label": "Bank Contribution",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_right",
+   "fieldtype": "Float",
+   "label": "Total Right",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "deserved_amount",
+   "fieldtype": "Float",
+   "label": "Deserved Amount",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_mweni",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "pl_employee_contr",
+   "fieldtype": "Float",
+   "label": "P&L Employee Contribution",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "pl_bank_contr",
+   "fieldtype": "Float",
+   "label": "P&L Bank Contribution",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "withdraw_amount",
+   "fieldtype": "Float",
+   "label": "Withdraw Amount",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Employee Resignation",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Employee Resignation",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_zbjei",
+   "fieldtype": "Section Break",
+   "label": "Accounts"
+  },
+  {
+   "fieldname": "bank_equity",
+   "fieldtype": "Link",
+   "label": "Bank Equity",
+   "options": "Account",
+   "read_only": 1
+  },
+  {
+   "fieldname": "employee_equity",
+   "fieldtype": "Link",
+   "label": "Employee Equity",
+   "options": "Account",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_fkjb7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "liability_account",
+   "fieldtype": "Link",
+   "label": "Liability Account ",
+   "options": "Account",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2023-10-12 12:26:31.388007",
+ "modified_by": "Administrator",
+ "module": "Masar Saving Fund",
+ "name": "Employee Resignation",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1,
+ "track_seen": 1
+}

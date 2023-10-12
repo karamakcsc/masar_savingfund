@@ -24,6 +24,13 @@ frappe.ui.form.on('Employee Contribution', {
 						frm.set_value('bank_equity', r.message);
 					}
 						});
+
+			frappe.call({
+					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_liability_account",
+					callback: function(r) {
+						frm.set_value('liability_account', r.message);
+					}
+						});
 		}
 
 }
@@ -217,8 +224,8 @@ frappe.ui.form.on("Employee Contribution", "refresh", function(frm) {
 			frappe.call({
 				method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_employee_contr_perc",
 				args: {
-					employee: frm.doc.employee, // Pass employee ID or necessary data as required
-					basic_salary: frm.doc.basic_salary // Pass basic salary as required
+					employee: frm.doc.employee,
+					basic_salary: frm.doc.basic_salary
 				},
 				callback: function(r) {
 					if (r.message) {
@@ -231,8 +238,8 @@ frappe.ui.form.on("Employee Contribution", "refresh", function(frm) {
 			frappe.call({
 				method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_bank_contr_perc",
 				args: {
-					employee: frm.doc.employee, // Pass employee ID or necessary data as required
-					basic_salary: frm.doc.basic_salary // Pass basic salary as required
+					employee: frm.doc.employee, 
+					basic_salary: frm.doc.basic_salary
 				},
 				callback: function(z) {
 					if (z.message) {

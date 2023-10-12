@@ -14,7 +14,8 @@
   "current_year_profit",
   "column_break_6",
   "bank_equity",
-  "interim_revenue"
+  "interim_revenue",
+  "liability_account"
  ],
  "fields": [
   {
@@ -71,12 +72,18 @@
    "fieldtype": "Link",
    "label": "Current Year Profit",
    "options": "Account"
+  },
+  {
+   "fieldname": "liability_account",
+   "fieldtype": "Link",
+   "label": "Liability Account ",
+   "options": "Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-11-24 16:17:09.839107",
+ "modified": "2023-10-12 02:38:41.023364",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Settings",

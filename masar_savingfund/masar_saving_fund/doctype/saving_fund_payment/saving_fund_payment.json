@@ -10,10 +10,10 @@
   "naming_series",
   "employee",
   "employee_name",
-  "date_of_joining",
   "company",
   "column_break_3",
   "posting_date",
+  "date_of_joining",
   "resignation_date",
   "section_break_7",
   "paid_perc",
@@ -33,6 +33,7 @@
   "bank_equity",
   "column_break_22",
   "employee_equity",
+  "liability_account",
   "amended_from"
  ],
  "fields": [
@@ -215,12 +216,19 @@
    "label": "Withdraw Amount",
    "precision": "3",
    "read_only": 1
+  },
+  {
+   "fieldname": "liability_account",
+   "fieldtype": "Link",
+   "label": "Liability Account",
+   "options": "Account",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-10-09 13:06:40.416170",
+ "modified": "2023-10-12 03:00:44.092770",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Payment",

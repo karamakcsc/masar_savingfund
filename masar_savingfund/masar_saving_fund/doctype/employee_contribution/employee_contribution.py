@@ -57,6 +57,10 @@ def get_employee_equity_account():
 def get_bank_equity_account():
 	return frappe.db.get_single_value('Saving Fund Settings', 'bank_equity')
 
+@frappe.whitelist()
+def get_liability_account():
+	return frappe.db.get_single_value('Saving Fund Settings', 'liability_account')
+
 class InvalidEmployeeContribution(ValidationError):
 	pass
 

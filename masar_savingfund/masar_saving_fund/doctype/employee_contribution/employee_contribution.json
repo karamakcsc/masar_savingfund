@@ -21,6 +21,7 @@
   "bank_equity",
   "column_break_11",
   "employee_equity",
+  "liability_account",
   "amended_from"
  ],
  "fields": [
@@ -111,12 +112,19 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "options": "Employee Contribution"
+  },
+  {
+   "fieldname": "liability_account",
+   "fieldtype": "Link",
+   "label": "Liability Account",
+   "options": "Account",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-10-03 14:29:26.069121",
+ "modified": "2023-10-12 02:54:43.272167",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Contribution",
