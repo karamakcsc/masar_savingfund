@@ -9,6 +9,7 @@
  "field_order": [
   "naming_series",
   "posting_date",
+  "column_break_d4lvv",
   "company",
   "employees_section",
   "employee_contr_lines",
@@ -119,12 +120,16 @@
    "label": "Liability Account",
    "options": "Account",
    "read_only": 1
+  },
+  {
+   "fieldname": "column_break_d4lvv",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-10-12 02:54:43.272167",
+ "modified": "2023-10-12 14:10:37.532212",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Contribution",

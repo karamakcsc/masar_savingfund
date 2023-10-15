@@ -122,3 +122,48 @@ class EmployeeContribution(AccountsController):
 						}))
 		if gl_entries:
 			make_gl_entries(gl_entries, cancel=0, adv_adj=0)
+
+
+
+
+
+
+
+@frappe.whitelist()
+def calculate_emp_contr(name):
+	parent_doc = frappe.get_doc("Employee Contribution", name)
+	emp_per = frappe.db.get_single_value('Saving Fund Settings', 'employee_contr_per')
+	total_value = 0
+	
+	for d in parent_doc.employee_contr_lines:
+		d.employee_contr = float(d.basic_salary) * float(emp_per) /100
+	return 
+	
+@frappe.whitelist()
+def calculate_bank_contr(name):
+	parent_doc = frappe.get_doc("Employee Contribution", name)
+	emp_per = frappe.db.get_single_value('Saving Fund Settings', 'bank_contr_per')
+	total_value = 0
+	
+	for d in parent_doc.employee_contr_lines:
+		d.bank_contr = float(d.basic_salary) * float(emp_per) /100
+		parent_doc.save()
+	return 
+
+
+
+@frappe.whitelist()
+def get_emp_contr_perc():
+    result = frappe.db.get_single_value("Saving Fund Settings", "employee_contr_per")
+    if result:
+        return result
+    else:
+        return 0
+
+@frappe.whitelist()
+def get_bank_contr_perc():
+    result = frappe.db.get_single_value("Saving Fund Settings", "bank_contr_per")
+    if result:
+        return result
+    else:
+        return 0

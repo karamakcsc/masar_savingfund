@@ -14,7 +14,11 @@
   "employee_contr",
   "total_contr",
   "column_break_8",
-  "bank_contr"
+  "bank_contr",
+  "section_break_7kj7t",
+  "employee_contr_percent",
+  "column_break_149pp",
+  "bank_contr_percent"
  ],
  "fields": [
   {
@@ -81,12 +85,36 @@
    "in_list_view": 1,
    "label": "Employee Contribution",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_7kj7t",
+   "fieldtype": "Section Break",
+   "label": "Contribution Percent"
+  },
+  {
+   "fieldname": "employee_contr_percent",
+   "fieldtype": "Percent",
+   "label": "Employee Contr Percent",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "bank_contr_percent",
+   "fieldtype": "Percent",
+   "label": "Bank Contr Percent",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_149pp",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-10-03 14:24:38.217631",
+ "modified": "2023-10-15 11:55:46.347545",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Contribution Line",

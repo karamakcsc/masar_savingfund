@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "employee_contr_per",
+  "column_break_px4zi",
   "bank_contr_per",
   "default_accounts_section",
   "cash_account",
@@ -78,12 +79,16 @@
    "fieldtype": "Link",
    "label": "Liability Account ",
    "options": "Account"
+  },
+  {
+   "fieldname": "column_break_px4zi",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2023-10-12 02:38:41.023364",
+ "modified": "2023-10-12 13:49:36.570965",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Settings",

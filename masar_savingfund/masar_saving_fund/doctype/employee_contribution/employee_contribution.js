@@ -68,66 +68,6 @@ frappe.ui.form.on('Employee Contribution', {
 });
 //End Validate If Employee exist in the same month
 
-//calculate for employee and bank contr
-frappe.ui.form.on("Employee Contribution Line", "validate", function(frm, cdt, cdn) {
-		  var d = locals[cdt][cdn];
-			frappe.call({
-					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_employee_contr_perc",
-					callback: function(r) {
-						if(d.employee){
-							d.employee_contr = flt(d.basic_salary) * flt(r.message) /100;
-							//d.total_contr=flt(d.basic_salary)*flt(r.message)/100;
-						}
-					}
-						});
-			frappe.call({
-					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_bank_contr_perc",
-					callback: function(z) {
-						if(d.employee){
-							d.bank_contr = flt(d.basic_salary) * flt(z.message) /100;
-							//d.total_contr+=flt(d.basic_salary)*flt(z.message)/100;
-						}
-					}
-						});
-
-        cur_frm.refresh_field(employee_contr_lines);
-});
-//end calculate for employee and bank contr
-
-frappe.ui.form.on('Employee Contribution', {
-	validate: function(frm) {
-		for (let e = 0; e < frm.doc.employee_contr_lines.length; e++) {
-				frm.doc.employee_contr_lines[e].total_contr = flt(frm.doc.employee_contr_lines[e].employee_contr + frm.doc.employee_contr_lines[e].bank_contr)
-				}
-
-
-}
-});
-
-frappe.ui.form.on("Employee Contribution", "validate", function(frm, cdt, cdn) {
-
-   var contr_lines = frm.doc.employee_contr_lines;
-   var total = 0
-	 for (let i = 0; i < contr_lines.length; i++) {
-	total = total + contr_lines[i].employee_contr
-	}
-
-	frm.set_value("total_employee_contr",total)
-
-});
-
-
-frappe.ui.form.on("Employee Contribution", "validate", function(frm, cdt, cdn) {
-
-   var contr_lines = frm.doc.employee_contr_lines;
-   var total = 0
-	 for (let i = 0; i < contr_lines.length; i++) {
-	total = total + contr_lines[i].bank_contr
-	}
-
-	frm.set_value("total_bank_contr",total)
-
-});
 
 
 ////Add Multiple button /////Siam//////Start Code//
@@ -218,36 +158,101 @@ show_general_ledger: function(frm) {
 
 
 
-frappe.ui.form.on("Employee Contribution", "refresh", function(frm) {
-	if(frm.doc.docstatus != 1) {
-		frm.add_custom_button(__("Recalculate"), function() {
-			frappe.call({
-				method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_employee_contr_perc",
-				args: {
-					employee: frm.doc.employee,
-					basic_salary: frm.doc.basic_salary
-				},
-				callback: function(r) {
-					if (r.message) {
-						frm.doc.employee_contr = flt(frm.doc.basic_salary) * flt(r.message) / 100;
-						frm.refresh_field('employee_contr');
+frappe.ui.form.on('Employee Contribution', {
+    refresh: function(frm) {
+		if (frm.doc.docstatus <1){
+			frm.add_custom_button(__('Re-Calculate Employee Contribution'), function() {
+				frappe.call({
+					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_emp_contr_perc",
+					callback: function(r) {
+						frm.doc.employee_contr_lines.forEach(function(d) {
+							d.employee_contr = flt(d.basic_salary) * flt(r.message) /100;
+							d.total_contr = d.bank_contr + d.employee_contr
+						});
+						frm.refresh_field('employee_contr_lines');
 					}
-				}
-			});
+				});
+				frappe.call({
+					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_bank_contr_perc",
+					callback: function(z) {
+						frm.doc.employee_contr_lines.forEach(function(d) {
+							d.bank_contr = flt(d.basic_salary) * flt(z.message) /100;
+							d.total_contr = d.bank_contr + d.employee_contr
+						});
+						frm.refresh_field('employee_contr_lines');
+					}
+				});
 
-			frappe.call({
-				method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_bank_contr_perc",
-				args: {
-					employee: frm.doc.employee, 
-					basic_salary: frm.doc.basic_salary
-				},
-				callback: function(z) {
-					if (z.message) {
-						frm.doc.bank_contr = flt(frm.doc.basic_salary) * flt(z.message) / 100;
-						frm.refresh_field('bank_contr');
-					}
-				}
+			
 			});
-		});
+    	}
 	}
 });
+
+
+
+frappe.ui.form.on('Employee Contribution', {
+    validate: function(frm) {
+		if (frm.doc.docstatus <1){
+			frappe.call({
+				method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_emp_contr_perc",
+					callback: function(r) {
+						frm.doc.employee_contr_lines.forEach(function(d) {
+							d.employee_contr = flt(d.basic_salary) * flt(r.message) /100;
+							d.total_contr = d.bank_contr + d.employee_contr
+						});
+						frm.refresh_field('employee_contr_lines');
+					}
+			});
+			frappe.call({
+				method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_bank_contr_perc",
+					callback: function(z) {
+						frm.doc.employee_contr_lines.forEach(function(d) {
+							d.bank_contr = flt(d.basic_salary) * flt(z.message) /100;
+							d.total_contr = d.bank_contr + d.employee_contr
+						});
+						frm.refresh_field('employee_contr_lines');
+					}
+			});
+    	}
+	}
+});
+
+
+
+
+
+frappe.ui.form.on("Employee Contribution", {
+    validate: function(frm) {
+        update_total_emp_contr(frm);
+		update_total_bank_contr(frm);
+    },
+    employee_contr_lines_remove: function(frm, cdt, cdn) {
+        update_total_emp_contr(frm);
+		update_total_bank_contr(frm);
+    },
+	employee: function(frm, cdt, cdn) {
+        update_total_emp_contr(frm, cdt, cdn);
+		update_total_bank_contr(frm, cdt, cdn);
+	}
+});
+
+
+var update_total_emp_contr = function(frm) {
+    var total = 0;
+    frm.doc.employee_contr_lines.forEach(function(d) {
+        total += flt(d.employee_contr);
+    });
+    frm.set_value('total_employee_contr', total);
+    refresh_field("total_employee_contr");
+};
+
+var update_total_bank_contr = function(frm) {
+    var total = 0;
+    frm.doc.employee_contr_lines.forEach(function(d) {
+        total += flt(d.bank_contr);
+    });
+    frm.set_value('total_bank_contr', total);
+    refresh_field("total_bank_contr");
+};
+
