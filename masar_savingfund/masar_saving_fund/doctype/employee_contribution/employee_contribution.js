@@ -182,6 +182,14 @@ frappe.ui.form.on('Employee Contribution', {
 						frm.refresh_field('employee_contr_lines');
 					}
 				});
+				var update_total_emp_contr = function(frm) {
+					var total = 0;
+					frm.doc.employee_contr_lines.forEach(function(d) {
+						total += flt(d.employee_contr);
+					});
+					frm.set_value('total_employee_contr', total);
+					refresh_field("total_employee_contr");
+				};
 
 			
 			});
@@ -234,7 +242,12 @@ frappe.ui.form.on("Employee Contribution", {
 	employee: function(frm, cdt, cdn) {
         update_total_emp_contr(frm, cdt, cdn);
 		update_total_bank_contr(frm, cdt, cdn);
-	}
+	},
+
+	after_save: function(frm, cdt, cdn) {
+		update_total_emp_contr(frm, cdt, cdn);
+		update_total_bank_contr(frm, cdt, cdn);
+}
 });
 
 
