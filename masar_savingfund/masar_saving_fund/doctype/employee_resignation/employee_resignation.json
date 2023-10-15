@@ -196,7 +196,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-10-12 12:26:31.388007",
+ "modified": "2023-10-15 15:52:15.550657",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Resignation",
@@ -211,7 +211,9 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "select": 1,
    "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],
