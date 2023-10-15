@@ -233,7 +233,7 @@ show_general_ledger: function(frm) {
 
 
 frappe.ui.form.on("Income Allocation", "refresh", function(frm) {
-        frm.add_custom_button(__("Income Allocation"), function() {
+        frm.add_custom_button(__("Re-Calculate Income Allocation"), function() {
           var selected_employees = new Array();
           for (let e = 0; e < frm.doc.employees.length; e++) {
               selected_employees.push(frm.doc.employees[e].employee);

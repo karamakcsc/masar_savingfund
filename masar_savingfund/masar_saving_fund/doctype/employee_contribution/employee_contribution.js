@@ -245,8 +245,8 @@ frappe.ui.form.on("Employee Contribution", {
 	},
 
 	after_save: function(frm, cdt, cdn) {
-		update_total_emp_contr(frm, cdt, cdn);
-		update_total_bank_contr(frm, cdt, cdn);
+		update_total_emp_contr(frm);
+		update_total_bank_contr(frm);
 }
 });
 
