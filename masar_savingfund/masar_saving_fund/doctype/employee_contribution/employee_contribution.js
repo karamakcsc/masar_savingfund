@@ -160,7 +160,7 @@ show_general_ledger: function(frm) {
 
 frappe.ui.form.on('Employee Contribution', {
     refresh: function(frm) {
-		if (frm.doc.docstatus <1){
+		if (frm.doc.docstatus > 0){
 			frm.add_custom_button(__('Re-Calculate Employee Contribution'), function() {
 				frappe.call({
 					method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_emp_contr_perc",
