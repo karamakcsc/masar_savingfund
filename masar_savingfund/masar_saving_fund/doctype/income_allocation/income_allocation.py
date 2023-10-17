@@ -64,15 +64,8 @@ class IncomeAllocation(AccountsController):
 	def on_cancel(self):
 		self.ignore_linked_doctypes = ["GL Entry"]
 		self.cancel_linked_gl_entries()
-		gl_entries = frappe.get_all("GL Entry",
-        filters={"voucher_type": self.doctype, "voucher_no": self.name, "docstatus": 1},
-    )
-		for gl_entry in gl_entries:
-			gl_entry_doc = frappe.get_doc("GL Entry", gl_entry.name)
-			gl_entry_doc.docstatus = 2
-			gl_entry_doc.save()
 
-			
+		
 	def make_gl(self):
 		gl_entries = []
 		for d in self.get("employees"):
@@ -131,3 +124,13 @@ class IncomeAllocation(AccountsController):
 			pluck="parent",
 			distinct=True,
 		)
+		gl_entries = frappe.get_all("GL Entry",
+        filters={"voucher_type": self.doctype, "voucher_no": self.name, "docstatus": 1},
+    )
+		for gl_entry in gl_entries:
+			gl_entry_doc = frappe.get_doc("GL Entry", gl_entry.name)
+			gl_entry_doc.docstatus = 2
+			gl_entry_doc.save()
+		for gl_entry in gl_entries:
+			frappe.delete_doc("GL Entry", gl_entry.name)
+			frappe.db.commit()
