@@ -21,8 +21,16 @@ class EmployeeResignation(AccountsController):
           pass
     
     def on_cancel(self):
-          pass
-       
+        self.ignore_linked_doctypes = ["GL Entry"]
+        self.cancel_linked_gl_entries()
+        gl_entries = frappe.get_all("GL Entry",
+        filters={"voucher_type": self.doctype, "voucher_no": self.name, "docstatus": 1},
+    )
+        for gl_entry in gl_entries:
+            gl_entry_doc = frappe.get_doc("GL Entry", gl_entry.name)
+            gl_entry_doc.docstatus = 2
+            gl_entry_doc.save()
+
     def on_submit(self):
         employee = frappe.get_doc("Employee", self.employee)
         employee.relieving_date = self.resignation_date
@@ -127,6 +135,15 @@ class EmployeeResignation(AccountsController):
                     }))                
             if gl_entries:
                 make_gl_entries(gl_entries, cancel=0, adv_adj=0)
+
+
+    def cancel_linked_gl_entries(self):
+         gl_entries = frappe.get_all(
+			"GL Entry",
+			filters={"voucher_type": self.doctype, "voucher_no": self.name, "docstatus": 1},
+			pluck="parent",
+			distinct=True,
+		)
    
 @frappe.whitelist()
 def get_employee_equity_account():

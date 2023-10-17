@@ -75,8 +75,15 @@ class EmployeeContribution(AccountsController):
 		self.make_gl()
 
 	def on_cancel(self):
-		self.ignore_linked_doctypes = ("GL Entry")
+		self.ignore_linked_doctypes = ["GL Entry"]
 		self.cancel_linked_gl_entries()
+		gl_entries = frappe.get_all("GL Entry",
+        filters={"voucher_type": self.doctype, "voucher_no": self.name, "docstatus": 1},
+    )
+		for gl_entry in gl_entries:
+			gl_entry_doc = frappe.get_doc("GL Entry", gl_entry.name)
+			gl_entry_doc.docstatus = 2
+			gl_entry_doc.save()
 
 	def make_gl(self):
 		gl_entries = []
@@ -124,11 +131,10 @@ class EmployeeContribution(AccountsController):
 		if gl_entries:
 			make_gl_entries(gl_entries, cancel=0, adv_adj=0)
 
-
 	def cancel_linked_gl_entries(self):
 		gl_entries = frappe.get_all(
 			"GL Entry",
-			{"voucher_type": self.doctype, "voucher_no": self.name, "docstatus": 1},
+			filters={"voucher_type": self.doctype, "voucher_no": self.name, "docstatus": 1},
 			pluck="parent",
 			distinct=True,
 		)
@@ -148,3 +154,9 @@ def get_bank_contr_perc():
         return result
     else:
         return 0
+
+
+
+
+
+
