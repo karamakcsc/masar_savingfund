@@ -75,7 +75,8 @@ class EmployeeContribution(AccountsController):
 		self.make_gl()
 
 	def on_cancel(self):
-		pass
+		self.ignore_linked_doctypes = ("GL Entry")
+		self.cancel_linked_gl_entries()
 
 	def make_gl(self):
 		gl_entries = []
@@ -122,6 +123,15 @@ class EmployeeContribution(AccountsController):
 						}))
 		if gl_entries:
 			make_gl_entries(gl_entries, cancel=0, adv_adj=0)
+
+
+	def cancel_linked_gl_entries(self):
+		gl_entries = frappe.get_all(
+			"GL Entry",
+			{"voucher_type": self.doctype, "voucher_no": self.name, "docstatus": 1},
+			pluck="parent",
+			distinct=True,
+		)
 
 @frappe.whitelist()
 def get_emp_contr_perc():

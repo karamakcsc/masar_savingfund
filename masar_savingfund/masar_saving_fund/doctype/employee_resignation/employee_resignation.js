@@ -81,3 +81,13 @@ frappe.ui.form.on('Employee Resignation', {
   }
   });
   // END Show General Ledger
+
+
+
+  cur_frm.fields_dict['employee'].get_query = function(doc) {
+	return {
+		filters: {
+			"status": "Active"
+		}
+	}
+}

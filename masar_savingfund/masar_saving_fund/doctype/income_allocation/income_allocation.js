@@ -233,6 +233,7 @@ show_general_ledger: function(frm) {
 
 
 frappe.ui.form.on("Income Allocation", "refresh", function(frm) {
+  if (frm.doc.docstatus != 1){
         frm.add_custom_button(__("Re-Calculate Income Allocation"), function() {
           var selected_employees = new Array();
           for (let e = 0; e < frm.doc.employees.length; e++) {
@@ -305,4 +306,5 @@ frappe.ui.form.on("Income Allocation", "refresh", function(frm) {
           });
 
         });
+  }
 });

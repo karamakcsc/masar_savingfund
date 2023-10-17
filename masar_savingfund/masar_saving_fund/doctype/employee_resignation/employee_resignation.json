@@ -69,7 +69,7 @@
    "fieldname": "resignation_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Resignation Date"
+   "label": "Relieving Date"
   },
   {
    "fieldname": "section_break_fm18b",
@@ -196,7 +196,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-10-15 15:52:15.550657",
+ "modified": "2023-10-15 16:23:28.495593",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Resignation",

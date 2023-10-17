@@ -88,7 +88,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2023-10-12 13:49:36.570965",
+ "modified": "2023-10-15 16:33:12.519477",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Settings",
@@ -101,6 +101,7 @@
    "print": 1,
    "read": 1,
    "role": "System Manager",
+   "select": 1,
    "share": 1,
    "write": 1
   }
