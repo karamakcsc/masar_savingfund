@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:{employee_name}-{posting_date}",
+ "autoname": "format:SF-ERES-{employee}-{#####}",
  "creation": "2023-10-12 02:01:27.397754",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -196,7 +196,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-10-15 16:23:28.495593",
+ "modified": "2023-10-18 12:16:19.987986",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Resignation",
