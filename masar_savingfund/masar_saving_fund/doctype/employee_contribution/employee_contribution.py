@@ -3,13 +3,26 @@
 
 # import frappe
 from __future__ import unicode_literals
+from dateutil.relativedelta import relativedelta
 import frappe, erpnext, json,datetime
 from frappe import _, scrub, ValidationError
-from frappe.utils import flt, comma_or, nowdate, getdate
 from erpnext.setup.utils import get_exchange_rate
 from erpnext.controllers.accounts_controller import AccountsController
 from frappe.model.document import Document
+from frappe.query_builder.functions import Coalesce, Count
 from erpnext.accounts.general_ledger import make_gl_entries, process_gl_map, make_reverse_gl_entries
+from frappe.utils import (
+	DATE_FORMAT,
+	add_days,
+	nowdate,
+	add_to_date,
+	cint,
+	comma_and,
+	date_diff,
+	flt,
+	get_link_to_form,
+	getdate,
+)
 
 @frappe.whitelist()
 def get_exist_employee_in_month(selected_employees,date_to):
@@ -76,6 +89,7 @@ class EmployeeContribution(AccountsController):
 
 	def on_cancel(self):
 		self.ignore_linked_doctypes = ["GL Entry"]
+		self.delete_linked_gl_entries()
 		self.cancel_linked_gl_entries()
 		
 
@@ -139,9 +153,39 @@ class EmployeeContribution(AccountsController):
 			gl_entry_doc = frappe.get_doc("GL Entry", gl_entry.name)
 			gl_entry_doc.docstatus = 2
 			gl_entry_doc.save()
+			self.db_set("gl_entries_created", 0)
+			self.db_set("gl_entries_submitted", 0)
+			self.set_status(update=True, status="Cancelled")
+			self.db_set("error_message", "")
+
+	def delete_linked_gl_entries(self):
+		gl_entries = self.get_linked_gl_entries()
+
+		# cancel & delete gl_entries
 		for gl_entry in gl_entries:
+			if gl_entry.docstatus == 1:
+				frappe.get_doc("GL Entry", gl_entry.name).cancel()
 			frappe.delete_doc("GL Entry", gl_entry.name)
-			frappe.db.commit()
+
+
+	def get_linked_gl_entries(self):
+		return frappe.get_all("GL Entry", {"voucher_no": self.name}, ["name", "docstatus"])
+	
+	def cancel(self):
+		if len(self.get_linked_gl_entries()) > 50:
+			msg = _("Employee Contribution cancellation is queued. It may take a few minutes")
+			msg += "<br>"
+			msg += _(
+				"In case of any error during this background process, the system will add a comment about the error on this Employee Contribution and revert to the Submitted status"
+			)
+			frappe.msgprint(
+				msg,
+				indicator="blue",
+				title=_("Cancellation Queued"),
+			)
+			self.queue_action("cancel", timeout=3000)
+		else:
+			self._cancel()
 
 
 @frappe.whitelist()
