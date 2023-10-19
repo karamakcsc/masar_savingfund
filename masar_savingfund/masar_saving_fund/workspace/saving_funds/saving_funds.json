@@ -10,7 +10,7 @@
  "extends_another_page": 0,
  "hide_custom": 0,
  "icon": "loan",
- "idx": 0,
+ "idx": 1,
  "is_default": 0,
  "is_standard": 1,
  "label": "Saving Funds",
@@ -115,7 +115,7 @@
    "type": "Link"
   }
  ],
- "modified": "2023-10-12 12:12:27.786599",
+ "modified": "2023-10-19 14:34:56.437854",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Funds",
@@ -127,6 +127,12 @@
    "doc_view": "List",
    "label": "Employee",
    "link_to": "Employee",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "Tree",
+   "label": "Chart of Account",
+   "link_to": "Account",
    "type": "DocType"
   }
  ],
