@@ -89,7 +89,6 @@ class EmployeeResignation(AccountsController):
                     }))
                 
             if number_year >= 3:
-                frappe.msgprint(str(emp_contr_perc))
                 gl_entries.append(
                     self.get_gl_dict({
                         "account": self.liability_account,
