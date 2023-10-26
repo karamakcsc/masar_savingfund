@@ -94,8 +94,8 @@ class EmployeeResignation(AccountsController):
                         "account": self.liability_account,
                         # "account_currency": d.paid_from_account_currency,
                         "against": self.employee_equity,
-                        "credit_in_account_currency": (self.employee_contr + self.pl_employee_contr) - (emp_contr_perc * self.withdraw_amount),
-                        "credit": (self.employee_contr + self.pl_employee_contr) - (emp_contr_perc * self.withdraw_amount),
+                        "credit_in_account_currency": (self.total_right),
+                        "credit": (self.total_right),
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
@@ -104,32 +104,32 @@ class EmployeeResignation(AccountsController):
                         "account": self.employee_equity,
                         # "account_currency": d.paid_to_account_currency,
                         "against": self.liability_account,
-                        "debit_in_account_currency": (self.employee_contr + self.pl_employee_contr) - (emp_contr_perc * self.withdraw_amount),
-                        "debit": (self.employee_contr + self.pl_employee_contr) - (emp_contr_perc * self.withdraw_amount),
+                        "debit_in_account_currency": (self.total_right),
+                        "debit": (self.total_right),
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
                 
-                gl_entries.append(
-                    self.get_gl_dict({
-                        "account": self.liability_account,
-                        # "account_currency": d.paid_from_account_currency,
-                        "against": self.bank_equity,
-                        "credit_in_account_currency": (self.bank_contr + self.pl_bank_contr) - (bank_contr_perc * self.withdraw_amount),
-                        "credit": (self.bank_contr + self.pl_bank_contr) - (bank_contr_perc * self.withdraw_amount),
-                        "employee": self.employee,
-                        "remarks": self.employee + ' : ' + self.employee_name
-                    }))
-                gl_entries.append(
-                    self.get_gl_dict({
-                        "account": self.bank_equity,
-                        # "account_currency": d.paid_to_account_currency,
-                        "against": self.liability_account,
-                        "debit_in_account_currency": (self.bank_contr + self.pl_bank_contr) - (bank_contr_perc * self.withdraw_amount),
-                        "debit": (self.bank_contr + self.pl_bank_contr) - (bank_contr_perc * self.withdraw_amount),
-                        "employee": self.employee,
-                        "remarks": self.employee + ' : ' + self.employee_name
-                    }))                
+                # gl_entries.append(
+                #     self.get_gl_dict({
+                #         "account": self.liability_account,
+                #         # "account_currency": d.paid_from_account_currency,
+                #         "against": self.bank_equity,
+                #         "credit_in_account_currency": (self.bank_contr + self.pl_bank_contr) - (bank_contr_perc * self.withdraw_amount),
+                #         "credit": (self.bank_contr + self.pl_bank_contr) - (bank_contr_perc * self.withdraw_amount),
+                #         "employee": self.employee,
+                #         "remarks": self.employee + ' : ' + self.employee_name
+                #     }))
+                # gl_entries.append(
+                #     self.get_gl_dict({
+                #         "account": self.bank_equity,
+                #         # "account_currency": d.paid_to_account_currency,
+                #         "against": self.liability_account,
+                #         "debit_in_account_currency": (self.bank_contr + self.pl_bank_contr) - (bank_contr_perc * self.withdraw_amount),
+                #         "debit": (self.bank_contr + self.pl_bank_contr) - (bank_contr_perc * self.withdraw_amount),
+                #         "employee": self.employee,
+                #         "remarks": self.employee + ' : ' + self.employee_name
+                #     }))                
             if gl_entries:
                 make_gl_entries(gl_entries, cancel=0, adv_adj=0)
 
