@@ -131,10 +131,11 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-10-15 16:06:29.847256",
+ "modified": "2023-10-28 05:38:46.856675",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Contribution",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
@@ -152,6 +153,7 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
+ "states": [],
  "track_changes": 1,
  "track_seen": 1
 }

@@ -13,6 +13,7 @@
   "cash_account",
   "employee_equity",
   "current_year_profit",
+  "income_account",
   "column_break_6",
   "bank_equity",
   "interim_revenue",
@@ -83,12 +84,18 @@
   {
    "fieldname": "column_break_px4zi",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "income_account",
+   "fieldtype": "Link",
+   "label": "Income Account",
+   "options": "Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2023-10-15 16:33:12.519477",
+ "modified": "2023-10-28 00:29:12.230726",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Settings",
@@ -107,5 +114,6 @@
   }
  ],
  "sort_field": "modified",
- "sort_order": "DESC"
+ "sort_order": "DESC",
+ "states": []
 }

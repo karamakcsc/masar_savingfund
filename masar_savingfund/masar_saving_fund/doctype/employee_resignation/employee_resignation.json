@@ -23,11 +23,17 @@
   "pl_employee_contr",
   "pl_bank_contr",
   "withdraw_amount",
+  "section_break_bh6q1",
+  "employee_equity_amount",
+  "income_amount",
+  "column_break_yevxo",
+  "bank_equity_amount",
   "section_break_zbjei",
   "bank_equity",
   "employee_equity",
   "column_break_fkjb7",
   "liability_account",
+  "income_account",
   "amended_from"
  ],
  "fields": [
@@ -146,15 +152,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Employee Resignation",
-   "print_hide": 1,
-   "read_only": 1
-  },
-  {
    "fieldname": "section_break_zbjei",
    "fieldtype": "Section Break",
    "label": "Accounts"
@@ -191,15 +188,50 @@
    "label": "Company",
    "options": "Company",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_bh6q1",
+   "fieldtype": "Section Break",
+   "label": "Equities"
+  },
+  {
+   "fieldname": "employee_equity_amount",
+   "fieldtype": "Float",
+   "label": "Employee Equity Amount",
+   "precision": "4"
+  },
+  {
+   "fieldname": "income_amount",
+   "fieldtype": "Float",
+   "label": "Income Amount",
+   "precision": "4"
+  },
+  {
+   "fieldname": "bank_equity_amount",
+   "fieldtype": "Float",
+   "label": "Bank Equity Amount",
+   "precision": "4"
+  },
+  {
+   "fieldname": "income_account",
+   "fieldtype": "Link",
+   "label": "Income Account",
+   "options": "Account",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_yevxo",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-10-18 12:16:19.987986",
+ "modified": "2023-10-28 05:37:51.287727",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Resignation",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -219,6 +251,7 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
+ "states": [],
  "track_changes": 1,
  "track_seen": 1
 }

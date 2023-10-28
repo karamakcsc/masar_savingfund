@@ -88,9 +88,8 @@ class EmployeeContribution(AccountsController):
 		self.make_gl()
 
 	def on_cancel(self):
-		self.ignore_linked_doctypes = ["GL Entry"]
 		self.delete_linked_gl_entries()
-		self.cancel_linked_gl_entries()
+
 		
 
 	def make_gl(self):
@@ -139,54 +138,12 @@ class EmployeeContribution(AccountsController):
 		if gl_entries:
 			make_gl_entries(gl_entries, cancel=0, adv_adj=0)
 
-	def cancel_linked_gl_entries(self):
-		gl_entries = frappe.get_all(
-			"GL Entry",
-			filters={"voucher_type": self.doctype, "voucher_no": self.name, "docstatus": 1},
-			pluck="parent",
-			distinct=True,
-		)
-		gl_entries = frappe.get_all("GL Entry",
-        filters={"voucher_type": self.doctype, "voucher_no": self.name, "docstatus": 1},
-    )
-		for gl_entry in gl_entries:
-			gl_entry_doc = frappe.get_doc("GL Entry", gl_entry.name)
-			gl_entry_doc.docstatus = 2
-			gl_entry_doc.save()
-			self.db_set("gl_entries_created", 0)
-			self.db_set("gl_entries_submitted", 0)
-			self.set_status(update=True, status="Cancelled")
-			self.db_set("error_message", "")
-
 	def delete_linked_gl_entries(self):
-		gl_entries = self.get_linked_gl_entries()
-
-		# cancel & delete gl_entries
-		for gl_entry in gl_entries:
-			if gl_entry.docstatus == 1:
-				frappe.get_doc("GL Entry", gl_entry.name).cancel()
-			frappe.delete_doc("GL Entry", gl_entry.name)
-
-
-	def get_linked_gl_entries(self):
-		return frappe.get_all("GL Entry", {"voucher_no": self.name}, ["name", "docstatus"])
-	
-	def cancel(self):
-		if len(self.get_linked_gl_entries()) > 50:
-			msg = _("Employee Contribution cancellation is queued. It may take a few minutes")
-			msg += "<br>"
-			msg += _(
-				"In case of any error during this background process, the system will add a comment about the error on this Employee Contribution and revert to the Submitted status"
-			)
-			frappe.msgprint(
-				msg,
-				indicator="blue",
-				title=_("Cancellation Queued"),
-			)
-			self.queue_action("cancel", timeout=3000)
-		else:
-			self._cancel()
-
+		cancelled_doc = frappe.db.sql_list("""select name from `tabEmployee Contribution` 
+		where docstatus = 2 """)
+		frappe.db.sql("""delete from `tabGL Entry` 
+					where voucher_type = 'Employee Contribution' and voucher_no in (%s)""" 
+					% (', '.join(['%s']*len(cancelled_doc))), tuple(cancelled_doc))
 
 @frappe.whitelist()
 def get_emp_contr_perc():

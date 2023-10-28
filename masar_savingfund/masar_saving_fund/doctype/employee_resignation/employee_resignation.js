@@ -29,6 +29,43 @@ frappe.ui.form.on('Employee Resignation', {
 	}
 });
 
+
+frappe.ui.form.on('Employee Resignation', {
+	resignation_date: function(frm) {
+	var doc_data = {
+			'resignation_date': frm.doc.resignation_date,
+			'date_of_joining': frm.doc.date_of_joining,			
+			'employee': frm.doc.employee,
+			'employee_contr': frm.doc.employee_contr,
+			'pl_employee_contr': frm.doc.pl_employee_contr,
+			'bank_contr': frm.doc.bank_contr,
+			'pl_bank_contr': frm.doc.pl_bank_contr,
+			'withdraw_amount': frm.doc.withdraw_amount,
+			'total_right': frm.doc.total_right,		
+			'deserved_amount': frm.doc.deserved_amount,										
+
+		};
+
+    
+    frappe.call({
+        method: "masar_savingfund.masar_saving_fund.doctype.employee_resignation.employee_resignation.get_employee_equity_balance",
+        args: {
+			dict_doc: doc_data,
+        },
+
+        callback: function(r) {
+			var d = JSON.parse(r.message);			
+                frm.set_value('employee_equity_amount', d.emp_amount);
+                frm.set_value('bank_equity_amount', d.bank_amount);
+                frm.set_value('income_amount', d.income_amount);
+        }
+    });
+		cur_frm.refresh_field();
+	}
+});
+
+
+
 frappe.ui.form.on('Employee Resignation', {
 	onload: function(frm) {
 			frappe.call({
