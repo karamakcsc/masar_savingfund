@@ -31,141 +31,203 @@ class SavingFundPayment(AccountsController):
         self.delete_linked_gl_entries()
 
     def make_gl(self):
-        if self.resignation_date and self.date_of_joining:
-            res_date = datetime.datetime.strptime(self.resignation_date, '%Y-%m-%d')
+        # if self.paid_amount > self.deserved_amount:
+        #     frappe.throw('The paid amount can not be greater than deserved amount !')
+
+        if  self.date_of_joining:
+            res_date = frappe.utils.today()
+            res_date = datetime.datetime.strptime(res_date, '%Y-%m-%d')
+            if self.status =="Left":
+                 res_date = datetime.datetime.strptime(self.resignation_date, '%Y-%m-%d')
+
             join_date = datetime.datetime.strptime(self.date_of_joining, '%Y-%m-%d')
             delta = res_date - join_date
             number_year = delta.days / 365.0
+            emp_contr_perc = frappe.db.get_single_value('Saving Fund Settings', 'employee_contr_per')/100
+            bank_contr_perc = frappe.db.get_single_value('Saving Fund Settings', 'bank_contr_per')/100
             gl_entries = []
-
             if number_year < 1:
-                gl_entries.append(
-                    self.get_gl_dict({
-                        "account": self.cash_account,
-                        # "account_currency": d.paid_from_account_currency,
-                        "against": self.employee_equity,
-                        "credit_in_account_currency": self.employee_contr,
-                        "credit": self.employee_contr,
+                if self.status =="Left":
+                    gl_entries.append(
+                        self.get_gl_dict({
+                            "account": self.cash_account,
+                            # "account_currency": d.paid_from_account_currency,
+                            "against": self.liability_account,
+                            "credit_in_account_currency": self.paid_amount,
+                            "credit": self.paid_amount,
+                            "employee": self.employee,
+                            "remarks": self.employee + ' : ' + self.employee_name
+                        }))
+                    gl_entries.append(
+                        self.get_gl_dict({
+                        "account": self.liability_account,
+                        #"account_currency": d.paid_to_account_currency,
+                        "against": self.cash_account,
+                        "debit_in_account_currency": self.paid_amount,
+                        "debit": self.paid_amount,
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
-                    }))
-                gl_entries.append(
- 					self.get_gl_dict({
-					"account": self.employee_equity,
-					#"account_currency": d.paid_to_account_currency,
-					"against": self.cash_account,
-					"debit_in_account_currency": self.employee_contr,
-					"debit": self.employee_contr,
-					"employee": self.employee,
-					"remarks": self.employee + ' : ' + self.employee_name
-					}))
+                        }))
+                else: 
+
+                    gl_entries.append(
+                        self.get_gl_dict({
+                            "account": self.cash_account,
+                            # "account_currency": d.paid_from_account_currency,
+                            "against": self.employee_equity,
+                            "credit_in_account_currency": self.paid_amount,
+                            "credit": self.paid_amount,
+                            "employee": self.employee,
+                            "remarks": self.employee + ' : ' + self.employee_name
+                        }))
+                    gl_entries.append(
+                        self.get_gl_dict({
+                        "account": self.employee_equity,
+                        #"account_currency": d.paid_to_account_currency,
+                        "against": self.cash_account,
+                        "debit_in_account_currency": self.paid_amount,
+                        "debit": self.paid_amount,
+                        "employee": self.employee,
+                        "remarks": self.employee + ' : ' + self.employee_name
+                        }))
+
 
             if number_year >= 1 and number_year < 3:
-                gl_entries.append(
-                    self.get_gl_dict({
-                        "account": self.cash_account,
-                        # "account_currency": d.paid_from_account_currency,
-                        "against": self.employee_equity,
-                        "credit_in_account_currency": self.employee_contr,
-                        "credit": self.employee_contr,
-                        "employee": self.employee,
-                        "remarks": self.employee + ' : ' + self.employee_name
-                    }))
-                gl_entries.append(
-                    self.get_gl_dict({
-                        "account": self.employee_equity,
-                        # "account_currency": d.paid_to_account_currency,
+                if self.status =="Left":
+                    gl_entries.append(
+                        self.get_gl_dict({
+                            "account": self.cash_account,
+                            # "account_currency": d.paid_from_account_currency,
+                            "against": self.liability_account,
+                            "credit_in_account_currency": self.paid_amount,
+                            "credit": self.paid_amount,
+                            "employee": self.employee,
+                            "remarks": self.employee + ' : ' + self.employee_name
+                        }))
+                    gl_entries.append(
+                        self.get_gl_dict({
+                        "account": self.liability_account,
+                        #"account_currency": d.paid_to_account_currency,
                         "against": self.cash_account,
-                        "debit_in_account_currency": self.employee_contr,
-                        "debit": self.employee_contr,
+                        "debit_in_account_currency": self.paid_amount,
+                        "debit": self.paid_amount,
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
-                    }))
-
-                gl_entries.append(
-                    self.get_gl_dict({
-                        "account": self.cash_account,
-                        # "account_currency": d.paid_from_account_currency,
-                        "against": self.employee_equity,
-                        "credit_in_account_currency": self.pl_employee_contr,
-                        "credit": self.pl_employee_contr,
-                        "employee": self.employee,
-                        "remarks": self.employee + ' : ' + self.employee_name
-                    }))
-                gl_entries.append(
-                    self.get_gl_dict({
-                        "account": self.employee_equity,
-                        # "account_currency": d.paid_to_account_currency,
-                        "against": self.cash_account,
-                        "debit_in_account_currency": self.pl_employee_contr,
-                        "debit": self.pl_employee_contr,
-                        "employee": self.employee,
-                        "remarks": self.employee + ' : ' + self.employee_name
-                    }))
+                        }))
+                else:   
+                    gl_entries.append(
+                        self.get_gl_dict({
+                            "account": self.cash_account,
+                            # "account_currency": d.paid_from_account_currency,
+                            "against": self.employee_equity,
+                            "credit_in_account_currency": self.paid_amount,
+                            "credit": self.paid_amount ,
+                            "employee": self.employee,
+                            "remarks": self.employee + ' : ' + self.employee_name
+                        }))
+                    gl_entries.append(
+                        self.get_gl_dict({
+                            "account": self.employee_equity,
+                            # "account_currency": d.paid_to_account_currency,
+                            "against": self.cash_account,
+                            "debit_in_account_currency": self.paid_amount ,
+                            "debit": self.paid_amount ,
+                            "employee": self.employee,
+                            "remarks": self.employee + ' : ' + self.employee_name
+                        }))
 
             if number_year >= 3:
-                gl_entries.append(
-                    self.get_gl_dict({
-                        "account": self.cash_account,
-                        # "account_currency": d.paid_from_account_currency,
-                        "against": self.employee_equity,
-                        "credit_in_account_currency": self.employee_contr,
-                        "credit": self.employee_contr,
-                        "employee": self.employee,
-                        "remarks": self.employee + ' : ' + self.employee_name
-                    }))
-                gl_entries.append(
-                    self.get_gl_dict({
-                        "account": self.employee_equity,
-                        # "account_currency": d.paid_to_account_currency,
+                if self.status =="Left":               
+                    gl_entries.append(
+                        self.get_gl_dict({
+                            "account": self.cash_account,
+                            # "account_currency": d.paid_from_account_currency,
+                            "against": self.liability_account,
+                            "credit_in_account_currency": self.paid_amount,
+                            "credit": self.paid_amount,
+                            "employee": self.employee,
+                            "remarks": self.employee + ' : ' + self.employee_name
+                        }))
+                    gl_entries.append(
+                        self.get_gl_dict({
+                        "account": self.liability_account,
+                        #"account_currency": d.paid_to_account_currency,
                         "against": self.cash_account,
-                        "debit_in_account_currency": self.employee_contr,
-                        "debit": self.employee_contr,
+                        "debit_in_account_currency": self.paid_amount,
+                        "debit": self.paid_amount,
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
-                    }))
+                        }))
+                    
 
-                gl_entries.append(
-                    self.get_gl_dict({
-                        "account": self.cash_account,
-                        # "account_currency": d.paid_from_account_currency,
-                        "against": self.bank_equity,
-                        "credit_in_account_currency": self.bank_contr,
-                        "credit": self.bank_contr,
-                        "employee": self.employee,
-                        "remarks": self.employee + ' : ' + self.employee_name
-                    }))
-                gl_entries.append(
-                    self.get_gl_dict({
-                        "account": self.bank_equity,
-                        # "account_currency": d.paid_to_account_currency,
-                        "against": self.cash_account,
-                        "debit_in_account_currency": self.bank_contr,
-                        "debit": self.bank_contr,
-                        "employee": self.employee,
-                        "remarks": self.employee + ' : ' + self.employee_name
-                    }))
+                else:
+                    if self.paid_amount <= (self.employee_contr + self.pl_employee_contr):
 
-                gl_entries.append(
-                    self.get_gl_dict({
-                        "account": self.cash_account,
-                        # "account_currency": d.paid_from_account_currency,
-                        "against": self.bank_equity,
-                        "credit_in_account_currency": self.pl_bank_contr,
-                        "credit": self.pl_bank_contr,
-                        "employee": self.employee,
-                        "remarks": self.employee + ' : ' + self.employee_name
-                    }))
-                gl_entries.append(
-                    self.get_gl_dict({
-                        "account": self.bank_equity,
-                        # "account_currency": d.paid_to_account_currency,
-                        "against": self.cash_account,
-                        "debit_in_account_currency": self.pl_bank_contr,
-                        "debit": self.pl_bank_contr,
-                        "employee": self.employee,
-                        "remarks": self.employee + ' : ' + self.employee_name
-                    }))
+                        gl_entries.append(
+                            self.get_gl_dict({
+                                "account": self.cash_account,
+                                # "account_currency": d.paid_from_account_currency,
+                                "against": self.employee_equity,
+                                "credit_in_account_currency":self.paid_amount,
+                                "credit": self.paid_amount,
+                                "employee": self.employee,
+                                "remarks": self.employee + ' : ' + self.employee_name
+                            }))
+                        gl_entries.append(
+                            self.get_gl_dict({
+                                "account": self.employee_equity,
+                                # "account_currency": d.paid_to_account_currency,
+                                "against": self.cash_account,
+                                "debit_in_account_currency": self.paid_amount,
+                                "debit":self.paid_amount,
+                                "employee": self.employee,
+                                "remarks": self.employee + ' : ' + self.employee_name
+                            }))
+                        
+                    if self.paid_amount > (self.employee_contr + self.pl_employee_contr):
+                        bank_amount = self.paid_amount - (self.employee_contr + self.pl_employee_contr)
+                        gl_entries.append(
+                            self.get_gl_dict({
+                                "account": self.cash_account,
+                                # "account_currency": d.paid_from_account_currency,
+                                "against": self.employee_equity,
+                                "credit_in_account_currency":self.employee_contr + self.pl_employee_contr,
+                                "credit": self.employee_contr + self.pl_employee_contr,
+                                "employee": self.employee,
+                                "remarks": self.employee + ' : ' + self.employee_name
+                            }))
+                        gl_entries.append(
+                            self.get_gl_dict({
+                                "account": self.employee_equity,
+                                # "account_currency": d.paid_to_account_currency,
+                                "against": self.cash_account,
+                                "debit_in_account_currency": self.employee_contr+ self.pl_employee_contr,
+                                "debit":self.employee_contr +self.pl_employee_contr,
+                                "employee": self.employee,
+                                "remarks": self.employee + ' : ' + self.employee_name
+                            }))
+                                                
+                        gl_entries.append(
+                            self.get_gl_dict({
+                                "account": self.cash_account,
+                                # "account_currency": d.paid_from_account_currency,
+                                "against": self.bank_equity,
+                                "credit_in_account_currency": bank_amount,
+                                "credit": bank_amount,
+                                "employee": self.employee,
+                                "remarks": self.employee + ' : ' + self.employee_name
+                            }))
+                        gl_entries.append(
+                            self.get_gl_dict({
+                                "account": self.bank_equity,
+                                # "account_currency": d.paid_to_account_currency,
+                                "against": self.cash_account,
+                                "debit_in_account_currency": bank_amount,
+                                "debit": bank_amount,
+                                "employee": self.employee,
+                                "remarks": self.employee + ' : ' + self.employee_name
+                            }))
+
 
             if gl_entries:
                 make_gl_entries(gl_entries, cancel=0, adv_adj=0)

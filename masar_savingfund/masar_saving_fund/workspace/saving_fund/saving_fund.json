@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"TKVUAOW0l2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Your Shortcuts</span>\",\"col\":12}},{\"id\":\"wsddaHBbn5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee\",\"col\":3}},{\"id\":\"ZGW91iAHes\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Chart of Account\",\"col\":3}},{\"id\":\"biqxYmSxhR\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"paL6w2Dvvp\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Report &amp; Master Data</b></span>\",\"col\":12}},{\"id\":\"fNdo7AeJo_\",\"type\":\"card\",\"data\":{\"card_name\":\"Master Data\",\"col\":4}},{\"id\":\"x1J4dZUB3S\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}}]",
+ "content": "[{\"id\":\"TKVUAOW0l2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Your Shortcuts</span>\",\"col\":12}},{\"id\":\"wsddaHBbn5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee\",\"col\":3}},{\"id\":\"ZGW91iAHes\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Chart of Account\",\"col\":3}},{\"id\":\"gWkZfqou_B\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"General Ledger\",\"col\":3}},{\"id\":\"biqxYmSxhR\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"paL6w2Dvvp\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Report &amp; Master Data</b></span>\",\"col\":12}},{\"id\":\"fNdo7AeJo_\",\"type\":\"card\",\"data\":{\"card_name\":\"Master Data\",\"col\":4}},{\"id\":\"x1J4dZUB3S\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}}]",
  "creation": "2023-10-25 16:28:51.685329",
  "custom_blocks": [],
  "docstatus": 0,
@@ -109,7 +109,7 @@
    "type": "Link"
   }
  ],
- "modified": "2023-10-25 17:01:48.141190",
+ "modified": "2023-10-29 09:49:55.500524",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund",
@@ -128,6 +128,13 @@
    "link_to": "Account",
    "stats_filter": "[]",
    "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "General Ledger",
+   "link_to": "General Ledger",
+   "type": "Report"
   },
   {
    "color": "Grey",

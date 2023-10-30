@@ -31,7 +31,20 @@ class EmployeeResignation(AccountsController):
         employee.status = "Left"
         employee.save()
         self.make_gl()
-        
+
+    def before_submit(self):
+        exists = frappe.db.exists(
+            'Employee Resignation',
+            {
+                'employee': self.employee,
+                # check for submitted documents
+                'docstatus': 1,
+                # check if the membership's end date is later than this membership's start date
+                'status': ('=', self.status),
+            },
+        )
+        if exists:
+            frappe.throw('This Employee Has Resigned')      
         
     def make_gl(self):
         if self.resignation_date and self.date_of_joining:
@@ -59,6 +72,26 @@ class EmployeeResignation(AccountsController):
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.income_account,
+                        # "account_currency": d.paid_from_account_currency,
+                        "against": self.employee_equity,
+                        "credit_in_account_currency": self.income_emp_amount,
+                        "credit": self.income_emp_amount,
+                        "employee": self.employee,
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.employee_equity,
+                        # "account_currency": d.paid_to_account_currency,
+                        "against": self.income_account,
+                        "debit_in_account_currency": self.income_emp_amount,
+                        "debit": self.income_emp_amount,
+                        "employee": self.employee,
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
             if self.bank_equity_amount > 0:            
                 gl_entries.append(
                     self.get_gl_dict({
@@ -79,7 +112,27 @@ class EmployeeResignation(AccountsController):
                         "debit": self.bank_equity_amount,
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
-                    }))                
+                    })) 
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.income_account,
+                        # "account_currency": d.paid_from_account_currency,
+                        "against": self.bank_equity,
+                        "credit_in_account_currency":self.income_bank_amount,
+                        "credit": self.income_bank_amount,
+                        "employee": self.employee,
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.bank_equity,
+                        # "account_currency": d.paid_to_account_currency,
+                        "against": self.income_account,
+                        "debit_in_account_currency": self.income_bank_amount,
+                        "debit": self.income_bank_amount,
+                        "employee": self.employee,
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))                    
             if gl_entries:
                 make_gl_entries(gl_entries, cancel=0, adv_adj=0)
 
@@ -116,6 +169,10 @@ def get_liability_account():
 	return frappe.db.get_single_value('Saving Fund Settings', 'liability_account')
 
 @frappe.whitelist()
+def get_income_account():
+	return frappe.db.get_single_value('Saving Fund Settings', 'income_account')
+
+@frappe.whitelist()
 def get_employee_equity_balance(dict_doc):
         dict_doc = json.loads(dict_doc)
         #resignation_date =datetime.datetime.strptime(dict_doc["resignation_date"], '%Y-%m-%d')
@@ -140,12 +197,19 @@ def get_employee_equity_balance(dict_doc):
             emp_amount = 0
             bank_amount = 0
             income_amount = 0
+            income_emp_amount = 0
+            income_bank_amount = 0
+
             if number_year < 1:
                  if employee_contr - withdraw_amount > 0 :
                       emp_amount = employee_contr - withdraw_amount
+                      income_emp_amount = pl_employee_contr
+                      income_bank_amount = bank_contr + pl_bank_contr
+
             if number_year >= 1 and number_year < 3:
                  if (employee_contr + pl_employee_contr) - (withdraw_amount) > 0:
                       emp_amount = (employee_contr + pl_employee_contr) - (withdraw_amount)
+                      income_bank_amount = bank_contr + pl_bank_contr
             if number_year >= 3:
                  if (employee_contr + pl_employee_contr) - (emp_contr_perc * withdraw_amount) > 0:
                       emp_amount = (employee_contr + pl_employee_contr) - (emp_contr_perc * withdraw_amount)
@@ -154,9 +218,11 @@ def get_employee_equity_balance(dict_doc):
             if total_right - deserved_amount > 0:
                  income_amount = total_right - deserved_amount
             data = {
-                'emp_amount': (emp_amount),
+                'emp_amount': emp_amount,
                 'bank_amount': bank_amount,
-                'income_amount': income_amount
+                'income_amount': income_amount,
+                'income_emp_amount': income_emp_amount,
+                'income_bank_amount': income_bank_amount,
             }
 
             return json.dumps(data)

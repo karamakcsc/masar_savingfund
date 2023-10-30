@@ -38,15 +38,27 @@ def get_data(filters):
 			            From `tabSaving Fund Payment` tsfp
 			            Where tsfp.posting_date <= '{date_to}'
 			                  and tsfp.docstatus = 1
-			            Group By tsfp.employee,tsfp.employee_name)
+			            Group By tsfp.employee,tsfp.employee_name),
+					liabilty as (Select ter.employee,ter.employee_name ,ter.employee_equity_amount + ter.bank_equity_amount as liability_amount
+						From `tabEmployee Resignation` ter 
+						Where ter.posting_date <= '{date_to}'
+							AND ter.docstatus = 1
+							AND ter.resignation_date = (
+								SELECT MAX(ter.resignation_date))                 
+							Group By ter.employee,ter.employee_name
+							order by ter.resignation_date )         
 
 						Select e.employee,e.employee_name,total_employee_contr,total_bank_contr,total_contr,
 							   IFNULL(p.total_employee_pl,0)as total_employee_pl ,IFNULL(total_bank_pl,0) total_bank_pl,IFNULL(total_pl,0) total_pl,
-							   IFNULL(w.total_paid_amount,0)as total_withdraw,(IFNULL(total_contr,0) + IFNULL(total_pl,0) - IFNULL(total_paid_amount,0)) as total_right
+							   IFNULL(w.total_paid_amount,0)as total_withdraw,
+							   (IFNULL(total_contr,0) + IFNULL(total_pl,0) - IFNULL(total_paid_amount,0)) as total_right
             				from tabEmployee as e
             				left Join contr c on e.employee = c.employee
-            				Left Join pl as p on c.employee = p.employee
-            				Left Join withdraw as w on c.employee = w.employee;""")
+            				Left Join pl as p on e.employee = p.employee
+            				Left Join withdraw as w on e.employee = w.employee
+							Left Join liabilty as l on e.employee = l.employee;""")						
+
+
 
 
 
@@ -62,6 +74,7 @@ def get_columns():
 	   "Total Bank P&L: Currency:200",
 	   "Total P&L: Currency:200",
 	   "Total Withdraw: Currency:200",
+	#    "Liabilty Amount: Currency:200",	   
 	   "Total Rights: Currency:200"
 
 	]

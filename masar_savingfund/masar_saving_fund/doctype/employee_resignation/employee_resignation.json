@@ -14,6 +14,7 @@
   "posting_date",
   "date_of_joining",
   "resignation_date",
+  "status",
   "section_break_fm18b",
   "employee_contr",
   "bank_contr",
@@ -25,9 +26,11 @@
   "withdraw_amount",
   "section_break_bh6q1",
   "employee_equity_amount",
-  "income_amount",
-  "column_break_yevxo",
   "bank_equity_amount",
+  "column_break_yevxo",
+  "income_emp_amount",
+  "income_bank_amount",
+  "income_amount",
   "section_break_zbjei",
   "bank_equity",
   "employee_equity",
@@ -192,25 +195,28 @@
   {
    "fieldname": "section_break_bh6q1",
    "fieldtype": "Section Break",
-   "label": "Equities"
+   "label": "Income & Equities"
   },
   {
    "fieldname": "employee_equity_amount",
    "fieldtype": "Float",
    "label": "Employee Equity Amount",
-   "precision": "4"
+   "precision": "4",
+   "read_only": 1
   },
   {
    "fieldname": "income_amount",
    "fieldtype": "Float",
    "label": "Income Amount",
-   "precision": "4"
+   "precision": "4",
+   "read_only": 1
   },
   {
    "fieldname": "bank_equity_amount",
    "fieldtype": "Float",
    "label": "Bank Equity Amount",
-   "precision": "4"
+   "precision": "4",
+   "read_only": 1
   },
   {
    "fieldname": "income_account",
@@ -222,12 +228,31 @@
   {
    "fieldname": "column_break_yevxo",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "income_bank_amount",
+   "fieldtype": "Float",
+   "label": "Income From Bank Equity",
+   "precision": "4"
+  },
+  {
+   "fieldname": "income_emp_amount",
+   "fieldtype": "Float",
+   "label": "Income From Employee Equity",
+   "precision": "4"
+  },
+  {
+   "fetch_from": "employee.status",
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "label": "Status",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-10-28 05:37:51.287727",
+ "modified": "2023-10-30 08:34:57.297106",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Resignation",

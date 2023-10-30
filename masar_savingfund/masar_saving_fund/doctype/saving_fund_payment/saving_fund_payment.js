@@ -56,6 +56,7 @@ frappe.ui.form.on('Saving Fund Payment', {
                 frm.set_value('total_right', d.total_right);
                 frm.set_value('deserved_amount', d.deserved_amount);
                 frm.set_value('withdraw_amount', d.total_paid_amount);
+                frm.set_value('paid_amount', d.deserved_amount);
           });
         }
     });

@@ -15,6 +15,7 @@
   "posting_date",
   "date_of_joining",
   "resignation_date",
+  "status",
   "section_break_7",
   "paid_perc",
   "column_break_10",
@@ -150,8 +151,9 @@
   {
    "default": "0",
    "fieldname": "paid_amount",
-   "fieldtype": "Data",
+   "fieldtype": "Float",
    "label": "Paid Amount",
+   "precision": "3",
    "reqd": 1
   },
   {
@@ -223,12 +225,19 @@
    "label": "Liability Account",
    "options": "Account",
    "read_only": 1
+  },
+  {
+   "fetch_from": "employee.status",
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "label": "Status",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-10-28 05:38:52.272961",
+ "modified": "2023-10-30 10:10:32.814052",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Payment",
