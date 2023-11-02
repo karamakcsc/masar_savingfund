@@ -212,9 +212,9 @@ def get_employee_equity_balance(dict_doc):
                       income_bank_amount = bank_contr + pl_bank_contr
             if number_year >= 3:
                  if (employee_contr + pl_employee_contr) - (emp_contr_perc * withdraw_amount) > 0:
-                      emp_amount = (employee_contr + pl_employee_contr) - (emp_contr_perc * withdraw_amount)
+                      emp_amount = (employee_contr + pl_employee_contr) - ((1/3.0) * withdraw_amount)
                  if (bank_contr + pl_bank_contr) - (bank_contr_perc * withdraw_amount) > 0:
-                      bank_amount = (bank_contr + pl_bank_contr) - (bank_contr_perc * withdraw_amount)
+                      bank_amount = (bank_contr + pl_bank_contr) - ((2/3.0) * withdraw_amount)
             if total_right - deserved_amount > 0:
                  income_amount = total_right - deserved_amount
             data = {

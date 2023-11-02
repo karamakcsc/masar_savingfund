@@ -38,6 +38,7 @@ def get_data(filters):
 			            From `tabSaving Fund Payment` tsfp
 			            Where tsfp.posting_date <= '{date_to}'
 			                  and tsfp.docstatus = 1
+							  and tsfp.status = 'Active'
 			            Group By tsfp.employee,tsfp.employee_name),
 					liabilty as (Select ter.employee,ter.employee_name ,ter.employee_equity_amount + ter.bank_equity_amount as liability_amount
 						From `tabEmployee Resignation` ter 
@@ -51,7 +52,8 @@ def get_data(filters):
 						Select e.employee,e.employee_name,total_employee_contr,total_bank_contr,total_contr,
 							   IFNULL(p.total_employee_pl,0)as total_employee_pl ,IFNULL(total_bank_pl,0) total_bank_pl,IFNULL(total_pl,0) total_pl,
 							   IFNULL(w.total_paid_amount,0)as total_withdraw,
-							   (IFNULL(total_contr,0) + IFNULL(total_pl,0) - IFNULL(total_paid_amount,0)) as total_right
+							   IFNULL(l.liability_amount,0)as liability_amount,
+							   (IFNULL(total_contr,0) + IFNULL(total_pl,0) - IFNULL(total_paid_amount,0)  - IFNULL(liability_amount,0)) as total_right
             				from tabEmployee as e
             				left Join contr c on e.employee = c.employee
             				Left Join pl as p on e.employee = p.employee
@@ -74,7 +76,7 @@ def get_columns():
 	   "Total Bank P&L: Currency:200",
 	   "Total P&L: Currency:200",
 	   "Total Withdraw: Currency:200",
-	#    "Liabilty Amount: Currency:200",	   
+	   "Liabilty Amount: Currency:200",	   
 	   "Total Rights: Currency:200"
 
 	]
