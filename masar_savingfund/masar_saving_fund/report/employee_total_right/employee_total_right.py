@@ -23,7 +23,7 @@ def get_data(filters):
 				From `tabIncome Allocation Line` tial
 				Inner Join `tabIncome Allocation` tia on tial.parent =tia.name
 				Inner Join `tabEmployee` em on tial.employee = em.name
-				Where tia.posting_date < '{date_to}' AND tia.posting_date > em.date_of_joining
+				Where tia.posting_date <= '{date_to}' AND tia.posting_date > em.date_of_joining
 					and tia.docstatus = 1
 				Group By tial.employee,tial.employee_name),
 
