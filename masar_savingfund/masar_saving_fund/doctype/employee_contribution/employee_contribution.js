@@ -202,16 +202,16 @@ frappe.ui.form.on('Employee Contribution', {
 frappe.ui.form.on('Employee Contribution', {
     validate: function(frm) {
 		// if (frm.doc.docstatus < 1){
-			frappe.call({
-				method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_emp_contr_perc",
-					callback: function(r) {
-						frm.doc.employee_contr_lines.forEach(function(d) {
-							d.employee_contr = flt(d.basic_salary) * flt(r.message) /100;
-							d.total_contr = d.bank_contr + d.employee_contr
-						});
-						frm.refresh_field('employee_contr_lines');
-					}
-			});
+			// frappe.call({
+			// 	method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_emp_contr_perc",
+			// 		callback: function(r) {
+			// 			frm.doc.employee_contr_lines.forEach(function(d) {
+			// 				d.employee_contr = flt(d.basic_salary) * flt(r.message) /100;
+			// 				d.total_contr = d.bank_contr + d.employee_contr
+			// 			});
+			// 			frm.refresh_field('employee_contr_lines');
+			// 		}
+			// });
 			frappe.call({
 				method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_bank_contr_perc",
 					callback: function(z) {
