@@ -108,7 +108,7 @@ show_general_ledger: function(frm) {
   }
 }
 });
-// END Show General Ledger
+// END Show General Ledger //
 
 
 
