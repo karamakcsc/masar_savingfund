@@ -45,6 +45,8 @@ class SavingFundPayment(AccountsController):
             number_year = delta.days / 365.0
             emp_contr_perc = frappe.db.get_single_value('Saving Fund Settings', 'employee_contr_per')/100
             bank_contr_perc = frappe.db.get_single_value('Saving Fund Settings', 'bank_contr_per')/100
+            total_amount_contr = self.employee_contr + self.bank_contr
+            total_amount_pl = self.pl_employee_contr + self.pl_bank_contr
             gl_entries = []
             if number_year < 1:
                 if self.status =="Left":
@@ -68,6 +70,7 @@ class SavingFundPayment(AccountsController):
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
                         }))
+
                 else: 
 
                     gl_entries.append(
@@ -91,7 +94,6 @@ class SavingFundPayment(AccountsController):
                         "remarks": self.employee + ' : ' + self.employee_name
                         }))
 
-
             if number_year >= 1 and number_year < 3:
                 if self.status =="Left":
                     gl_entries.append(
@@ -113,7 +115,7 @@ class SavingFundPayment(AccountsController):
                         "debit": self.paid_amount,
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
-                        }))
+                        }))                  
                 else:   
                     gl_entries.append(
                         self.get_gl_dict({

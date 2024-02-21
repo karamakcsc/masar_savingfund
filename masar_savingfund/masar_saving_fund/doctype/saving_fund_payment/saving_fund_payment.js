@@ -25,12 +25,20 @@ frappe.ui.form.on('Saving Fund Payment', {
 						frm.set_value('bank_equity', r.message);
 					}
 						});
+
       frappe.call({
         method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_liability_account",
         callback: function(r) {
           frm.set_value('liability_account', r.message);
         }
           });
+      // frappe.call({
+      //   method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_income_account",
+      //   callback: function(r) {
+      //     frm.set_value('income_account', r.message);
+      //   }
+      //     });
+
 }
   }
 });
@@ -65,14 +73,14 @@ frappe.ui.form.on('Saving Fund Payment', {
 });
 
 
-frappe.ui.form.on('Saving Fund Payment',  {
-    validate: function(frm) {
-    if(frm.doc.paid_amount > frm.doc.deserved_amount){
-        msgprint('Paid Amount Cannot Be Greater Than Deserved Amount');
-        validated = false;
-     }
-    }
-});
+// frappe.ui.form.on('Saving Fund Payment',  {
+//     validate: function(frm) {
+//     if(frm.doc.paid_amount > frm.doc.deserved_amount){
+//         msgprint('Paid Amount Cannot Be Greater Than Deserved Amount');
+//         validated = false;
+//      }
+//     }
+// });
 
 // Show General Ledger
 frappe.ui.form.on('Saving Fund Payment', {

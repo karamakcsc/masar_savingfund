@@ -177,13 +177,15 @@
    "fieldname": "cash_account",
    "fieldtype": "Link",
    "label": "Cash Account",
-   "options": "Account"
+   "options": "Account",
+   "read_only": 1
   },
   {
    "fieldname": "bank_equity",
    "fieldtype": "Link",
    "label": "Bank Equity",
-   "options": "Account"
+   "options": "Account",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_22",
@@ -193,7 +195,8 @@
    "fieldname": "employee_equity",
    "fieldtype": "Link",
    "label": "Employee Equity",
-   "options": "Account"
+   "options": "Account",
+   "read_only": 1
   },
   {
    "fetch_from": "employee.employee_name",
@@ -237,7 +240,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-10-30 10:10:32.814052",
+ "modified": "2024-02-19 23:01:23.056772",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Payment",

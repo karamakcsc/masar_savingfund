@@ -33,6 +33,7 @@ frappe.ui.form.on('Employee Resignation', {
 
 frappe.ui.form.on('Employee Resignation', {
 	resignation_date: function(frm) {
+		if (frm.doc.docstatus ===0){
 	var doc_data = {
 			'resignation_date': frm.doc.resignation_date,
 			'date_of_joining': frm.doc.date_of_joining,			
@@ -67,12 +68,14 @@ frappe.ui.form.on('Employee Resignation', {
     });
 		cur_frm.refresh_field();
 	}
+}
 });
 
 
 
 frappe.ui.form.on('Employee Resignation', {
 	onload: function(frm) {
+		if (frm.doc.docstatus ===0){
 			frappe.call({
 					method: "masar_savingfund.masar_saving_fund.doctype.employee_resignation.employee_resignation.get_liability_account",
 					callback: function(r) {
@@ -101,6 +104,7 @@ frappe.ui.form.on('Employee Resignation', {
 					});
 
 }
+	}
 });
 
 // Show General Ledger
