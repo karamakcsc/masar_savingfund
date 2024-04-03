@@ -73,14 +73,14 @@ frappe.ui.form.on('Saving Fund Payment', {
 });
 
 
-frappe.ui.form.on('Saving Fund Payment',  {
-    validate: function(frm) {
-    if(frm.doc.paid_amount > frm.doc.deserved_amount){
-        msgprint('Paid Amount Cannot Be Greater Than Deserved Amount');
-        validated = false;
-     }
-    }
-});
+// frappe.ui.form.on('Saving Fund Payment',  {
+//     validate: function(frm) {
+//     if(frm.doc.paid_amount > frm.doc.deserved_amount){
+//         msgprint('Paid Amount Cannot Be Greater Than Deserved Amount');
+//         validated = false;
+//      }
+//     }
+// });
 
 // Show General Ledger ////
 frappe.ui.form.on('Saving Fund Payment', {
