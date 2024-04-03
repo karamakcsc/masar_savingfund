@@ -17,7 +17,8 @@
   "column_break_6",
   "bank_equity",
   "interim_revenue",
-  "liability_account"
+  "liability_account",
+  "earning_revenue"
  ],
  "fields": [
   {
@@ -90,12 +91,18 @@
    "fieldtype": "Link",
    "label": "Income Account",
    "options": "Account"
+  },
+  {
+   "fieldname": "earning_revenue",
+   "fieldtype": "Link",
+   "label": "Earning Revenue",
+   "options": "Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2023-10-28 00:29:12.230726",
+ "modified": "2024-03-14 15:04:23.607327",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Settings",

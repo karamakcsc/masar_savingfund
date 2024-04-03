@@ -32,12 +32,12 @@ frappe.ui.form.on('Saving Fund Payment', {
           frm.set_value('liability_account', r.message);
         }
           });
-      // frappe.call({
-      //   method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_income_account",
-      //   callback: function(r) {
-      //     frm.set_value('income_account', r.message);
-      //   }
-      //     });
+      frappe.call({
+        method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_earning_revenue",
+        callback: function(r) {
+          frm.set_value('earning_revenue', r.message);
+        }
+          });
 
 }
   }

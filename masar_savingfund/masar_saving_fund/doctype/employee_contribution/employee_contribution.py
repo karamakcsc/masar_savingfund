@@ -78,6 +78,10 @@ def get_liability_account():
 def get_income_account():
 	return frappe.db.get_single_value('Saving Fund Settings', 'income_account')
 
+@frappe.whitelist()
+def get_earning_revenue():
+	return frappe.db.get_single_value('Saving Fund Settings', 'earning_revenue')
+
 class InvalidEmployeeContribution(ValidationError):
 	pass
 
