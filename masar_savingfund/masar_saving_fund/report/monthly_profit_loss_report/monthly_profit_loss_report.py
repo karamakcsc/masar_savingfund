@@ -19,7 +19,7 @@ def get_data(filters):
 	# if(filters.get('customer_name')):conditions += f" AND tsi.customer_name LIKE '%{filters.get('customer_name')}' "
 
 	#SQL Query
-	data = frappe.db.sql(f""" Select te.name, te.employee_name, tia.posting_date, Round(tial.pl_employee_contr,3), Round(tial.pl_bank_contr,3), Round(tial.pl_total,3)
+	data = frappe.db.sql(f""" Select te.name, te.employee_name, tia.posting_date, Round(tial.pl_employee_contr,3), Round(tial.pl_bank_contr,3), Round(tial.pl_employee_contr + tial.pl_bank_contr,3)
 								FROM `tabIncome Allocation Line` tial
 								INNER JOIN `tabIncome Allocation` tia on tia.name = tial.parent
 								INNER JOIN `tabEmployee` te on te.name = tial.employee
