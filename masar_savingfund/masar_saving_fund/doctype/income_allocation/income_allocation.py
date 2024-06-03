@@ -115,6 +115,48 @@ class IncomeAllocation(AccountsController):
 			make_gl_entries(gl_entries, cancel=0, adv_adj=0)
 
 
+####### Mohammad_Khalil ########
+	@frappe.whitelist()
+	def fill_employee_details(self):
+		cond  = "1=1 "
+		if self.status:
+			cond += f" AND te.status= '{self.status}'"
+
+		results = frappe.db.sql(f"""
+			SELECT 
+				te.employee ,
+				te.employee_name ,
+				te.status ,
+				tial.pl_employee_contr,
+				tial.pl_bank_contr,
+				tial.employee_contr,
+				tial.total_right
+			FROM 
+				`tabEmployee` te
+			INNER JOIN `tabIncome Allocation Line` tial	 ON te.employee = tial.employee
+			WHERE 
+				{cond}
+			""" , as_dict = True)
+		
+
+		self.set("employees", [])
+		fill_emp = []
+		for result in results:
+	
+			fill_emp.append({
+				"employee":result.get('employee'), 
+				"employee_name":  result.get('employee_name'), 
+				"pl_employee_contr" : result.get('pl_employee_contr'), 
+				"pl_bank_contr" : result.get('pl_bank_contr'),
+				"employee_contr" : result.get('employee_contr'),
+				"total_right" : result.get('total_right')					
+					
+				})
+		self.set("employees", fill_emp)
+		self.number_of_employees = len(results)
+		
+####### Mohammad_Khalil ########
+
 	def delete_linked_gl_entries(self):
 		cancelled_doc = frappe.db.sql_list("""select name from `tabIncome Allocation` 
 		where docstatus = 2 """)

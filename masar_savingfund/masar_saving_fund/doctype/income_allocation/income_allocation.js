@@ -249,3 +249,21 @@ frappe.ui.form.on("Income Allocation", "refresh", function(frm) {
         });
   }
 });
+
+
+frappe.ui.form.on("Income Allocation", "refresh", function(frm) {
+
+  frm.add_custom_button(__("Get Employees"), function() {
+    frappe.call({
+      doc:frm.doc,
+      method : "fill_employee_details",
+    
+      callback : function (r) {
+        refresh_field("status");
+        refresh_field("number_of_employees");
+        refresh_field("employees");
+      }
+    })
+
+  });
+});        

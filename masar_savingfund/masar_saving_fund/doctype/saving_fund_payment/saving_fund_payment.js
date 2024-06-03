@@ -126,3 +126,50 @@ var paid_amount = function(frm) {
   var doc = frm.doc;
   frm.set_value("paid_amount", doc.paid_perc * doc.deserved_amount);
 };
+
+
+frappe.ui.form.on("Saving Fund Payment", "onload", function(frm) {
+  var today = new Date();
+  var joiningDate = new Date(frm.doc.date_of_joining);
+  joiningDate.setFullYear(joiningDate.getFullYear() + 10);
+
+  if (frm.doc.status === 'Left' || (frm.doc.status === 'Active' && joiningDate <= today)) {
+    frm.toggle_display("section_break_7", true);
+    frm.toggle_display("paid_perc", true);
+    frm.toggle_display("paid_amount", true);
+    frm.toggle_display("total_rights_section", true);
+    frm.toggle_display("employee_contr", true);
+    frm.toggle_display("bank_contr", true);
+    frm.toggle_display("total_right", true);
+    frm.toggle_display("deserved_amount", true);
+    frm.toggle_display("pl_employee_contr", true);
+    frm.toggle_display("pl_bank_contr", true);
+    frm.toggle_display("withdraw_amount", true);
+    frm.toggle_display("section_break_19", true);
+    frm.toggle_display("cash_account", true);
+    frm.toggle_display("bank_equity", true);
+    frm.toggle_display("employee_equity", true);
+    frm.toggle_display("liability_account", true);
+    frm.toggle_display("earning_revenue", true);
+    frm.refresh_field();
+  } else {
+    frm.toggle_display("section_break_7", false);
+    frm.toggle_display("paid_perc", false);
+    frm.toggle_display("paid_amount", false);
+    frm.toggle_display("total_rights_section", false);
+    frm.toggle_display("employee_contr", false);
+    frm.toggle_display("bank_contr", false);
+    frm.toggle_display("total_right", false);
+    frm.toggle_display("deserved_amount", false);
+    frm.toggle_display("pl_employee_contr", false);
+    frm.toggle_display("pl_bank_contr", false);
+    frm.toggle_display("withdraw_amount", false);
+    frm.toggle_display("section_break_19", false);
+    frm.toggle_display("cash_account", false);
+    frm.toggle_display("bank_equity", false);
+    frm.toggle_display("employee_equity", false);
+    frm.toggle_display("liability_account", false);
+    frm.toggle_display("earning_revenue", false);
+    frm.refresh_field();
+  }
+});
