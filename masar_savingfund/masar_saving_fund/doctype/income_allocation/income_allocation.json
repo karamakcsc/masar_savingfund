@@ -13,8 +13,6 @@
   "column_break_3",
   "posting_date",
   "company",
-  "employees_section",
-  "employees",
   "totals_section",
   "total_employee_contr",
   "total_pl",
@@ -25,7 +23,13 @@
   "interim_revenue",
   "column_break_14",
   "current_year_profit",
-  "amended_from"
+  "get_employees_tab",
+  "amended_from",
+  "filter_employees_section",
+  "status",
+  "number_of_employees",
+  "employees_section",
+  "employees"
  ],
  "fields": [
   {
@@ -136,12 +140,35 @@
    "fieldname": "total_rights",
    "fieldtype": "Read Only",
    "label": "Total Rights"
+  },
+  {
+   "fieldname": "get_employees_tab",
+   "fieldtype": "Tab Break",
+   "label": "Get Employees"
+  },
+  {
+   "fieldname": "filter_employees_section",
+   "fieldtype": "Section Break",
+   "label": "Filter Employees"
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nInactive\nSuspended\nLeft"
+  },
+  {
+   "fieldname": "number_of_employees",
+   "fieldtype": "Data",
+   "label": "Number of Employees",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-10-28 05:38:32.777503",
+ "modified": "2024-06-03 15:44:16.946754",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Income Allocation",
