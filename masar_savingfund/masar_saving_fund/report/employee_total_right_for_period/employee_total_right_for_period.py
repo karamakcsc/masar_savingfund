@@ -14,7 +14,8 @@ def execute(filters=None):
 	return get_columns(), get_data(filters)
 
 def get_data(filters):
-	_from = filters.get('from')  # date range
+	_from = filters.get('from')
+	to = filters.get('to')  # date range
 
 	# if _from is not None :
 	# 	trans_date = (
@@ -39,7 +40,7 @@ def get_data(filters):
     FROM `tabIncome Allocation Line` tial
     INNER JOIN `tabIncome Allocation` tia ON tial.parent = tia.name
     INNER JOIN `tabEmployee` em ON tial.employee = em.name
-    WHERE tia.posting_date ='{_from}'
+    WHERE tia.posting_date BETWEEN '{_from}' AND '{to}'
     AND tia.posting_date > em.date_of_joining
     AND tia.docstatus = 1
     GROUP BY tial.employee, tial.employee_name, EXTRACT(MONTH FROM tia.posting_date)
@@ -56,7 +57,7 @@ contr AS (
     FROM `tabEmployee Contribution Line` tecl
     INNER JOIN `tabEmployee Contribution` tec ON tecl.parent = tec.name
     INNER JOIN `tabEmployee` em ON tecl.employee = em.name
-    WHERE tec.posting_date ='{_from}'
+    WHERE tec.posting_date BETWEEN '{_from}' AND '{to}'
     AND tec.posting_date > em.date_of_joining
     AND tec.docstatus = 1
     GROUP BY tecl.employee, tecl.employee_name, EXTRACT(MONTH FROM tec.posting_date)
@@ -70,7 +71,7 @@ withdraw AS (
         EXTRACT(MONTH FROM tsfp.posting_date) AS month
     FROM `tabSaving Fund Payment` tsfp
     INNER JOIN `tabEmployee` em ON tsfp.employee = em.name
-    WHERE tsfp.posting_date ='{_from}'
+    WHERE tsfp.posting_date BETWEEN '{_from}' AND '{to}'
     AND tsfp.posting_date > em.date_of_joining
     AND tsfp.docstatus = 1
     AND tsfp.status = 'Active'
@@ -85,7 +86,7 @@ liability AS (
         EXTRACT(MONTH FROM ter.posting_date) AS month
     FROM `tabEmployee Resignation` ter
     INNER JOIN `tabEmployee` em ON ter.employee = em.name
-    WHERE ter.posting_date ='{_from}'
+    WHERE ter.posting_date BETWEEN '{_from}' AND '{to}'
     AND ter.posting_date > em.date_of_joining
     AND ter.docstatus = 1
     AND ter.resignation_date = (SELECT MAX(ter.resignation_date))

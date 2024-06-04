@@ -7,7 +7,8 @@ frappe.query_reports["Refund Income Report"] = {
 		{
 			"fieldname": "employee",
 			"label": __("Employee Number"),
-			"fieldtype": "Data",
+			"fieldtype": "Link",
+			"options": "Employee"
 		},
 
 		{

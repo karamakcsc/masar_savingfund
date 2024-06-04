@@ -24,12 +24,14 @@
   "column_break_14",
   "current_year_profit",
   "get_employees_tab",
-  "amended_from",
   "filter_employees_section",
   "status",
+  "column_break_a5dv9",
   "number_of_employees",
   "employees_section",
-  "employees"
+  "employees",
+  "section_break_jr3oz",
+  "amended_from"
  ],
  "fields": [
   {
@@ -144,7 +146,7 @@
   {
    "fieldname": "get_employees_tab",
    "fieldtype": "Tab Break",
-   "label": "Get Employees"
+   "label": "Employees"
   },
   {
    "fieldname": "filter_employees_section",
@@ -156,19 +158,27 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Active\nInactive\nSuspended\nLeft"
+   "options": "\nActive\nInactive\nSuspended\nLeft"
   },
   {
    "fieldname": "number_of_employees",
    "fieldtype": "Data",
    "label": "Number of Employees",
    "read_only": 1
+  },
+  {
+   "fieldname": "column_break_a5dv9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_jr3oz",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-03 15:44:16.946754",
+ "modified": "2024-06-04 13:35:52.371694",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Income Allocation",

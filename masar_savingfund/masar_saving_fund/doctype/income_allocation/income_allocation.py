@@ -124,16 +124,12 @@ class IncomeAllocation(AccountsController):
 
 		results = frappe.db.sql(f"""
 			SELECT 
-				te.employee ,
-				te.employee_name ,
-				te.status ,
-				tial.pl_employee_contr,
-				tial.pl_bank_contr,
-				tial.employee_contr,
-				tial.total_right
+				te.employee,
+				te.employee_name,
+				te.status,
+				IFNULL(te.relieving_date, '') AS relieving_date
 			FROM 
-				`tabEmployee` te
-			INNER JOIN `tabIncome Allocation Line` tial	 ON te.employee = tial.employee
+				tabEmployee te
 			WHERE 
 				{cond}
 			""" , as_dict = True)
@@ -146,14 +142,18 @@ class IncomeAllocation(AccountsController):
 			fill_emp.append({
 				"employee":result.get('employee'), 
 				"employee_name":  result.get('employee_name'), 
-				"pl_employee_contr" : result.get('pl_employee_contr'), 
-				"pl_bank_contr" : result.get('pl_bank_contr'),
-				"employee_contr" : result.get('employee_contr'),
-				"total_right" : result.get('total_right')					
+				"status" : result.get('status'),
+				"resignation_date" : result.get('relieving_date')
+
+				# "pl_bank_contr" : result.get('pl_bank_contr'),
+				# "employee_contr" : result.get('employee_contr'),
+				# "total_right" : result.get('total_right')					
 					
 				})
 		self.set("employees", fill_emp)
 		self.number_of_employees = len(results)
+		# self.save()
+		return 'ok'
 		
 ####### Mohammad_Khalil ########
 

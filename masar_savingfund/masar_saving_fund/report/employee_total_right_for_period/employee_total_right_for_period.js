@@ -11,15 +11,16 @@ frappe.query_reports["Employee Total Right for Period"] = {
 			"width": 80,
 			"reqd": 1,
 			"default": dateutil.year_start()
-		 }
-		// {
-		// 	"fieldname": "to",
-		// 	"label": __("To Date"),
-		// 	"fieldtype": "Date",
-		// 	"width": 80,
-		// 	"reqd": 1,
-		// 	"default":  dateutil.year_end()
-		// }
+		},
+		
+		{
+			"fieldname": "to",
+			"label": __("To Date"),
+			"fieldtype": "Date",
+			"width": 80,
+			"reqd": 1,
+			"default":  dateutil.year_end()
+		}
 
 ]
 };
