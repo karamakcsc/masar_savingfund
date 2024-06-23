@@ -13,6 +13,7 @@ from erpnext.setup.utils import get_exchange_rate
 from erpnext.accounts.general_ledger import make_gl_entries
 from erpnext.controllers.accounts_controller import AccountsController
 from frappe.model.document import Document
+import datetime
 
 class InvalidSavingFundPayment(ValidationError):
     pass
@@ -22,7 +23,13 @@ class SavingFundPayment(AccountsController):
         super(SavingFundPayment, self).__init__(*args, **kwargs)
 
     def validate(self):
-        pass
+        posting_date_str = self.posting_date
+        posting_date = datetime.datetime.strptime(posting_date_str, "%Y-%m-%d").date()
+        # frappe.throw(str(posting_date))
+        joining_date = frappe.utils.add_years(self.date_of_joining, + 10)
+        # frappe.throw(str(joining_date))
+        if self.status == 'Active' and joining_date > posting_date:
+            frappe.throw('The Employee Joining Date is Less Than 10 Years')
 
     def on_submit(self):
         self.make_gl()

@@ -23,8 +23,11 @@ class EmployeeResignation(AccountsController):
     
     def on_cancel(self):
         self.delete_linked_gl_entries()
-
-        
+        employee = frappe.get_doc("Employee", self.employee)
+        employee.relieving_date = None
+        employee.status = "Active"
+        employee.save()
+      
     def on_submit(self):
         employee = frappe.get_doc("Employee", self.employee)
         employee.relieving_date = self.resignation_date

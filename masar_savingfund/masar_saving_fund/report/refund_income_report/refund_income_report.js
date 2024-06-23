@@ -19,13 +19,13 @@ frappe.query_reports["Refund Income Report"] = {
 
 		{
 			"fieldname": "_from",
-			"label": __("From Joining Date"),
+			"label": __("From Posting Date"),
 			"fieldtype": "Date",
 		},
 
 		{
 			"fieldname": "to",
-			"label": __("To Joining Date"),
+			"label": __("To Posting Date"),
 			"fieldtype": "Date",
 		}
 	]
