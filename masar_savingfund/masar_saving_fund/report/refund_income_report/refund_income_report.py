@@ -19,18 +19,21 @@ def get_data(filters):
     if to and _from and to < _from:
         frappe.msgprint('Error: To Posting Date is Less than From Posting Date')
 
-    date = frappe.utils.add_years(frappe.utils.today(), -3)                
-    query = frappe.db.sql(f"""
+    query = frappe.db.sql(f"""                          
     SELECT te.employee, te.employee_name, ter.date_of_joining, ter.posting_date, te.status, ter.total_right, ter.withdraw_amount,
-           SUM(ter.total_right - ter.withdraw_amount) AS refund_income
+           CASE
+               WHEN DATEDIFF(ter.resignation_date, ter.date_of_joining) < 365 
+                          THEN ter.total_right - (ter.employee_contr + ter.pl_bank_contr + ter.pl_employee_contr - withdraw_amount)
+               WHEN DATEDIFF(ter.resignation_date, ter.date_of_joining) >= 365 AND DATEDIFF(ter.resignation_date, ter.date_of_joining) < 1095 
+                          THEN ter.total_right - (ter.employee_contr + ter.pl_bank_contr - withdraw_amount)
+           END AS refund_income
     FROM `tabEmployee Resignation` ter
     INNER JOIN `tabEmployee` te ON te.employee = ter.employee                      
-    WHERE  ter.date_of_joining >= '{date}' AND te.status = 'Left' {conditions}
+    WHERE DATEDIFF(ter.resignation_date, ter.date_of_joining) <= 1095 AND te.status = 'Left' {conditions}
     GROUP BY employee
     """, as_dict=True)
 
     return query
-
 def get_columns():
     return [
         "Employee: Link/Employee:250",
