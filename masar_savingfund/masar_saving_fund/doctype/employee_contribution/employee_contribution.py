@@ -82,6 +82,10 @@ def get_income_account():
 def get_earning_revenue():
 	return frappe.db.get_single_value('Saving Fund Settings', 'earning_revenue')
 
+@frappe.whitelist()
+def get_withdrawal():
+	return frappe.db.get_single_value('Saving Fund Settings', 'withdrawal')
+
 class InvalidEmployeeContribution(ValidationError):
 	pass
 

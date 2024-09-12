@@ -32,6 +32,7 @@
   "section_break_19",
   "cash_account",
   "bank_equity",
+  "withdrawal",
   "column_break_22",
   "employee_equity",
   "liability_account",
@@ -242,12 +243,19 @@
    "fieldtype": "Data",
    "label": "Earning Revenue",
    "options": "Account"
+  },
+  {
+   "fieldname": "withdrawal",
+   "fieldtype": "Link",
+   "label": "Staff Withdrawal",
+   "options": "Account",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-14 15:05:35.292380",
+ "modified": "2024-09-12 12:39:17.819509",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Payment",
