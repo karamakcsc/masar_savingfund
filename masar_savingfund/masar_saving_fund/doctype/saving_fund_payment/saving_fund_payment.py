@@ -196,7 +196,7 @@ class SavingFundPayment(AccountsController):
                         self.get_gl_dict({
                             "account": self.cash_account,
                             # "account_currency": d.paid_from_account_currency,
-                            "against": self.bank_equity,
+                            "against": self.withdrawal,
                             "credit_in_account_currency": self.paid_amount * (2/3.0),
                             "credit": self.paid_amount * (2/3.0),
                             "employee": self.employee,
@@ -204,7 +204,7 @@ class SavingFundPayment(AccountsController):
                         }))
                     gl_entries.append(
                         self.get_gl_dict({
-                            "account": self.bank_equity,
+                            "account": self.withdrawal,
                             # "account_currency": d.paid_to_account_currency,
                             "against": self.cash_account,
                             "debit_in_account_currency": self.paid_amount * (2/3.0),
