@@ -102,15 +102,15 @@ app_license = "MIT"
 
 # 	}
 # }
-doc_events = {
-	"*": {
-		"on_cancel": [
-			"erpnext.regional.italy.utils.sales_invoice_on_cancel",
-			"erpnext.erpnext_integrations.taxjar_integration.delete_transaction",
-			"erpnext.regional.saudi_arabia.utils.delete_qr_code_file",
-		],
-	}
-}
+# doc_events = {
+# 	"*": {
+# 		"on_cancel": [
+# 			"erpnext.regional.italy.utils.sales_invoice_on_cancel",
+# 			"erpnext.erpnext_integrations.taxjar_integration.delete_transaction",
+# 			"erpnext.regional.saudi_arabia.utils.delete_qr_code_file",
+# 		],
+# 	}
+# }
 
 # Scheduled Tasks
 # ---------------
