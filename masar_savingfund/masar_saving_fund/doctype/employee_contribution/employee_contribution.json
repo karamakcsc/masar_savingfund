@@ -20,6 +20,7 @@
   "accounts_section",
   "cash_account",
   "bank_equity",
+  "link_tpel",
   "column_break_11",
   "employee_equity",
   "liability_account",
@@ -126,12 +127,17 @@
   {
    "fieldname": "column_break_d4lvv",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "link_tpel",
+   "fieldtype": "Link",
+   "options": "Saving Fund Settings"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-10-28 05:38:46.856675",
+ "modified": "2024-10-20 11:47:30.425793",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Contribution",

@@ -25,30 +25,43 @@ from frappe.utils import (
 )
 
 @frappe.whitelist()
-def get_exist_employee_in_month(selected_employees,date_to):
-	selected_employees = json.loads(selected_employees)
-	employees_tuple = tuple(selected_employees)
-	emp = employees_tuple[0]
-	trans_date = datetime.datetime.strptime(date_to, '%Y-%m-%d')
-	month_to = trans_date.month
-	year_to = trans_date.year
-	up_to = (month_to + ((year_to - 1) * 12)-1)
+def get_exist_employee_in_month(selected_employees, date_to):
+    selected_employees = json.loads(selected_employees)
+    
+    # Check if selected_employees is not empty
+    if not selected_employees:
+        return []
+    
+    employees_tuple = tuple(selected_employees)
+    emp = employees_tuple[0]
+    
+    # Convert date_to to datetime
+    trans_date = datetime.datetime.strptime(date_to, '%Y-%m-%d')
+    month_to = trans_date.month
+    year_to = trans_date.year
+    up_to = (month_to + ((year_to - 1) * 12) - 1)
 
-	if len(selected_employees) != 1:
-		return frappe.db.sql(f"""
-		Select tecl.employee,tecl.employee_name
-			From `tabEmployee Contribution Line` tecl
-			Inner Join `tabEmployee Contribution` tec on tecl.parent =tec.name
-			Where tecl.employee  in {employees_tuple} and (month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) -1) = {up_to}
-				  and tec.docstatus = 1""",as_dict=True)
-	else:
+    # If multiple employees are selected
+    if len(selected_employees) > 1:
+        return frappe.db.sql(f"""
+            SELECT tecl.employee, tecl.employee_name
+            FROM `tabEmployee Contribution Line` tecl
+            INNER JOIN `tabEmployee Contribution` tec ON tecl.parent = tec.name
+            WHERE tecl.employee IN {employees_tuple}
+              AND (MONTH(tec.posting_date) + ((YEAR(tec.posting_date) - 1) * 12) - 1) = {up_to}
+              AND tec.docstatus = 1
+        """, as_dict=True)
+    else:
+        # If only one employee is selected
+        return frappe.db.sql("""
+            SELECT tecl.employee, tecl.employee_name
+            FROM `tabEmployee Contribution Line` tecl
+            INNER JOIN `tabEmployee Contribution` tec ON tecl.parent = tec.name
+            WHERE tecl.employee = %s
+              AND (MONTH(tec.posting_date) + ((YEAR(tec.posting_date) - 1) * 12) - 1) = %s
+              AND tec.docstatus = 1
+        """, (emp, up_to), as_dict=True)
 
-		return frappe.db.sql(f"""
-		Select tecl.employee,tecl.employee_name
-			From `tabEmployee Contribution Line` tecl
-			Inner Join `tabEmployee Contribution` tec on tecl.parent =tec.name
-			Where tecl.employee  = '{emp}' and (month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) -1 ) = {up_to}
-				  and tec.docstatus = 1""",as_dict=True)
 
 @frappe.whitelist()
 def get_employee_contr_perc():
