@@ -25,6 +25,7 @@ class SavingFundPayment(AccountsController):
     def validate(self):
         posting_date_str = self.posting_date
         posting_date = datetime.datetime.strptime(posting_date_str, "%Y-%m-%d").date()
+        # posting_date = datetime.datetime.strptime(str(posting_date_str) , "%Y-%m-%d %H:%M:%S").date()
         # frappe.throw(str(posting_date))
         joining_date = datetime.datetime.strptime(str(frappe.utils.add_years(self.date_of_joining, + 10)), "%Y-%m-%d").date()
         # frappe.throw(str(joining_date))
