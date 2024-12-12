@@ -86,7 +86,7 @@ frappe.ui.form.on('Saving Fund Payment',  {
      }
     }
 });
-
+////
 // Show General Ledger ////
 frappe.ui.form.on('Saving Fund Payment', {
   refresh: function(frm) {
