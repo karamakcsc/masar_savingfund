@@ -28,27 +28,27 @@ def get_employee_savefund_balance(selected_employees,date_to):
             	   SUM(tial.pl_employee_contr) + SUM(tial.pl_bank_contr) as total_pl
             From `tabIncome Allocation Line` tial
             Inner Join `tabIncome Allocation` tia on tial.parent =tia.name
-            Where tial.employee  in {employees_tuple} and month(tia.posting_date) + ((year(tia.posting_date) - 1) * 12) < {up_to} and tia.docstatus = 1
+            Where tial.employee  in {employees_tuple} and month(tia.posting_date) + ((year(tia.posting_date) - 1) * 12) < '{up_to}' and tia.docstatus = 1
             Group By tial.employee,tial.employee_name),
 
             contr as (Select tecl.employee,tecl.employee_name ,SUM(tecl.employee_contr) total_employee_contr,SUM(tecl.bank_contr) total_bank_contr,
             (SUM(tecl.employee_contr)+SUM(tecl.bank_contr)) total_contr
             From `tabEmployee Contribution Line` tecl
             Inner Join `tabEmployee Contribution` tec on tecl.parent =tec.name
-            Where tecl.employee  in {employees_tuple} and month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) <= {up_to}
+            Where tecl.employee  in {employees_tuple} and month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) <= '{up_to}'
                   and tec.docstatus = 1
             Group By tecl.employee,tecl.employee_name
             ),
             withdraw as (Select tsfp.employee,tsfp.employee_name ,SUM(tsfp.paid_amount) total_paid_amount
             From `tabSaving Fund Payment` tsfp
-            Where tsfp.employee in {employees_tuple} and month(tsfp.posting_date) + ((year(tsfp.posting_date) - 1) * 12) <= {up_to}
+            Where tsfp.employee in {employees_tuple} and month(tsfp.posting_date) + ((year(tsfp.posting_date) - 1) * 12) <= '{up_to}'
                   and tsfp.docstatus = 1
             Group By tsfp.employee,tsfp.employee_name
             ),
 
             liabilty as (Select ter.employee,ter.employee_name ,ter.employee_equity_amount + ter.bank_equity_amount as liability_amount
             From `tabEmployee Resignation` ter 
-            Where ter.employee in {employees_tuple} and month(ter.posting_date) + ((year(ter.posting_date) - 1) * 12) <= {up_to}
+            Where ter.employee in {employees_tuple} and month(ter.posting_date) + ((year(ter.posting_date) - 1) * 12) <= '{up_to}'
                 AND ter.docstatus = 1
                 AND ter.resignation_date = (
                     SELECT MAX(ter.resignation_date))                 
@@ -77,24 +77,24 @@ def get_employee_savefund_balance(selected_employees,date_to):
             	   SUM(tial.pl_employee_contr) + SUM(tial.pl_bank_contr) as total_pl
             From `tabIncome Allocation Line` tial
             Inner Join `tabIncome Allocation` tia on tial.parent =tia.name
-            Where tial.employee  = '{emp}' and month(tia.posting_date) + ((year(tia.posting_date) - 1) * 12) < {up_to} and tia.docstatus = 1
+            Where tial.employee  = '{emp}' and month(tia.posting_date) + ((year(tia.posting_date) - 1) * 12) < '{up_to}' and tia.docstatus = 1
             Group By tial.employee,tial.employee_name),
 
             contr as (Select tecl.employee,tecl.employee_name ,SUM(tecl.employee_contr) total_employee_contr,SUM(tecl.bank_contr) total_bank_contr,
             (SUM(tecl.employee_contr)+SUM(tecl.bank_contr)) total_contr
             From `tabEmployee Contribution Line` tecl
             Inner Join `tabEmployee Contribution` tec on tecl.parent =tec.name
-            Where tecl.employee  = '{emp}' and month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) <= {up_to} and tec.docstatus = 1
+            Where tecl.employee  = '{emp}' and month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) <= '{up_to}' and tec.docstatus = 1
             Group By tecl.employee,tecl.employee_name
             ),
             withdraw as (Select tsfp.employee,tsfp.employee_name ,SUM(tsfp.paid_amount) total_paid_amount
             From `tabSaving Fund Payment` tsfp
-            Where tsfp.employee = '{emp}' and month(tsfp.posting_date) + ((year(tsfp.posting_date) - 1) * 12) <= {up_to} and tsfp.docstatus = 1
+            Where tsfp.employee = '{emp}' and month(tsfp.posting_date) + ((year(tsfp.posting_date) - 1) * 12) <= '{up_to}' and tsfp.docstatus = 1
             Group By tsfp.employee,tsfp.employee_name
             ),
             liabilty as (Select ter.employee,ter.employee_name ,ter.employee_equity_amount + ter.bank_equity_amount as liability_amount
             From `tabEmployee Resignation` ter 
-            Where ter.employee = '{emp}' and month(ter.posting_date) + ((year(ter.posting_date) - 1) * 12) <= {up_to} and ter.docstatus = 1
+            Where ter.employee = '{emp}' and month(ter.posting_date) + ((year(ter.posting_date) - 1) * 12) <= '{up_to}' and ter.docstatus = 1
                 AND ter.docstatus = 1
                 AND ter.resignation_date = (
                     SELECT MAX(ter.resignation_date))                 
