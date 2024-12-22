@@ -62,7 +62,7 @@ class EmployeeResignation(AccountsController):
                         "credit_in_account_currency": self.employee_equity_amount,
                         "credit": self.employee_equity_amount,
                         "employee": self.employee,
-                        "cost_center":cost_center(),
+                        "cost_center":cost_center(self.company),
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
                 gl_entries.append(
@@ -73,7 +73,7 @@ class EmployeeResignation(AccountsController):
                         "debit_in_account_currency": self.employee_equity_amount,
                         "debit": self.employee_equity_amount,
                         "employee": self.employee,
-                        "cost_center":cost_center(),
+                        "cost_center":cost_center(self.company),
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
             if self.income_emp_amount > 0:                
@@ -84,7 +84,7 @@ class EmployeeResignation(AccountsController):
                         "against": self.employee_equity,
                         "credit_in_account_currency": self.income_emp_amount,
                         "credit": self.income_emp_amount,
-                        "cost_center":cost_center(),
+                        "cost_center":cost_center(self.company),
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
@@ -95,7 +95,7 @@ class EmployeeResignation(AccountsController):
                         "against": self.income_account,
                         "debit_in_account_currency": self.income_emp_amount,
                         "debit": self.income_emp_amount,
-                        "cost_center":cost_center(),
+                        "cost_center":cost_center(self.company),
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
@@ -108,7 +108,7 @@ class EmployeeResignation(AccountsController):
                         "credit_in_account_currency":self.bank_equity_amount,
                         "credit": self.bank_equity_amount,
                         "employee": self.employee,
-                        "cost_center":cost_center(),
+                        "cost_center":cost_center(self.company),
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
                 gl_entries.append(
@@ -119,7 +119,7 @@ class EmployeeResignation(AccountsController):
                         "debit_in_account_currency": self.bank_equity_amount,
                         "debit": self.bank_equity_amount,
                         "employee": self.employee,
-                        "cost_center":cost_center(),
+                        "cost_center":cost_center(self.company),
                         "remarks": self.employee + ' : ' + self.employee_name
                     })) 
             if self.income_bank_amount > 0:                            
@@ -130,7 +130,7 @@ class EmployeeResignation(AccountsController):
                         "against": self.bank_equity,
                         "credit_in_account_currency":self.income_bank_amount,
                         "credit": self.income_bank_amount,
-                        "cost_center":cost_center(),
+                        "cost_center":cost_center(self.company),
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
@@ -141,7 +141,7 @@ class EmployeeResignation(AccountsController):
                         "against": self.income_account,
                         "debit_in_account_currency": self.income_bank_amount,
                         "debit": self.income_bank_amount,
-                        "cost_center":cost_center(),
+                        "cost_center":cost_center(self.company),
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))                    
@@ -185,8 +185,9 @@ def get_income_account():
 	return frappe.db.get_single_value('Saving Fund Settings', 'income_account')
 
 @frappe.whitelist()
-def cost_center():
-    return frappe.db.get_value('Company', 'cost_center')
+def cost_center(company):
+    doc=  frappe.db.get_doc('Company',company)
+    return doc.cost_center
 
 @frappe.whitelist()
 def get_employee_equity_balance(dict_doc):
