@@ -186,7 +186,7 @@ def get_income_account():
 
 @frappe.whitelist()
 def cost_center(company):
-    doc=  frappe.db.get_doc('Company',company)
+    doc=  frappe.get_doc('Company',company)
     return doc.cost_center
 
 @frappe.whitelist()
