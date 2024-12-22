@@ -82,7 +82,7 @@ class EmployeeResignation(AccountsController):
                         "against": self.employee_equity,
                         "credit_in_account_currency": self.income_emp_amount,
                         "credit": self.income_emp_amount,
-                        "cost_center":cost_center,
+                        "cost_center":cost_center(),
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
@@ -93,7 +93,7 @@ class EmployeeResignation(AccountsController):
                         "against": self.income_account,
                         "debit_in_account_currency": self.income_emp_amount,
                         "debit": self.income_emp_amount,
-                        "cost_center":cost_center,
+                        "cost_center":cost_center(),
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
@@ -126,7 +126,7 @@ class EmployeeResignation(AccountsController):
                         "against": self.bank_equity,
                         "credit_in_account_currency":self.income_bank_amount,
                         "credit": self.income_bank_amount,
-                        "cost_center":cost_center,
+                        "cost_center":cost_center(),
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
@@ -137,7 +137,7 @@ class EmployeeResignation(AccountsController):
                         "against": self.income_account,
                         "debit_in_account_currency": self.income_bank_amount,
                         "debit": self.income_bank_amount,
-                        "cost_center":cost_center,
+                        "cost_center":cost_center(),
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))                    
