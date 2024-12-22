@@ -62,6 +62,7 @@ class EmployeeResignation(AccountsController):
                         "credit_in_account_currency": self.employee_equity_amount,
                         "credit": self.employee_equity_amount,
                         "employee": self.employee,
+                        "cost_center":cost_center(),
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
                 gl_entries.append(
@@ -72,6 +73,7 @@ class EmployeeResignation(AccountsController):
                         "debit_in_account_currency": self.employee_equity_amount,
                         "debit": self.employee_equity_amount,
                         "employee": self.employee,
+                        "cost_center":cost_center(),
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
             if self.income_emp_amount > 0:                
@@ -106,6 +108,7 @@ class EmployeeResignation(AccountsController):
                         "credit_in_account_currency":self.bank_equity_amount,
                         "credit": self.bank_equity_amount,
                         "employee": self.employee,
+                        "cost_center":cost_center(),
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
                 gl_entries.append(
@@ -116,6 +119,7 @@ class EmployeeResignation(AccountsController):
                         "debit_in_account_currency": self.bank_equity_amount,
                         "debit": self.bank_equity_amount,
                         "employee": self.employee,
+                        "cost_center":cost_center(),
                         "remarks": self.employee + ' : ' + self.employee_name
                     })) 
             if self.income_bank_amount > 0:                            
