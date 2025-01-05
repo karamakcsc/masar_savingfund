@@ -51,6 +51,7 @@ class EmployeeResignation(AccountsController):
         
     def make_gl(self):
         if self.resignation_date and self.date_of_joining:
+            diff_balance = self.total_right - self.cont_up_to_date
             gl_entries = []
             
             if self.employee_equity_amount > 0:
@@ -76,6 +77,33 @@ class EmployeeResignation(AccountsController):
                         "cost_center":cost_center(self.company),
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
+                ############################
+
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.income_account,
+                        # "account_currency": d.paid_from_account_currency,
+                        "against": self.bank_equity,
+                        "credit_in_account_currency": float(diff_balance),
+                        "credit": float(diff_balance),
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.bank_equity,
+                        # "account_currency": d.paid_to_account_currency,
+                        "against": self.income_account,
+                        "debit_in_account_currency": float(diff_balance),
+                        "debit": float(diff_balance),
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+
+                ############################
+
             if self.income_emp_amount > 0:                
                 gl_entries.append(
                     self.get_gl_dict({
@@ -99,6 +127,33 @@ class EmployeeResignation(AccountsController):
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
+                               ############################
+
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.income_account,
+                        # "account_currency": d.paid_from_account_currency,
+                        "against": self.bank_equity,
+                        "credit_in_account_currency": float(diff_balance),
+                        "credit": float(diff_balance),
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.bank_equity,
+                        # "account_currency": d.paid_to_account_currency,
+                        "against": self.income_account,
+                        "debit_in_account_currency": float(diff_balance),
+                        "debit": float(diff_balance),
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+
+                ############################
+
             if self.bank_equity_amount > 0:            
                 gl_entries.append(
                     self.get_gl_dict({
@@ -128,8 +183,8 @@ class EmployeeResignation(AccountsController):
                         "account": self.income_account,
                         # "account_currency": d.paid_from_account_currency,
                         "against": self.bank_equity,
-                        "credit_in_account_currency":self.income_bank_amount,
-                        "credit": self.income_bank_amount,
+                        "credit_in_account_currency":self.income_bank_amount + float(diff_balance),
+                        "credit": self.income_bank_amount + float(diff_balance),
                         "cost_center":cost_center(self.company),
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
@@ -139,8 +194,8 @@ class EmployeeResignation(AccountsController):
                         "account": self.bank_equity,
                         # "account_currency": d.paid_to_account_currency,
                         "against": self.income_account,
-                        "debit_in_account_currency": self.income_bank_amount,
-                        "debit": self.income_bank_amount,
+                        "debit_in_account_currency": self.income_bank_amount + float(diff_balance),
+                        "debit": self.income_bank_amount + float(diff_balance),
                         "cost_center":cost_center(self.company),
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name

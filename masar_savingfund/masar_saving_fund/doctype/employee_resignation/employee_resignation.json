@@ -25,6 +25,7 @@
   "pl_employee_contr",
   "pl_bank_contr",
   "withdraw_amount",
+  "cont_up_to_date",
   "section_break_bh6q1",
   "employee_equity_amount",
   "bank_equity_amount",
@@ -164,15 +165,13 @@
    "fieldname": "bank_equity",
    "fieldtype": "Link",
    "label": "Bank Equity",
-   "options": "Account",
-   "read_only": 1
+   "options": "Account"
   },
   {
    "fieldname": "employee_equity",
    "fieldtype": "Link",
    "label": "Employee Equity",
-   "options": "Account",
-   "read_only": 1
+   "options": "Account"
   },
   {
    "fieldname": "column_break_fkjb7",
@@ -182,8 +181,7 @@
    "fieldname": "liability_account",
    "fieldtype": "Link",
    "label": "Liability Account ",
-   "options": "Account",
-   "read_only": 1
+   "options": "Account"
   },
   {
    "fetch_from": "employee.company",
@@ -223,8 +221,7 @@
    "fieldname": "income_account",
    "fieldtype": "Link",
    "label": "Income Account",
-   "options": "Account",
-   "read_only": 1
+   "options": "Account"
   },
   {
    "fieldname": "column_break_yevxo",
@@ -257,12 +254,19 @@
    "fieldtype": "Data",
    "label": "Status",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "cont_up_to_date",
+   "fieldtype": "Float",
+   "label": "Controbution Up to Date",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-04 12:56:08.066269",
+ "modified": "2025-01-05 16:34:11.093975",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Resignation",
