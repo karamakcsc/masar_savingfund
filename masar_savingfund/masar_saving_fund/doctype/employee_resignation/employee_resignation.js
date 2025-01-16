@@ -106,7 +106,7 @@ frappe.ui.form.on('Employee Resignation', {
 }
 	}
 });
-
+//s
 // Show General Ledger
 frappe.ui.form.on('Employee Resignation', {
 	refresh: function(frm) {
