@@ -21,8 +21,8 @@ def get_data(filters):
 
     query = frappe.db.sql(f"""                          
     SELECT 
-        ter.name AS employee_resignation, ter.employee, ter.employee_name, ter.date_of_joining, ter.posting_date, ter.total_right, 
-        ter.withdraw_amount, ter.income_amount AS income_amount
+        ter.employee, ter.employee_name, ter.date_of_joining, ter.posting_date,
+        ter.income_amount AS income_amount
     FROM `tabEmployee Resignation` ter
     WHERE {conditions} AND DATEDIFF(ter.resignation_date, ter.date_of_joining) <= 1095 AND ter.status_on_submit = 'Left' AND ter.docstatus = 1
     GROUP BY ter.employee
@@ -31,12 +31,9 @@ def get_data(filters):
     return query
 def get_columns():
     return [
-        "Employee Resignation: Data:250",
         "Employee: Link/Employee:250",
         "Employee Name: Data:250",
         "Date Of Joining: Data:250",
         "Posting Date: Data:250",
-        "Total Right: Float:200",
-        "Withdraw Amount: Float:200",
-        "Income Amount: Curency:300",
+        "Income Amount: Float:300",
     ]
