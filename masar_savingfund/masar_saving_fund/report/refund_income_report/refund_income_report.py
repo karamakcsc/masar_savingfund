@@ -24,7 +24,7 @@ def get_data(filters):
         ter.name AS employee_resignation, ter.employee, ter.employee_name, ter.date_of_joining, ter.posting_date, ter.total_right, 
         ter.withdraw_amount, ter.income_amount AS income_amount
     FROM `tabEmployee Resignation` ter
-    WHERE {conditions} AND DATEDIFF(ter.resignation_date, ter.date_of_joining) <= 1095 AND ter.status_on_submit = 'Left'
+    WHERE {conditions} AND DATEDIFF(ter.resignation_date, ter.date_of_joining) <= 1095 AND ter.status_on_submit = 'Left' AND ter.docstatus = 1
     GROUP BY ter.employee
     """, as_dict=True)
 
