@@ -183,8 +183,8 @@ class EmployeeResignation(AccountsController):
                         "account": self.income_account,
                         # "account_currency": d.paid_from_account_currency,
                         "against": self.bank_equity,
-                        "credit_in_account_currency":self.income_bank_amount # + float(diff_balance),
-                        "credit": self.income_bank_amount # + float(diff_balance),
+                        "credit_in_account_currency":self.income_bank_amount, # + float(diff_balance),
+                        "credit": self.income_bank_amount, # + float(diff_balance),
                         "cost_center":cost_center(self.company),
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
@@ -194,8 +194,8 @@ class EmployeeResignation(AccountsController):
                         "account": self.bank_equity,
                         # "account_currency": d.paid_to_account_currency,
                         "against": self.income_account,
-                        "debit_in_account_currency": self.income_bank_amount # + float(diff_balance),
-                        "debit": self.income_bank_amount # + float(diff_balance),
+                        "debit_in_account_currency": self.income_bank_amount, # + float(diff_balance),
+                        "debit": self.income_bank_amount, # + float(diff_balance),
                         "cost_center":cost_center(self.company),
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
