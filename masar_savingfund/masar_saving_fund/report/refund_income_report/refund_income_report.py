@@ -11,9 +11,9 @@ def get_data(filters):
 
     conditions = ' 1=1 '
     if filters.get('employee'):
-        conditions = f" AND ter.employee = '{filters.get('employee')}' "
+        conditions += f" AND ter.employee = '{filters.get('employee')}' "
     if filters.get('employee_name'):
-        conditions = f" AND ter.employee_name LIKE '%{filters.get('employee_name')}%' "
+        conditions += f" AND ter.employee_name LIKE '%{filters.get('employee_name')}%' "
     if _from and to:
         conditions += f" AND ter.posting_date BETWEEN '{_from}' AND '{to}'"
     if to and _from and to < _from:
