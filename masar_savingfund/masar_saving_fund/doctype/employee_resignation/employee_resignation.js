@@ -96,12 +96,12 @@ frappe.ui.form.on('Employee Resignation', {
 					}
 						});
 
-			frappe.call({
-				method: "masar_savingfund.masar_saving_fund.doctype.employee_resignation.employee_resignation.get_income_account",
-				callback: function(r) {
-					frm.set_value('income_account', r.message);
-				}
-					});
+			// frappe.call({
+			// 	method: "masar_savingfund.masar_saving_fund.doctype.employee_resignation.employee_resignation.get_income_account",
+			// 	callback: function(r) {
+			// 		frm.set_value('income_account', r.message);
+			// 	}
+			// 		});
 
 }
 	}

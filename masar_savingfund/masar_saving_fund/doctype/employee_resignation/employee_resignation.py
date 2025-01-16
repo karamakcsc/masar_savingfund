@@ -237,7 +237,7 @@ def get_liability_account():
 
 @frappe.whitelist()
 def get_income_account():
-	return frappe.db.get_single_value('Saving Fund Settings', 'income_account')
+	return frappe.db.get_single_value('Saving Fund Settings','income_account')
 
 @frappe.whitelist()
 def cost_center(company):
