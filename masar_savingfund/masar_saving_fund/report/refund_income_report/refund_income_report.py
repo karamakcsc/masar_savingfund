@@ -24,7 +24,7 @@ def get_data(filters):
            ter.income_amount
     FROM `tabEmployee Resignation` ter
     INNER JOIN `tabEmployee` te ON te.employee = ter.employee                      
-    WHERE DATEDIFF(ter.resignation_date, ter.date_of_joining) <= 1095 AND te.status = 'Left' {conditions}
+    
     GROUP BY employee
     """, as_dict=True)
 
