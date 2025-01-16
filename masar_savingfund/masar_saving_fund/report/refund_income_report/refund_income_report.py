@@ -11,7 +11,7 @@ def get_data(filters):
 
     conditions = ''
     if filters.get('employee'):
-        conditions = f" AND te.employee LIKE '%{filters.get('employee')}%' "
+        conditions = f" AND te.employee = '={filters.get('employee')}' "
     if filters.get('employee_name'):
         conditions = f" AND te.employee_name LIKE '%{filters.get('employee_name')}%' "
     if _from and to:
