@@ -146,33 +146,33 @@ frappe.ui.form.on('Employee Resignation', {
 }
 
 
-frappe.ui.form.on('Employee Resignation', {
-    validate: function(frm) {
-        fetch_up_to_date_balance(frm);
-    },
-    employee: function(frm) {
-        fetch_up_to_date_balance(frm);
-    }
-});
+// frappe.ui.form.on('Employee Resignation', {
+//     validate: function(frm) {
+//         fetch_up_to_date_balance(frm);
+//     },
+//     employee: function(frm) {
+//         fetch_up_to_date_balance(frm);
+//     }
+// });
 
-function fetch_up_to_date_balance(frm) {
-    if (!frm.doc.employee || !frm.doc.resignation_date) {
-        frappe.msgprint(__('Please select an Employee and Resignation Date.'));
-        return;
-    }
+// function fetch_up_to_date_balance(frm) {
+//     if (!frm.doc.employee || !frm.doc.resignation_date) {
+//         frappe.msgprint(__('Please select an Employee and Resignation Date.'));
+//         return;
+//     }
 
-    frappe.call({
-        method: "masar_savingfund.custom.employee.employee.get_employee_up_to_date_balance",
-        args: {
-            emp: frm.doc.employee,
-            date_to: frm.doc.resignation_date
-        },
-        callback: function(r) {
-            if (r.message && r.message.length > 0) {
-                frm.set_value('cont_up_to_date', r.message[0].total_right);
-            } else {
-                frm.set_value('cont_up_to_date', 0);
-            }
-        }
-    });
-}
+//     frappe.call({
+//         method: "masar_savingfund.custom.employee.employee.get_employee_up_to_date_balance",
+//         args: {
+//             emp: frm.doc.employee,
+//             date_to: frm.doc.resignation_date
+//         },
+//         callback: function(r) {
+//             if (r.message && r.message.length > 0) {
+//                 frm.set_value('cont_up_to_date', r.message[0].total_right);
+//             } else {
+//                 frm.set_value('cont_up_to_date', 0);
+//             }
+//         }
+//     });
+// }
