@@ -6,7 +6,7 @@ frappe.query_reports["Refund Income Report"] = {
 	"filters": [
 		{
 			"fieldname": "employee",
-			"label": __("Employee Number"),
+			"label": __("Employee"),
 			"fieldtype": "Link",
 			"options": "Employee"
 		},
@@ -19,13 +19,13 @@ frappe.query_reports["Refund Income Report"] = {
 
 		{
 			"fieldname": "_from",
-			"label": __("From Posting Date"),
+			"label": __("From Date"),
 			"fieldtype": "Date",
 		},
 
 		{
 			"fieldname": "to",
-			"label": __("To Posting Date"),
+			"label": __("To Date"),
 			"fieldtype": "Date",
 		}
 	]
