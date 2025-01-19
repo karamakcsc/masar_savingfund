@@ -114,7 +114,7 @@ def get_data(filters):
 							IFNULL(p.total_pl, 0) AS total_pl,
 							IFNULL(w.total_paid_amount, 0) AS total_withdraw,
 							IFNULL(l.liability_amount, 0) AS liability_amount,
-							(IFNULL(c.total_contr, 0) + IFNULL(p.total_pl, 0) - IFNULL(w.total_paid_amount, 0) - IFNULL(l.liability_amount, 0)) AS total_right
+							IF(e.status = 'Left', 0, IFNULL(c.total_contr, 0) + IFNULL(p.total_pl, 0) - IFNULL(w.total_paid_amount, 0) - IFNULL(l.liability_amount, 0)) AS total_right
 						FROM
 							tabEmployee AS e
 						LEFT JOIN
