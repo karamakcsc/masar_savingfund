@@ -29,6 +29,8 @@
   "section_break_bh6q1",
   "employee_equity_amount",
   "bank_equity_amount",
+  "emp_income_amount",
+  "bank_income_amount",
   "column_break_yevxo",
   "income_emp_amount",
   "income_bank_amount",
@@ -36,6 +38,7 @@
   "section_break_zbjei",
   "bank_equity",
   "employee_equity",
+  "interim_revenue",
   "column_break_fkjb7",
   "liability_account",
   "income_account",
@@ -165,12 +168,14 @@
    "fieldname": "bank_equity",
    "fieldtype": "Link",
    "label": "Bank Equity",
+   "link_filters": "[[\"Account\",\"is_group\",\"=\",0]]",
    "options": "Account"
   },
   {
    "fieldname": "employee_equity",
    "fieldtype": "Link",
    "label": "Employee Equity",
+   "link_filters": "[[\"Account\",\"is_group\",\"=\",0]]",
    "options": "Account"
   },
   {
@@ -181,6 +186,7 @@
    "fieldname": "liability_account",
    "fieldtype": "Link",
    "label": "Liability Account ",
+   "link_filters": "[[\"Account\",\"is_group\",\"=\",0]]",
    "options": "Account"
   },
   {
@@ -221,6 +227,7 @@
    "fieldname": "income_account",
    "fieldtype": "Link",
    "label": "Income Account",
+   "link_filters": "[[\"Account\",\"is_group\",\"=\",0]]",
    "options": "Account"
   },
   {
@@ -261,12 +268,33 @@
    "fieldtype": "Float",
    "label": "Controbution Up to Date",
    "read_only": 1
+  },
+  {
+   "fieldname": "interim_revenue",
+   "fieldtype": "Link",
+   "label": "Interim Revenue",
+   "link_filters": "[[\"Account\",\"is_group\",\"=\",0]]",
+   "options": "Account"
+  },
+  {
+   "fieldname": "emp_income_amount",
+   "fieldtype": "Float",
+   "label": "Employee Income Amount",
+   "precision": "4",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bank_income_amount",
+   "fieldtype": "Float",
+   "label": "Bank Income Amount",
+   "precision": "4",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-05 16:34:11.093975",
+ "modified": "2025-01-28 15:33:06.848403",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Resignation",

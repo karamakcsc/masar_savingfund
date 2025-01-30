@@ -45,8 +45,8 @@ frappe.ui.form.on('Employee Resignation', {
 			'withdraw_amount': frm.doc.withdraw_amount,
 			'total_right': frm.doc.total_right,		
 			'deserved_amount': frm.doc.deserved_amount,
-			'income_emp_amount': frm.doc.income_emp_amount,
-			'income_bank_amount': frm.doc.income_bank_amount,	
+			'income_emp_amount': frm.doc.pl_employee_contr,
+			'income_bank_amount': frm.doc.pl_bank_contr,	
 
 		};
 
@@ -64,6 +64,8 @@ frappe.ui.form.on('Employee Resignation', {
                 frm.set_value('income_amount', d.income_amount);
 				frm.set_value('income_emp_amount', d.income_emp_amount);
 				frm.set_value('income_bank_amount', d.income_bank_amount);	
+				frm.set_value('emp_income_amount', frm.doc.pl_employee_contr);
+				frm.set_value('bank_income_amount', frm.doc.pl_bank_contr);
         }
     });
 		cur_frm.refresh_field();
@@ -103,6 +105,12 @@ frappe.ui.form.on('Employee Resignation', {
 				}
 					});
 
+			frappe.call({
+				method: "masar_savingfund.masar_saving_fund.doctype.employee_resignation.employee_resignation.get_interim_revenue",
+				callback: function(r) {
+					frm.set_value('interim_revenue', r.message);
+				}
+					});
 }
 	}
 });

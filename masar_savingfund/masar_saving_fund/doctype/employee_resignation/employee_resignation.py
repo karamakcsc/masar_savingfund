@@ -76,6 +76,32 @@ class EmployeeResignation(AccountsController):
                         "cost_center":cost_center(self.company),
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
+                #############################start Update########################################
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.liability_account,
+                        # "account_currency": d.paid_from_account_currency,
+                        "against": self.interim_revenue,
+                        "credit_in_account_currency": self.emp_income_amount,
+                        "credit": self.emp_income_amount,
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.interim_revenue,
+                        # "account_currency": d.paid_to_account_currency,
+                        "against": self.liability_account,
+                        "debit_in_account_currency": self.emp_income_amount,
+                        "debit": self.emp_income_amount,
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+
+
+                ###############################End Update###############################################
             if self.income_emp_amount > 0:                
                 gl_entries.append(
                     self.get_gl_dict({
@@ -99,6 +125,35 @@ class EmployeeResignation(AccountsController):
                         "employee": self.employee,
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
+                ##############################Start Update######################################
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.liability_account,
+                        # "account_currency": d.paid_from_account_currency,
+                        "against": self.interim_revenue,
+                        "credit_in_account_currency": self.bank_income_amount,
+                        "credit": self.bank_income_amount,
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.interim_revenue,
+                        # "account_currency": d.paid_to_account_currency,
+                        "against": self.liability_account,
+                        "debit_in_account_currency": self.bank_income_amount,
+                        "debit": self.bank_income_amount,
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+
+
+                ##############################End Update################################################
+
+
+
             if self.bank_equity_amount > 0:            
                 gl_entries.append(
                     self.get_gl_dict({
@@ -185,6 +240,10 @@ def get_income_account():
 	return frappe.db.get_single_value('Saving Fund Settings', 'income_account')
 
 @frappe.whitelist()
+def get_interim_revenue():
+	return frappe.db.get_single_value('Saving Fund Settings', 'interim_revenue')
+
+@frappe.whitelist()
 def cost_center(company):
     doc=  frappe.get_doc('Company',company)
     return doc.cost_center
@@ -203,7 +262,9 @@ def get_employee_equity_balance(dict_doc):
         withdraw_amount = flt(dict_doc["withdraw_amount"])                
         total_right = flt(dict_doc["total_right"])                
         deserved_amount = flt(dict_doc["deserved_amount"])                                
-       
+        emp_income_amount = flt(dict_doc["income_emp_amount"])
+        bank_income_amount = flt(dict_doc["income_bank_amount"])
+        
         if resignation_date and date_of_joining:
             res_date = datetime.datetime.strptime(resignation_date, '%Y-%m-%d')
             join_date = datetime.datetime.strptime(date_of_joining, '%Y-%m-%d')
@@ -216,22 +277,29 @@ def get_employee_equity_balance(dict_doc):
             income_amount = 0
             income_emp_amount = 0
             income_bank_amount = 0
+            emp_income_amount = 0
+            bank_income_amount = 0
 
             if number_year < 1:
                  if employee_contr - withdraw_amount > 0 :
                       emp_amount = employee_contr - withdraw_amount
                       income_emp_amount = pl_employee_contr
                       income_bank_amount = bank_contr + pl_bank_contr
-
+                      emp_income_amount = pl_employee_contr
+                    #   bank_income_amount = pl_bank_contr
             if number_year >= 1 and number_year < 3:
                  if (employee_contr + pl_employee_contr) - (withdraw_amount) > 0:
                       emp_amount = (employee_contr + pl_employee_contr) - (withdraw_amount)
                       income_bank_amount = bank_contr + pl_bank_contr
+                      emp_income_amount = pl_employee_contr
+                      bank_income_amount = pl_bank_contr
+                      
             if number_year >= 3:
                  if (employee_contr + pl_employee_contr) - (emp_contr_perc * withdraw_amount) > 0:
                       emp_amount = (employee_contr + pl_employee_contr) - ((1/3.0) * withdraw_amount)
                  if (bank_contr + pl_bank_contr) - (bank_contr_perc * withdraw_amount) > 0:
                       bank_amount = (bank_contr + pl_bank_contr) - ((2/3.0) * withdraw_amount)
+                      
             if total_right - deserved_amount > 0:
                  income_amount = total_right - deserved_amount
             data = {
@@ -240,6 +308,8 @@ def get_employee_equity_balance(dict_doc):
                 'income_amount': income_amount,
                 'income_emp_amount': income_emp_amount,
                 'income_bank_amount': income_bank_amount,
+                'pl_employee_contr': emp_income_amount,
+                'pl_bank_contr': bank_income_amount,
             }
 
             return json.dumps(data)
