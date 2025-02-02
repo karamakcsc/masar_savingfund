@@ -279,6 +279,8 @@ def get_employee_equity_balance(dict_doc):
             income_bank_amount = 0
             emp_income_amount = 0
             bank_income_amount = 0
+            # employee_contr = 0
+            # bank_contr = 0
 
             if number_year < 1:
                  if employee_contr - withdraw_amount > 0 :
@@ -309,7 +311,9 @@ def get_employee_equity_balance(dict_doc):
                 'income_emp_amount': income_emp_amount,
                 'income_bank_amount': income_bank_amount,
                 'pl_employee_contr': emp_income_amount,
-                'pl_bank_contr': bank_income_amount,
+                'pl_bank_contr': bank_income_amount
+                # 'bank_contr': bank_contr,
+                # 'employee_contr': employee_contr
             }
 
             return json.dumps(data)

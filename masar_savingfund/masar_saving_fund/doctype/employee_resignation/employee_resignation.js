@@ -59,8 +59,8 @@ frappe.ui.form.on('Employee Resignation', {
 		
         callback: function(r) {
 			var d = JSON.parse(r.message);			
-                frm.set_value('employee_equity_amount', d.emp_amount);
-                frm.set_value('bank_equity_amount', d.bank_amount);
+                frm.set_value('employee_equity_amount', frm.doc.employee_contr);
+                frm.set_value('bank_equity_amount', frm.doc.bank_contr);
                 frm.set_value('income_amount', d.income_amount);
 				frm.set_value('income_emp_amount', d.income_emp_amount);
 				frm.set_value('income_bank_amount', d.income_bank_amount);	
