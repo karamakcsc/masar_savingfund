@@ -39,6 +39,7 @@
   "bank_equity",
   "employee_equity",
   "interim_revenue",
+  "earning_revenue",
   "column_break_fkjb7",
   "liability_account",
   "income_account",
@@ -272,6 +273,7 @@
   {
    "fieldname": "interim_revenue",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Interim Revenue",
    "link_filters": "[[\"Account\",\"is_group\",\"=\",0]]",
    "options": "Account"
@@ -289,12 +291,19 @@
    "label": "Bank Income Amount",
    "precision": "4",
    "read_only": 1
+  },
+  {
+   "fieldname": "earning_revenue",
+   "fieldtype": "Link",
+   "label": "Earning Revenue",
+   "link_filters": "[[\"Account\",\"is_group\",\"=\",0]]",
+   "options": "Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-28 15:33:06.848403",
+ "modified": "2025-03-20 10:26:43.569687",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Resignation",

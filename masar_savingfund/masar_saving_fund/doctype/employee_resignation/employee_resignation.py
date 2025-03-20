@@ -81,7 +81,7 @@ class EmployeeResignation(AccountsController):
                     self.get_gl_dict({
                         "account": self.liability_account,
                         # "account_currency": d.paid_from_account_currency,
-                        "against": self.interim_revenue,
+                        "against": self.earning_revenue,
                         "credit_in_account_currency": self.emp_income_amount,
                         "credit": self.emp_income_amount,
                         "employee": self.employee,
@@ -90,7 +90,7 @@ class EmployeeResignation(AccountsController):
                     }))
                 gl_entries.append(
                     self.get_gl_dict({
-                        "account": self.interim_revenue,
+                        "account": self.earning_revenue,
                         # "account_currency": d.paid_to_account_currency,
                         "against": self.liability_account,
                         "debit_in_account_currency": self.emp_income_amount,
@@ -130,7 +130,7 @@ class EmployeeResignation(AccountsController):
                     self.get_gl_dict({
                         "account": self.liability_account,
                         # "account_currency": d.paid_from_account_currency,
-                        "against": self.interim_revenue,
+                        "against": self.earning_revenue,
                         "credit_in_account_currency": self.bank_income_amount,
                         "credit": self.bank_income_amount,
                         "employee": self.employee,
@@ -139,7 +139,7 @@ class EmployeeResignation(AccountsController):
                     }))
                 gl_entries.append(
                     self.get_gl_dict({
-                        "account": self.interim_revenue,
+                        "account": self.earning_revenue,
                         # "account_currency": d.paid_to_account_currency,
                         "against": self.liability_account,
                         "debit_in_account_currency": self.bank_income_amount,
@@ -242,6 +242,10 @@ def get_income_account():
 @frappe.whitelist()
 def get_interim_revenue():
 	return frappe.db.get_single_value('Saving Fund Settings', 'interim_revenue')
+
+@frappe.whitelist()
+def get_earning_revenue():
+	return frappe.db.get_single_value('Saving Fund Settings', 'earning_revenue')
 
 @frappe.whitelist()
 def cost_center(company):

@@ -111,6 +111,13 @@ frappe.ui.form.on('Employee Resignation', {
 					frm.set_value('interim_revenue', r.message);
 				}
 					});
+
+					frappe.call({
+						method: "masar_savingfund.masar_saving_fund.doctype.employee_resignation.employee_resignation.get_earning_revenue",
+						callback: function(r) {
+							frm.set_value('earning_revenue', r.message);
+						}
+							});
 }
 	}
 });
