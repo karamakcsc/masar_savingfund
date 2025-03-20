@@ -90,7 +90,7 @@ def get_employee_savefund_balance(selected_employees,date_to):
             From `tabEmployee Contribution Line` tecl
             Inner Join `tabEmployee Contribution` tec on tecl.parent =tec.name
             Inner Join `tabEmployee` te on tecl.employee = te.name
-            Where tecl.posting_date > te.date_of_joining and tecl.employee  = '{emp}' and month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) <= '{up_to}' and tec.docstatus = 1
+            Where tec.posting_date > te.date_of_joining and tecl.employee  = '{emp}' and month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) <= '{up_to}' and tec.docstatus = 1
             Group By tecl.employee,tecl.employee_name
             ),
             withdraw as (Select tsfp.employee,tsfp.employee_name ,SUM(tsfp.paid_amount) total_paid_amount
