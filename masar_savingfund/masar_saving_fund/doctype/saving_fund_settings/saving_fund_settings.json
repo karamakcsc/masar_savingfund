@@ -19,7 +19,7 @@
   "bank_equity",
   "interim_revenue",
   "liability_account",
-  "earning_revenue"
+  "retained_earning"
  ],
  "fields": [
   {
@@ -94,22 +94,22 @@
    "options": "Account"
   },
   {
-   "fieldname": "earning_revenue",
-   "fieldtype": "Link",
-   "label": "Earning Revenue",
-   "options": "Account"
-  },
-  {
    "fieldname": "withdrawal",
    "fieldtype": "Link",
    "label": "Staff Withdrawal Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "retained_earning",
+   "fieldtype": "Link",
+   "label": "Retained Earning",
    "options": "Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-09-12 12:37:19.032461",
+ "modified": "2025-03-20 12:03:32.450873",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Settings",

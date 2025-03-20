@@ -79,8 +79,8 @@ def get_income_account():
 	return frappe.db.get_single_value('Saving Fund Settings', 'income_account')
 
 @frappe.whitelist()
-def get_earning_revenue():
-	return frappe.db.get_single_value('Saving Fund Settings', 'earning_revenue')
+def get_retained_earning():
+	return frappe.db.get_single_value('Saving Fund Settings', 'retained_earning')
 
 @frappe.whitelist()
 def get_withdrawal():

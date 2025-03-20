@@ -38,8 +38,7 @@
   "section_break_zbjei",
   "bank_equity",
   "employee_equity",
-  "interim_revenue",
-  "earning_revenue",
+  "retained_earning",
   "column_break_fkjb7",
   "liability_account",
   "income_account",
@@ -271,14 +270,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "interim_revenue",
-   "fieldtype": "Link",
-   "hidden": 1,
-   "label": "Interim Revenue",
-   "link_filters": "[[\"Account\",\"is_group\",\"=\",0]]",
-   "options": "Account"
-  },
-  {
    "fieldname": "emp_income_amount",
    "fieldtype": "Float",
    "label": "Employee Income Amount",
@@ -293,9 +284,9 @@
    "read_only": 1
   },
   {
-   "fieldname": "earning_revenue",
+   "fieldname": "retained_earning",
    "fieldtype": "Link",
-   "label": "Earning Revenue",
+   "label": "Retained Earning",
    "link_filters": "[[\"Account\",\"is_group\",\"=\",0]]",
    "options": "Account"
   }
@@ -303,7 +294,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-03-20 10:26:43.569687",
+ "modified": "2025-03-20 12:12:58.469300",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Resignation",
