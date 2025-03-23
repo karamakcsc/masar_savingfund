@@ -32,50 +32,121 @@ frappe.ui.form.on('Employee Resignation', {
 
 
 frappe.ui.form.on('Employee Resignation', {
-	resignation_date: function(frm) {
-		if (frm.doc.docstatus ===0){
-	var doc_data = {
-			'resignation_date': frm.doc.resignation_date,
-			'date_of_joining': frm.doc.date_of_joining,			
-			'employee': frm.doc.employee,
-			'employee_contr': frm.doc.employee_contr,
-			'pl_employee_contr': frm.doc.pl_employee_contr,
-			'bank_contr': frm.doc.bank_contr,
-			'pl_bank_contr': frm.doc.pl_bank_contr,
-			'withdraw_amount': frm.doc.withdraw_amount,
-			'total_right': frm.doc.total_right,		
-			'deserved_amount': frm.doc.deserved_amount,
-			'income_emp_amount': frm.doc.pl_employee_contr,
-			'income_bank_amount': frm.doc.pl_bank_contr,	
+    resignation_date: function(frm) {
+        if (frm.doc.docstatus !== 0 || !frm.doc.resignation_date || !frm.doc.date_of_joining) return;
 
-		};
+        const doc_data = {
+            resignation_date: frm.doc.resignation_date,
+            date_of_joining: frm.doc.date_of_joining,
+            employee: frm.doc.employee,
+            employee_contr: frm.doc.employee_contr,
+            pl_employee_contr: frm.doc.pl_employee_contr,
+            bank_contr: frm.doc.bank_contr,
+            pl_bank_contr: frm.doc.pl_bank_contr,
+            withdraw_amount: frm.doc.withdraw_amount,
+            total_right: frm.doc.total_right,
+            deserved_amount: frm.doc.deserved_amount,
+            income_emp_amount: frm.doc.pl_employee_contr,
+            income_bank_amount: frm.doc.pl_bank_contr,
+        };
 
-    
-    frappe.call({
-        method: "masar_savingfund.masar_saving_fund.doctype.employee_resignation.employee_resignation.get_employee_equity_balance",
-        args: {
-			dict_doc: doc_data,
-        },
-		
-        callback: function(r) {
-			var d = JSON.parse(r.message);			
-                frm.set_value('employee_equity_amount', frm.doc.employee_contr);
-                frm.set_value('bank_equity_amount', frm.doc.bank_contr);
-                frm.set_value('income_amount', d.income_amount);
-				frm.set_value('income_emp_amount', d.income_emp_amount);
-				frm.set_value('income_bank_amount', d.income_bank_amount);	
-				frm.set_value('emp_income_amount', frm.doc.pl_employee_contr);
-				frm.set_value('bank_income_amount', frm.doc.pl_bank_contr);
-        }
-    });
-		cur_frm.refresh_field();
-	}
-}
+        frappe.call({
+            method: "masar_savingfund.masar_saving_fund.doctype.employee_resignation.employee_resignation.get_employee_equity_balance",
+            args: { dict_doc: doc_data },
+            callback: function(r) {
+                const resignationDate = new Date(frm.doc.resignation_date);
+                const joiningDate = new Date(frm.doc.date_of_joining);
+                const yearDiff = (resignationDate - joiningDate) / (1000 * 3600 * 24 * 365.25);
+                const response = r.message ? JSON.parse(r.message) : {};
+
+                let withdrawAmount = frm.doc.withdraw_amount || 0;
+
+                let employeeEquity = frm.doc.employee_contr || 0;
+                let bankEquity = frm.doc.bank_contr || 0;
+                let empIncome = frm.doc.pl_employee_contr || 0;
+                let bankIncome = frm.doc.pl_bank_contr || 0;
+
+                if (yearDiff < 1) {
+                    frm.set_value('employee_equity_amount', employeeEquity);
+                    frm.set_value('bank_equity_amount', 0);
+                    frm.set_value('emp_income_amount', 0);
+                    frm.set_value('bank_income_amount', 0);
+                } 
+                else if (yearDiff >= 1 && yearDiff < 3) {
+                    frm.set_value('employee_equity_amount', employeeEquity);
+                    frm.set_value('bank_equity_amount', 0);
+                    frm.set_value('emp_income_amount', empIncome);
+                    frm.set_value('bank_income_amount', 0);
+                } 
+                else if (yearDiff >= 3) {
+                    frm.set_value('employee_equity_amount', employeeEquity);
+                    frm.set_value('bank_equity_amount', bankEquity);
+                    frm.set_value('emp_income_amount', empIncome);
+                    frm.set_value('bank_income_amount', bankIncome);
+                }
+
+                if (withdrawAmount > 0) {
+
+                    if (withdrawAmount <= employeeEquity) {
+                        frm.set_value('employee_equity_amount', employeeEquity - withdrawAmount);
+                        withdrawAmount = 0;
+                    } else {
+                        withdrawAmount -= employeeEquity;
+                        frm.set_value('employee_equity_amount', 0);
+                    }
+
+                    if (withdrawAmount > 0 && withdrawAmount <= bankEquity) {
+                        frm.set_value('bank_equity_amount', bankEquity - withdrawAmount);
+                        withdrawAmount = 0;
+                    } else if (withdrawAmount > 0) {
+                        withdrawAmount -= bankEquity;
+                        frm.set_value('bank_equity_amount', 0);
+                    }
+
+                    if (withdrawAmount > 0 && withdrawAmount <= empIncome) {
+                        frm.set_value('emp_income_amount', empIncome - withdrawAmount);
+                        withdrawAmount = 0;
+                    } else if (withdrawAmount > 0) {
+                        withdrawAmount -= empIncome;
+                        frm.set_value('emp_income_amount', 0);
+                    }
+
+                    if (withdrawAmount > 0 && withdrawAmount <= bankIncome) {
+                        frm.set_value('bank_income_amount', bankIncome - withdrawAmount);
+                        withdrawAmount = 0;
+                    } else if (withdrawAmount > 0) {
+                        frm.set_value('bank_income_amount', 0);
+                    }
+                }
+
+                const incomeEmp = (frm.doc.employee_equity_amount || 0) + (frm.doc.emp_income_amount || 0);
+                const incomeBank = (frm.doc.bank_equity_amount || 0) + (frm.doc.bank_income_amount || 0);
+                const totalIncome = incomeEmp + incomeBank;
+
+                frm.set_value('income_emp_amount', incomeEmp);
+                frm.set_value('income_bank_amount', incomeBank);
+                frm.set_value('income_amount', totalIncome);
+
+                [
+                    'employee_equity_amount', 
+                    'bank_equity_amount', 
+                    'emp_income_amount', 
+                    'bank_income_amount', 
+                    'income_emp_amount', 
+                    'income_bank_amount',
+                    'income_amount'
+                ].forEach(field => frm.refresh_field(field));
+            }
+        });
+    }
 });
 
 
 
+
+
 frappe.ui.form.on('Employee Resignation', {
+
 	onload: function(frm) {
 		if (frm.doc.docstatus ===0){
 			frappe.call({
