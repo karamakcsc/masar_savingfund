@@ -158,7 +158,7 @@ class EmployeeResignation(AccountsController):
                     else: 
                         entries.append(
                             {
-                                'account': self.retained_earning ,
+                                'account': self.liability_account ,
                                 'type': 'credit' ,
                                 'amount' : self.total_right
                             }

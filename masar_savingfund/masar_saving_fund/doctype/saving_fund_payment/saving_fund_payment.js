@@ -33,9 +33,9 @@ frappe.ui.form.on('Saving Fund Payment', {
         }
           });
       frappe.call({
-        method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_earning_revenue",
+        method: "masar_savingfund.masar_saving_fund.doctype.employee_contribution.employee_contribution.get_retained_earning",
         callback: function(r) {
-          frm.set_value('earning_revenue', r.message);
+          frm.set_value('retained_earning', r.message);
         }
           });
       frappe.call({

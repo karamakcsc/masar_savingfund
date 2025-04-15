@@ -36,7 +36,7 @@
   "column_break_22",
   "employee_equity",
   "liability_account",
-  "earning_revenue",
+  "retained_earning",
   "amended_from"
  ],
  "fields": [
@@ -239,23 +239,23 @@
    "read_only": 1
   },
   {
-   "fieldname": "earning_revenue",
-   "fieldtype": "Data",
-   "label": "Earning Revenue",
-   "options": "Account"
-  },
-  {
    "fieldname": "withdrawal",
    "fieldtype": "Link",
    "label": "Staff Withdrawal",
    "options": "Account",
    "read_only": 1
+  },
+  {
+   "fieldname": "retained_earning",
+   "fieldtype": "Link",
+   "label": "Retained Earning",
+   "options": "Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-09-12 12:39:17.819509",
+ "modified": "2025-04-15 16:26:42.461285",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Saving Fund Payment",
