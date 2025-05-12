@@ -52,136 +52,69 @@ class EmployeeResignation(AccountsController):
     def make_gl(self):
         if self.resignation_date and self.date_of_joining:
             gl_entries = []
-            if self.withdraw_amount == 0 or (self.employee_contr > self.withdraw_amount ):## Mahmoud Edit 
-                    gl_entries.append(
-                        self.get_gl_dict({
-                            "account": self.liability_account,
-                            # "account_currency": d.paid_from_account_currency,
-                            "against": self.employee_equity,
-                            "credit_in_account_currency": self.deserved_amount,
-                            "credit": self.deserved_amount,
-                            "employee": self.employee,
-                            "cost_center":cost_center(self.company),
-                            "remarks": self.employee + ' : ' + self.employee_name
-                        }))
-                    gl_entries.append(
-                        self.get_gl_dict({
-                            "account": self.employee_equity,
-                            # "account_currency": d.paid_to_account_currency,
-                            "against": self.liability_account,
-                            "debit_in_account_currency": self.employee_contr - (self.withdraw_amount if self.withdraw_amount else 0 ),## Mahmoud Edit 
-                            "debit": self.employee_contr - (self.withdraw_amount if self.withdraw_amount else 0 ),## Mahmoud Edit 
-                            "employee": self.employee,
-                            "cost_center":cost_center(self.company),
-                            "remarks": self.employee + ' : ' + self.employee_name
-                        }))
+            if self.deserved_amount:
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.liability_account,
+                        # "account_currency": d.paid_from_account_currency,
+                        "against": self.employee_equity,
+                        "credit_in_account_currency": self.deserved_amount,
+                        "credit": self.deserved_amount,
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+            if self.employee_equity_amount:
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.employee_equity,
+                        # "account_currency": d.paid_to_account_currency,
+                        "against": self.liability_account,
+                        "debit_in_account_currency": self.employee_equity_amount, # MK Edit 
+                        "debit": self.employee_equity_amount, # MK Edit 
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+            if self.bank_equity_amount:
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.bank_equity,
+                        # "account_currency": d.paid_to_account_currency,
+                        "against": self.liability_account,
+                        "debit_in_account_currency": self.bank_equity_amount,
+                        "debit": self.bank_equity_amount,
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+            if self.bank_income_amount or self.emp_income_amount:
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.retained_earning,
+                        # "account_currency": d.paid_to_account_currency,
+                        "against": self.liability_account,
+                        "debit_in_account_currency": self.bank_income_amount + self.emp_income_amount,
+                        "debit": self.bank_income_amount + self.emp_income_amount,
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+            # if self.income_amount:
+            #     gl_entries.append(
+            #         self.get_gl_dict({
+            #             "account": self.income_account,
+            #             # "account_currency": d.paid_from_account_currency,
+            #             "against": self.liability_account,
+            #             "credit_in_account_currency": self.income_amount ,
+            #             "credit": self.income_amount ,
+            #             "employee": self.employee,
+            #             "cost_center":cost_center(self.company),
+            #             "remarks": self.employee + ' : ' + self.employee_name
+            #         }))
 
-                    gl_entries.append(
-                        self.get_gl_dict({
-                            "account": self.bank_equity,
-                            # "account_currency": d.paid_to_account_currency,
-                            "against": self.liability_account,
-                            "debit_in_account_currency": self.bank_contr,
-                            "debit": self.bank_contr,
-                            "employee": self.employee,
-                            "cost_center":cost_center(self.company),
-                            "remarks": self.employee + ' : ' + self.employee_name
-                        }))
-                    gl_entries.append(
-                        self.get_gl_dict({
-                            "account": self.retained_earning,
-                            # "account_currency": d.paid_to_account_currency,
-                            "against": self.liability_account,
-                            "debit_in_account_currency": self.pl_employee_contr + self.pl_bank_contr,
-                            "debit": self.pl_employee_contr + self.pl_bank_contr,
-                            "employee": self.employee,
-                            "cost_center":cost_center(self.company),
-                            "remarks": self.employee + ' : ' + self.employee_name
-                        }))
-                    gl_entries.append(
-                        self.get_gl_dict({
-                            "account": self.income_account,
-                            # "account_currency": d.paid_from_account_currency,
-                            "against": self.liability_account,
-                            "credit_in_account_currency": self.total_right - self.deserved_amount ,
-                            "credit": self.total_right - self.deserved_amount ,
-                            "employee": self.employee,
-                            "cost_center":cost_center(self.company),
-                            "remarks": self.employee + ' : ' + self.employee_name
-                        }))
-
-
-                  
-                    if gl_entries:
-                        make_gl_entries(gl_entries, cancel=0, adv_adj=0)
-            else: ##  ## Mahmoud Edit Start 
-                    if (
-                        self.employee_contr < self.withdraw_amount 
-                        and 
-                        self.employee_contr + self.bank_contr > self.withdraw_amount
-                    ):
-                        entries = list()
-                        bank_contr = (self.employee_contr + self.bank_contr) - self.withdraw_amount
-                        entries.append({'account': self.bank_equity ,'type': 'debit' , 'amount' : bank_contr })
-                        entries.append({'account': self.retained_earning ,'type': 'debit' , 'amount' : self.pl_employee_contr + self.pl_bank_contr })
-                    elif (
-                        self.employee_contr + self.bank_contr < self.withdraw_amount 
-                        and 
-                        self.employee_contr + self.bank_contr + self.pl_employee_contr > self.withdraw_amount
-                    ):
-                        entries = list()
-                        pl_employee_contr = (self.employee_contr + self.bank_contr + self.pl_employee_contr) - self.withdraw_amount
-                        entries.append({'account': self.retained_earning ,'type': 'debit' , 'amount' : pl_employee_contr + self.pl_bank_contr })
-                    elif (
-                        self.employee_contr + self.bank_contr + self.pl_employee_contr < self.withdraw_amount
-                        and 
-                        self.employee_contr + self.bank_contr + self.pl_employee_contr  + self.pl_bank_contr > self.withdraw_amount
-                    ): 
-                        entries = list()
-                        pl_bank_contr = (self.employee_contr + self.bank_contr + self.pl_employee_contr  + self.pl_bank_contr) - self.withdraw_amount
-                        entries.append({'account': self.retained_earning ,'type': 'debit' , 'amount' : pl_bank_contr })
-                    if self.total_right != self.deserved_amount and self.deserved_amount not in [ None , 0 ] :
-                        entries.append(
-                            {
-                                'account': self.liability_account ,
-                                'type': 'credit' ,
-                                'amount' : self.total_right - (self.deserved_amount if self.deserved_amount else 0  ) 
-                            }
-                        )
-                        entries.append(
-                            {
-                                'account': self.income_account ,
-                                'type': 'credit' ,
-                                'amount' : self.deserved_amount 
-                            }
-                        )
-                    else: 
-                        entries.append(
-                            {
-                                'account': self.liability_account ,
-                                'type': 'credit' ,
-                                'amount' : self.total_right
-                            }
-                        )
-                    if len(entries) != 0 :
-                        for e in entries:
-                            against_accounts = [str(entry['account']) for entry in entries if entry['type'] != e['type']]
-                            against_str = ", ".join(against_accounts) 
-                            gl_entries.append(   
-                                self.get_gl_dict({
-                                    "account": e['account'],
-                                    "against": against_str,
-                                    e['type']+"_in_account_currency": e['amount'] ,
-                                    e['type']:  e['amount'],
-                                    "employee": self.employee,
-                                    "cost_center":cost_center(self.company),
-                                    "remarks": self.employee + ' : ' + self.employee_name
-                                })
-                            )
-                    if gl_entries:
-                        make_gl_entries(gl_entries, cancel=0, adv_adj=0)
-                    ##  ## Mahmoud Edit End 
-                        
+            if gl_entries:
+                make_gl_entries(gl_entries, cancel=0, adv_adj=0)
 
     def cancel_linked_gl_entries(self):
         gl_entries = frappe.get_all("GL Entry",filters={"voucher_type": self.doctype, "voucher_no": self.name, "docstatus": 1},pluck="parent",distinct=True,)
