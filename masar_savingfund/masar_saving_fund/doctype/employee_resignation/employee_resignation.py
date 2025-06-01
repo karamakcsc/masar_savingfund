@@ -88,14 +88,26 @@ class EmployeeResignation(AccountsController):
                         "cost_center":cost_center(self.company),
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
-            if self.bank_income_amount or self.emp_income_amount:
+            if self.bank_income_amount:
                 gl_entries.append(
                     self.get_gl_dict({
                         "account": self.retained_earning,
                         # "account_currency": d.paid_to_account_currency,
                         "against": self.liability_account,
-                        "debit_in_account_currency": self.bank_income_amount + self.emp_income_amount,
-                        "debit": self.bank_income_amount + self.emp_income_amount,
+                        "debit_in_account_currency": self.bank_income_amount,
+                        "debit": self.bank_income_amount,
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+            if self.emp_income_amount:
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.retained_earning,
+                        # "account_currency": d.paid_to_account_currency,
+                        "against": self.liability_account,
+                        "debit_in_account_currency": self.emp_income_amount,
+                        "debit": self.emp_income_amount,
                         "employee": self.employee,
                         "cost_center":cost_center(self.company),
                         "remarks": self.employee + ' : ' + self.employee_name
