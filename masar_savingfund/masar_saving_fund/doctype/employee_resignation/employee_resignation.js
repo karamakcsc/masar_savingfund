@@ -86,36 +86,36 @@ frappe.ui.form.on('Employee Resignation', {
                 }
 
                 if (withdrawAmount > 0) {
+                    let empEquity = frm.doc.employee_contr || 0;
+                    let bankEquity = frm.doc.bank_contr || 0;
+                    let empIncomeVal = frm.doc.pl_employee_contr || 0;
+                    let bankIncomeVal = frm.doc.pl_bank_contr || 0;
 
-                    if (withdrawAmount <= employeeEquity) {
-                        frm.set_value('employee_equity_amount', employeeEquity - withdrawAmount);
-                        withdrawAmount = 0;
-                    } else {
-                        withdrawAmount -= employeeEquity;
-                        frm.set_value('employee_equity_amount', 0);
-                    }
+                    const totalBeforeWithdrawal = empEquity + bankEquity + empIncomeVal + bankIncomeVal;
 
-                    if (withdrawAmount > 0 && withdrawAmount <= bankEquity) {
-                        frm.set_value('bank_equity_amount', bankEquity - withdrawAmount);
-                        withdrawAmount = 0;
-                    } else if (withdrawAmount > 0) {
-                        withdrawAmount -= bankEquity;
-                        frm.set_value('bank_equity_amount', 0);
-                    }
+                    if (totalBeforeWithdrawal > 0) {
+                        const empEquityRatio = empEquity / totalBeforeWithdrawal;
+                        const bankEquityRatio = bankEquity / totalBeforeWithdrawal;
+                        const empIncomeRatio = empIncomeVal / totalBeforeWithdrawal;
+                        const bankIncomeRatio = bankIncomeVal / totalBeforeWithdrawal;
 
-                    if (withdrawAmount > 0 && withdrawAmount <= empIncome) {
-                        frm.set_value('emp_income_amount', empIncome - withdrawAmount);
-                        withdrawAmount = 0;
-                    } else if (withdrawAmount > 0) {
-                        withdrawAmount -= empIncome;
-                        frm.set_value('emp_income_amount', 0);
-                    }
+                        const empEquityWithdraw = withdrawAmount * empEquityRatio;
+                        const bankEquityWithdraw = withdrawAmount * bankEquityRatio;
+                        const empIncomeWithdraw = withdrawAmount * empIncomeRatio;
+                        const bankIncomeWithdraw = withdrawAmount * bankIncomeRatio;
 
-                    if (withdrawAmount > 0 && withdrawAmount <= bankIncome) {
-                        frm.set_value('bank_income_amount', bankIncome - withdrawAmount);
-                        withdrawAmount = 0;
-                    } else if (withdrawAmount > 0) {
-                        frm.set_value('bank_income_amount', 0);
+                        const empEquityRemaining = empEquity - empEquityWithdraw;
+                        const bankEquityRemaining = bankEquity - bankEquityWithdraw;
+                        const empIncomeRemaining = empIncomeVal - empIncomeWithdraw;
+                        const bankIncomeRemaining = bankIncomeVal - bankIncomeWithdraw;
+                        console.log(empEquityRemaining);
+                        console.log(bankEquityRemaining);
+                        console.log(empIncomeRemaining);
+                        console.log(bankIncomeRemaining);
+                        frm.set_value('employee_equity_amount', Math.max(empEquityRemaining, 0));
+                        frm.set_value('bank_equity_amount', Math.max(bankEquityRemaining, 0));
+                        frm.set_value('emp_income_amount', Math.max(empIncomeRemaining, 0));
+                        frm.set_value('bank_income_amount', Math.max(bankIncomeRemaining, 0));
                     }
                 }
 
