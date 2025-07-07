@@ -112,18 +112,66 @@ class EmployeeResignation(AccountsController):
                         "cost_center":cost_center(self.company),
                         "remarks": self.employee + ' : ' + self.employee_name
                     }))
-            # if self.income_amount:
-            #     gl_entries.append(
-            #         self.get_gl_dict({
-            #             "account": self.income_account,
-            #             # "account_currency": d.paid_from_account_currency,
-            #             "against": self.liability_account,
-            #             "credit_in_account_currency": self.income_amount ,
-            #             "credit": self.income_amount ,
-            #             "employee": self.employee,
-            #             "cost_center":cost_center(self.company),
-            #             "remarks": self.employee + ' : ' + self.employee_name
-            #         }))
+            if self.income_emp_amount:
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.employee_equity,
+                        # "account_currency": d.paid_from_account_currency,
+                        "against": self.liability_account,
+                        "debit_in_account_currency": self.income_emp_amount,
+                        "debit": self.income_emp_amount,
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+            if self.income_emp_amount_pl:
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.retained_earning,
+                        # "account_currency": d.paid_from_account_currency,
+                        "against": self.liability_account,
+                        "debit_in_account_currency": self.income_emp_amount_pl,
+                        "debit": self.income_emp_amount_pl,
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+            if self.income_bank_amount:
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.bank_equity,
+                        # "account_currency": d.paid_from_account_currency,
+                        "against": self.liability_account,
+                        "debit_in_account_currency": self.income_bank_amount,
+                        "debit": self.income_bank_amount,
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+            if self.income_bank_amount_pl:
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.retained_earning,
+                        # "account_currency": d.paid_from_account_currency,
+                        "against": self.liability_account,
+                        "debit_in_account_currency": self.income_bank_amount_pl,
+                        "debit": self.income_bank_amount_pl,
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
+            if self.income_amount:
+                gl_entries.append(
+                    self.get_gl_dict({
+                        "account": self.income_account,
+                        # "account_currency": d.paid_from_account_currency,
+                        "against": self.liability_account,
+                        "credit_in_account_currency": self.income_amount ,
+                        "credit": self.income_amount ,
+                        "employee": self.employee,
+                        "cost_center":cost_center(self.company),
+                        "remarks": self.employee + ' : ' + self.employee_name
+                    }))
 
             if gl_entries:
                 make_gl_entries(gl_entries, cancel=0, adv_adj=0)

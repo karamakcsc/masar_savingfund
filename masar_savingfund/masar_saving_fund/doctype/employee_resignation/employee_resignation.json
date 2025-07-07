@@ -34,9 +34,11 @@
   "bank_income_amount",
   "section_break_nyil",
   "income_emp_amount",
+  "income_bank_amount",
   "income_amount",
   "column_break_hcnt",
-  "income_bank_amount",
+  "income_emp_amount_pl",
+  "income_bank_amount_pl",
   "section_break_zbjei",
   "bank_equity",
   "employee_equity",
@@ -291,8 +293,7 @@
   },
   {
    "fieldname": "section_break_nyil",
-   "fieldtype": "Section Break",
-   "hidden": 1
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "column_break_hcnt",
@@ -304,12 +305,28 @@
    "label": "Retained Earning",
    "link_filters": "[[\"Account\",\"is_group\",\"=\",0]]",
    "options": "Account"
+  },
+  {
+   "default": "0",
+   "fieldname": "income_emp_amount_pl",
+   "fieldtype": "Float",
+   "label": "Income From Employee P&L",
+   "precision": "4",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "income_bank_amount_pl",
+   "fieldtype": "Float",
+   "label": "Income From Bank P&L",
+   "precision": "4",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-05-29 16:17:02.493686",
+ "modified": "2025-07-07 15:54:39.401926",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Resignation",

@@ -119,13 +119,17 @@ frappe.ui.form.on('Employee Resignation', {
                     }
                 }
 
-                const incomeEmp = (frm.doc.employee_equity_amount || 0) + (frm.doc.emp_income_amount || 0);
-                const incomeBank = (frm.doc.bank_equity_amount || 0) + (frm.doc.bank_income_amount || 0);
-                const totalIncome = incomeEmp + incomeBank;
+                const incomeEmp = (frm.doc.employee_equity_amount || 0) - (frm.doc.employee_contr || 0);
+                const incomeEmpPL = (frm.doc.emp_income_amount || 0) - (frm.doc.pl_employee_contr || 0);
+                const incomeBank = (frm.doc.bank_equity_amount || 0) - (frm.doc.bank_contr || 0);
+                const incomeBankPL = (frm.doc.bank_income_amount || 0) - (frm.doc.pl_bank_contr || 0);
+                const totalIncome = incomeEmp + incomeBank + incomeEmpPL + incomeBankPL;
 
-                frm.set_value('income_emp_amount', incomeEmp);
-                frm.set_value('income_bank_amount', incomeBank);
-                frm.set_value('income_amount', totalIncome);
+                frm.set_value('income_emp_amount', Math.abs(incomeEmp));
+                frm.set_value('income_emp_amount_pl', Math.abs(incomeEmpPL));
+                frm.set_value('income_bank_amount', Math.abs(incomeBank));
+                frm.set_value('income_bank_amount_pl', Math.abs(incomeBankPL));
+                frm.set_value('income_amount', Math.abs(totalIncome));
 
                 [
                     'employee_equity_amount', 
