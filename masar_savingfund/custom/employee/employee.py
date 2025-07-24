@@ -51,7 +51,7 @@ def get_employee_savefund_balance(selected_employees,date_to):
 
             liabilty as (Select ter.employee,ter.employee_name ,ter.employee_equity_amount + ter.bank_equity_amount as liability_amount
             From `tabEmployee Resignation` ter 
-            Inner Join `tabEmployee` te on tsfp.employee = te.name
+            Inner Join `tabEmployee` te on ter.employee = te.name
             Where ter.posting_date > te.date_of_joining and ter.employee in {employees_tuple} and month(ter.posting_date) + ((year(ter.posting_date) - 1) * 12) <= '{up_to}'
                 AND ter.docstatus = 1
                 AND ter.resignation_date = (
