@@ -163,7 +163,7 @@ class EmployeeResignation(AccountsController):
             if self.income_amount:
                 gl_entries.append(
                     self.get_gl_dict({
-                        "account": self.income_account,
+                        "account": self.staff_withdrawal_account if flt(self.number_of_years) > 3 else self.income_account,
                         # "account_currency": d.paid_from_account_currency,
                         "against": self.liability_account,
                         "credit_in_account_currency": self.income_amount ,
@@ -215,6 +215,10 @@ def get_income_account():
 @frappe.whitelist()
 def get_retained_earning():
 	return frappe.db.get_single_value('Saving Fund Settings', 'retained_earning')
+
+@frappe.whitelist()
+def get_staff_withdraw_account():
+	return frappe.db.get_single_value('Saving Fund Settings', 'withdrawal')
 
 @frappe.whitelist()
 def cost_center(company):

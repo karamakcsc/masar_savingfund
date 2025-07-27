@@ -130,6 +130,7 @@ frappe.ui.form.on('Employee Resignation', {
                 frm.set_value('income_bank_amount', Math.abs(incomeBank));
                 frm.set_value('income_bank_amount_pl', Math.abs(incomeBankPL));
                 frm.set_value('income_amount', Math.abs(totalIncome));
+                frm.set_value('number_of_years', yearDiff.toFixed(2));
 
                 [
                     'employee_equity_amount', 
@@ -138,7 +139,8 @@ frappe.ui.form.on('Employee Resignation', {
                     'bank_income_amount', 
                     'income_emp_amount', 
                     'income_bank_amount',
-                    'income_amount'
+                    'income_amount',
+                    'number_of_years',
                 ].forEach(field => frm.refresh_field(field));
             }
         });
@@ -177,6 +179,13 @@ frappe.ui.form.on('Employee Resignation', {
 				method: "masar_savingfund.masar_saving_fund.doctype.employee_resignation.employee_resignation.get_income_account",
 				callback: function(r) {
 					frm.set_value('income_account', r.message);
+				}
+					});
+
+      frappe.call({
+				method: "masar_savingfund.masar_saving_fund.doctype.employee_resignation.employee_resignation.get_staff_withdraw_account",
+				callback: function(r) {
+					frm.set_value('staff_withdrawal_account', r.message);
 				}
 					});
 

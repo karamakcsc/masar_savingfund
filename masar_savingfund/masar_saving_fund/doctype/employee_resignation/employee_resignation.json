@@ -10,12 +10,13 @@
   "employee",
   "employee_name",
   "company",
+  "status",
+  "status_on_submit",
   "column_break_7upws",
   "posting_date",
   "date_of_joining",
   "resignation_date",
-  "status",
-  "status_on_submit",
+  "number_of_years",
   "section_break_fm18b",
   "employee_contr",
   "bank_contr",
@@ -46,6 +47,7 @@
   "column_break_fkjb7",
   "liability_account",
   "income_account",
+  "staff_withdrawal_account",
   "amended_from"
  ],
  "fields": [
@@ -321,12 +323,25 @@
    "label": "Income From Bank P&L",
    "precision": "4",
    "read_only": 1
+  },
+  {
+   "fieldname": "staff_withdrawal_account",
+   "fieldtype": "Link",
+   "label": "Staff Withdrawal Account",
+   "options": "Account",
+   "read_only": 1
+  },
+  {
+   "fieldname": "number_of_years",
+   "fieldtype": "Float",
+   "label": "Number of Years",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-07-07 15:54:39.401926",
+ "modified": "2025-07-27 13:09:18.153282",
  "modified_by": "Administrator",
  "module": "Masar Saving Fund",
  "name": "Employee Resignation",
