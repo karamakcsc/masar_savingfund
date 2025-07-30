@@ -4,14 +4,14 @@
 
 frappe.query_reports["Employee Total Right"] = {
 		"filters": [
-								// {
-								// 	"fieldname": "employee",
-								// 	"label": __("Employee"),
-								// 	"fieldtype": "Link",
-								// 	"options": "Employee",
-								// 	"width": 100,
-								// 	"reqd": 0,
-								// },
+								{
+									"fieldname": "employee",
+									"label": __("Employee"),
+									"fieldtype": "Link",
+									"options": "Employee",
+									"width": 100,
+									"reqd": 0,
+								},
 								 {
 									"fieldname": "date_to",
 									"label": __("To Date"),

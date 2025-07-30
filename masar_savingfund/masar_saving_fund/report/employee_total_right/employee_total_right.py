@@ -11,6 +11,9 @@ def execute(filters=None):
 	return get_columns(), get_data(filters)
 
 def get_data(filters):
+	condiotions = " 1=1 "
+	if filters.get('employee'):
+		condiotions += f" AND e.name = '{filters.get('employee')}' "
 	date_to = filters.get('date_to') #date range
 	trans_date = datetime.datetime.strptime(date_to, '%Y-%m-%d')
 
@@ -82,7 +85,8 @@ def get_data(filters):
 								SELECT
 									ter.employee,
 									ter.employee_name,
-									SUM(ter.employee_equity_amount + ter.bank_equity_amount) AS liability_amount
+									SUM(ter.employee_equity_amount + ter.bank_equity_amount) AS liability_amount,
+									MAX(ter.posting_date) AS resignation_posting_date
 								FROM
 									`tabEmployee Resignation` ter
 								INNER JOIN
@@ -114,7 +118,13 @@ def get_data(filters):
 							IFNULL(p.total_pl, 0) AS total_pl,
 							IFNULL(w.total_paid_amount, 0) AS total_withdraw,
 							IFNULL(l.liability_amount, 0) AS liability_amount,
-							IF(e.status = 'Left', 0, IFNULL(c.total_contr, 0) + IFNULL(p.total_pl, 0) - IFNULL(w.total_paid_amount, 0) - IFNULL(l.liability_amount, 0)) AS total_right
+							CASE
+								WHEN e.status = 'Left' AND '{date_to}' > l.resignation_posting_date THEN 0
+								ELSE IFNULL(c.total_contr, 0) +
+									 IFNULL(p.total_pl, 0) - 
+          							 IFNULL(w.total_paid_amount, 0) - 
+                  					 IFNULL(l.liability_amount, 0)
+							END AS total_right
 						FROM
 							tabEmployee AS e
 						LEFT JOIN
@@ -125,6 +135,7 @@ def get_data(filters):
 							withdraw w ON e.employee = w.employee
 						LEFT JOIN
 							liability l ON e.employee = l.employee
+						WHERE {condiotions}
 						;""")					
 
 
@@ -150,3 +161,4 @@ def get_columns():
 
 
 # -- IF(e.status = 'Left', 0, IFNULL(c.total_contr, 0) + IFNULL(p.total_pl, 0) - IFNULL(w.total_paid_amount, 0) - IFNULL(l.liability_amount, 0)) AS total_rights
+# -- IF(e.status = 'Left', 0, IFNULL(c.total_contr, 0) + IFNULL(p.total_pl, 0) - IFNULL(w.total_paid_amount, 0) - IFNULL(l.liability_amount, 0)) AS total_right
