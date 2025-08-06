@@ -111,6 +111,7 @@ def get_data(filters):
 						SELECT
 							e.employee,
 							e.employee_name,
+							l.resignation_date,
 							IFNULL(c.total_employee_contr, 0) AS total_employee_contr,
 							IFNULL(c.total_bank_contr, 0) AS total_bank_contr,
 							IFNULL(c.total_contr, 0) AS total_contr,
@@ -152,6 +153,7 @@ def get_columns():
 	return [
 	   "Employee #: Link/Employee:150",
 	   "Employee Name: Data:200",
+	   "Resignation Date: Date:200",
 	   "Total Employee Contr: Currency:200",
 	   "Total Bank Contr: Currency:200",
 	   "Total Contr: Currency:200",
