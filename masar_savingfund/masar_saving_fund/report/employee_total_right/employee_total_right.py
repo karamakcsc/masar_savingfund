@@ -41,7 +41,6 @@ def get_data(filters):
 									tial.employee,
 									tial.employee_name
 							),
-
 							contr AS (
 								SELECT
 									tecl.employee,
@@ -62,7 +61,6 @@ def get_data(filters):
 									tecl.employee,
 									tecl.employee_name
 							),
-
 							withdraw AS (
 								SELECT
 									tsfp.employee,
@@ -80,12 +78,22 @@ def get_data(filters):
 									tsfp.employee,
 									tsfp.employee_name
 							),
-
 							liability AS (
 								SELECT
 									ter.employee,
 									ter.employee_name,
-									SUM(ter.employee_equity_amount + ter.bank_equity_amount) AS liability_amount,
+									CASE
+										WHEN ter.resignation_date <= '2023-12-31' THEN (
+											SELECT IFNULL(SUM(tsfp.paid_amount), 0)
+											FROM `tabSaving Fund Payment` tsfp
+											WHERE tsfp.employee = ter.employee
+												AND tsfp.resignation_date <= '{date_to}'
+												AND tsfp.posting_date > em.date_of_joining
+												AND tsfp.docstatus = 1
+												AND tsfp.status = 'Left'
+										)
+										ELSE SUM(ter.employee_equity_amount + ter.bank_equity_amount)
+									END AS liability_amount,
 									MAX(ter.posting_date) AS resignation_posting_date,
 									MAX(ter.resignation_date) AS resignation_date
 								FROM
@@ -93,21 +101,19 @@ def get_data(filters):
 								INNER JOIN
 									`tabEmployee` em ON ter.employee = em.name
 								WHERE
-									ter.posting_date <= '{date_to}' AND ter.posting_date > em.date_of_joining
+									ter.posting_date <= '{date_to}'
+									AND ter.posting_date > em.date_of_joining
 									AND ter.docstatus = 1
 									AND ter.resignation_date = (
-										SELECT
-											MAX(ter2.resignation_date)
-										FROM
-											`tabEmployee Resignation` ter2
-										WHERE
-											ter2.employee = ter.employee
+										SELECT MAX(ter2.resignation_date)
+										FROM `tabEmployee Resignation` ter2
+										WHERE ter2.employee = ter.employee
 									)
 								GROUP BY
 									ter.employee,
-									ter.employee_name
+									ter.employee_name,
+									ter.resignation_date
 							)
-
 						SELECT
 							e.employee,
 							e.employee_name,
@@ -123,7 +129,7 @@ def get_data(filters):
 								ELSE IFNULL(l.liability_amount, 0) 
 							END AS liability_amount,
 							CASE
-								WHEN e.status = 'Left' AND l.resignation_date < '2023-12-01' THEN 0
+								WHEN e.status = 'Left' AND l.resignation_date <= '2023-12-31' THEN 0
 								WHEN e.status = 'Left' AND '{date_to}' > l.resignation_posting_date THEN 0
 								ELSE IFNULL(c.total_contr, 0) +
 									 IFNULL(p.total_pl, 0) - 
@@ -142,11 +148,6 @@ def get_data(filters):
 							liability l ON e.employee = l.employee
 						WHERE {condiotions}
 						;""")					
-
-
-
-
-
 
 def get_columns():
 	return [
