@@ -8,7 +8,7 @@
 from __future__ import unicode_literals
 import frappe, erpnext, json, datetime
 from frappe import _, scrub, ValidationError
-from frappe.utils import flt, comma_or, nowdate, getdate
+from frappe.utils import flt, comma_or, nowdate, getdate, add_years
 from erpnext.setup.utils import get_exchange_rate
 from erpnext.accounts.general_ledger import make_gl_entries
 from erpnext.controllers.accounts_controller import AccountsController
@@ -23,12 +23,8 @@ class SavingFundPayment(AccountsController):
         super(SavingFundPayment, self).__init__(*args, **kwargs)
 
     def validate(self):
-        posting_date_str = self.posting_date
-        posting_date = datetime.datetime.strptime(posting_date_str, "%Y-%m-%d").date()
-        # posting_date = datetime.datetime.strptime(str(posting_date_str) , "%Y-%m-%d %H:%M:%S").date()
-        # frappe.throw(str(posting_date))
-        joining_date = datetime.datetime.strptime(str(frappe.utils.add_years(self.date_of_joining, + 10)), "%Y-%m-%d").date()
-        # frappe.throw(str(joining_date))
+        posting_date = getdate(self.posting_date)
+        joining_date = getdate(add_years(self.date_of_joining, 10))
         if self.status == 'Active' and joining_date > posting_date:
             frappe.throw('The Employee Joining Date is Less Than 10 Years')
 

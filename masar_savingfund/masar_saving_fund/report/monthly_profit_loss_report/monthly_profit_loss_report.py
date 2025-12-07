@@ -14,7 +14,7 @@ def get_data(filters):
 	_from, to = filters.get('from'), filters.get('to') #date range
 	#Conditions
 	conditions = "AND 1=1"
-	if(filters.get('employee_no')):conditions += f" AND te.name LIKE '%{filters.get('employee_no')}' "
+	if(filters.get('employee_no')):conditions += f" AND te.name = '{filters.get('employee_no')}' "
 	# if(filters.get('employee')):conditions += f" AND te.employee_name = '{filters.get('employee')}' "
 	# if(filters.get('customer_name')):conditions += f" AND tsi.customer_name LIKE '%{filters.get('customer_name')}' "
 

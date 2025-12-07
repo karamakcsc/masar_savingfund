@@ -23,7 +23,8 @@ frappe.query_reports["Monthly Profit Loss Report"] = {
 								{
 									"fieldname": "employee_no",
 									"label": __("Employee Number"),
-									"fieldtype": "Data",
+									"fieldtype": "Link",
+									"options": "Employee",
 									"width": 100,
 									"reqd": 0,
 								}

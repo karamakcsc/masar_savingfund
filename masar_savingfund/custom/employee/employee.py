@@ -44,7 +44,7 @@ def get_employee_savefund_balance(selected_employees,date_to):
             withdraw as (Select tsfp.employee,tsfp.employee_name ,SUM(tsfp.paid_amount) total_paid_amount
             From `tabSaving Fund Payment` tsfp
             Inner Join `tabEmployee` te on tsfp.employee = te.name
-            Where tsfp.posting_date > te.date_of_joining and tsfp.employee in {employees_tuple} and month(tsfp.posting_date) + ((year(tsfp.posting_date) - 1) * 12) <= '{up_to}'
+            Where tsfp.posting_date > te.date_of_joining and tsfp.employee in {employees_tuple} and month(tsfp.posting_date) + ((year(tsfp.posting_date) - 1) * 12) < '{up_to}'
                   and tsfp.docstatus = 1
             Group By tsfp.employee,tsfp.employee_name
             ),
@@ -96,7 +96,7 @@ def get_employee_savefund_balance(selected_employees,date_to):
             withdraw as (Select tsfp.employee,tsfp.employee_name ,SUM(tsfp.paid_amount) total_paid_amount
             From `tabSaving Fund Payment` tsfp
             Inner Join `tabEmployee` te on tsfp.employee = te.name
-            Where tsfp.posting_date > te.date_of_joining and tsfp.employee = '{emp}' and month(tsfp.posting_date) + ((year(tsfp.posting_date) - 1) * 12) <= '{up_to}' and tsfp.docstatus = 1
+            Where tsfp.posting_date > te.date_of_joining and tsfp.employee = '{emp}' and month(tsfp.posting_date) + ((year(tsfp.posting_date) - 1) * 12) < '{up_to}' and tsfp.docstatus = 1
             Group By tsfp.employee,tsfp.employee_name
             ),
             liabilty as (Select ter.employee,ter.employee_name ,ter.employee_equity_amount + ter.bank_equity_amount as liability_amount
