@@ -65,12 +65,12 @@ class EmployeeResignation(AccountsController):
             self.retained_earning = get_retained_earning()
     
     def fetch_employee_balances(self):
-        if not self.employee or not self.posting_date:
+        if not self.employee or not self.resignation_date:
             return
         
         balances = get_employee_savefund_balance(
             selected_employees=json.dumps([self.employee]),
-            date_to=self.posting_date
+            date_to=self.resignation_date
         )
         
         if balances and len(balances) > 0:

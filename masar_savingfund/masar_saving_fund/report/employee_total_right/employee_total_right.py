@@ -14,152 +14,129 @@ def get_data(filters):
 	condiotions = " 1=1 "
 	if filters.get('employee'):
 		condiotions += f" AND e.name = '{filters.get('employee')}' "
-	date_to = filters.get('date_to') #date range
+	date_to = filters.get('date_to')
 	trans_date = datetime.datetime.strptime(date_to, '%Y-%m-%d')
-
-	#SQL Query
+	month_to = trans_date.month
+	year_to = trans_date.year
+	up_to = month_to + ((year_to - 1) * 12)
 
 	return frappe.db.sql(f"""
-								WITH 
-							pl AS (
-								SELECT
-									tial.employee,
-									tial.employee_name,
-									SUM(tial.pl_employee_contr) AS total_employee_pl,
-									SUM(tial.pl_bank_contr) AS total_bank_pl,
-									SUM(tial.pl_employee_contr) + SUM(tial.pl_bank_contr) AS total_pl
-								FROM
-									`tabIncome Allocation Line` tial
-								INNER JOIN
-									`tabIncome Allocation` tia ON tial.parent = tia.name
-								INNER JOIN
-									`tabEmployee` em ON tial.employee = em.name
-								WHERE
-									tia.posting_date <= '{date_to}' AND tia.posting_date > em.date_of_joining
-									AND tia.docstatus = 1
-								GROUP BY
-									tial.employee,
-									tial.employee_name
-							),
-							contr AS (
-								SELECT
-									tecl.employee,
-									tecl.employee_name,
-									SUM(tecl.employee_contr) AS total_employee_contr,
-									SUM(tecl.bank_contr) AS total_bank_contr,
-									SUM(tecl.employee_contr) + SUM(tecl.bank_contr) AS total_contr
-								FROM
-									`tabEmployee Contribution Line` tecl
-								INNER JOIN
-									`tabEmployee Contribution` tec ON tecl.parent = tec.name
-								INNER JOIN
-									`tabEmployee` em ON tecl.employee = em.name
-								WHERE
-									tec.posting_date <= '{date_to}' AND tec.posting_date > em.date_of_joining
-									AND tec.docstatus = 1
-								GROUP BY
-									tecl.employee,
-									tecl.employee_name
-							),
-							withdraw AS (
-								SELECT
-									tsfp.employee,
-									tsfp.employee_name,
-									SUM(tsfp.paid_amount) AS total_paid_amount
-								FROM
-									`tabSaving Fund Payment` tsfp
-								INNER JOIN
-									`tabEmployee` em ON tsfp.employee = em.name
-								WHERE
-									tsfp.posting_date <= '{date_to}' AND tsfp.posting_date > em.date_of_joining
-									AND tsfp.docstatus = 1
-									AND tsfp.status = 'Active'
-								GROUP BY
-									tsfp.employee,
-									tsfp.employee_name
-							),
-							liability AS (
-								SELECT
-									ter.employee,
-									ter.employee_name,
-									CASE
-										WHEN ter.resignation_date <= '2023-12-31' THEN (
-											CASE 
-												WHEN COALESCE((
-													SELECT SUM(tsfp.paid_amount)
-													FROM `tabSaving Fund Payment` tsfp
-													WHERE tsfp.employee = ter.employee
-													-- AND tsfp.posting_date <= '2023-12-31'
-													AND tsfp.posting_date > em.date_of_joining
-													AND tsfp.docstatus = 1
-													AND tsfp.status = 'Left'
-												), 0) > SUM(ter.employee_equity_amount + ter.bank_equity_amount + ter.emp_income_amount + ter.bank_income_amount)
-												THEN (
-													SELECT SUM(tsfp.paid_amount)
-													FROM `tabSaving Fund Payment` tsfp
-													WHERE tsfp.employee = ter.employee
-													-- AND tsfp.posting_date <= '2023-12-31'
-													AND tsfp.posting_date > em.date_of_joining
-													AND tsfp.docstatus = 1
-													AND tsfp.status = 'Left'
-												)
-												ELSE SUM(ter.employee_equity_amount + ter.bank_equity_amount + ter.emp_income_amount + ter.bank_income_amount)
-											END
-										)
-										ELSE SUM(ter.employee_equity_amount + ter.bank_equity_amount + ter.emp_income_amount + ter.bank_income_amount)
-									END AS liability_amount,
-									MAX(ter.posting_date) AS resignation_posting_date,
-									MAX(ter.resignation_date) AS resignation_date,
-									MAX(ter.date_of_joining) AS date_of_joining
-								FROM
-									`tabEmployee Resignation` ter
-								INNER JOIN
-									`tabEmployee` em ON ter.employee = em.name
-								WHERE
-									ter.posting_date <= '{date_to}'
-									AND ter.posting_date > em.date_of_joining
-									AND ter.docstatus = 1
-									
-								GROUP BY
-									ter.employee,
-									ter.employee_name,
-									ter.resignation_date
+		WITH 
+		pl AS (
+			SELECT
+				tial.employee,
+				tial.employee_name,
+				SUM(tial.pl_employee_contr) AS total_employee_pl,
+				SUM(tial.pl_bank_contr) AS total_bank_pl,
+				SUM(tial.pl_employee_contr) + SUM(tial.pl_bank_contr) AS total_pl
+			FROM `tabIncome Allocation Line` tial
+			INNER JOIN `tabIncome Allocation` tia ON tial.parent = tia.name
+			INNER JOIN `tabEmployee` em ON tial.employee = em.name
+			WHERE
+				tia.posting_date > em.date_of_joining
+				AND month(tia.posting_date) + ((year(tia.posting_date) - 1) * 12) <= '{up_to}'
+				AND tia.docstatus = 1
+			GROUP BY tial.employee, tial.employee_name
+		),
+		contr AS (
+			SELECT
+				tecl.employee,
+				tecl.employee_name,
+				SUM(tecl.employee_contr) AS total_employee_contr,
+				SUM(tecl.bank_contr) AS total_bank_contr,
+				SUM(tecl.employee_contr) + SUM(tecl.bank_contr) AS total_contr
+			FROM `tabEmployee Contribution Line` tecl
+			INNER JOIN `tabEmployee Contribution` tec ON tecl.parent = tec.name
+			INNER JOIN `tabEmployee` em ON tecl.employee = em.name
+			WHERE
+				tec.posting_date > em.date_of_joining
+				AND month(tec.posting_date) + ((year(tec.posting_date) - 1) * 12) <= '{up_to}'
+				AND tec.docstatus = 1
+			GROUP BY tecl.employee, tecl.employee_name
+		),
+		withdraw AS (
+			SELECT
+				tsfp.employee,
+				tsfp.employee_name,
+				SUM(tsfp.paid_amount) AS total_paid_amount
+			FROM `tabSaving Fund Payment` tsfp
+			INNER JOIN `tabEmployee` em ON tsfp.employee = em.name
+			WHERE
+				tsfp.posting_date > em.date_of_joining
+				AND month(tsfp.posting_date) + ((year(tsfp.posting_date) - 1) * 12) <= '{up_to}'
+				AND tsfp.docstatus = 1
+				AND tsfp.status = 'Active'
+			GROUP BY tsfp.employee, tsfp.employee_name
+		),
+		liability AS (
+			SELECT
+				ter.employee,
+				ter.employee_name,
+				CASE
+					WHEN ter.resignation_date <= '2023-12-31' THEN (
+						CASE 
+							WHEN COALESCE((
+								SELECT SUM(tsfp.paid_amount)
+								FROM `tabSaving Fund Payment` tsfp
+								WHERE tsfp.employee = ter.employee
+								AND tsfp.posting_date > em.date_of_joining
+								AND tsfp.docstatus = 1
+								AND tsfp.status = 'Left'
+							), 0) > SUM(ter.employee_equity_amount + ter.bank_equity_amount + ter.emp_income_amount + ter.bank_income_amount)
+							THEN (
+								SELECT SUM(tsfp.paid_amount)
+								FROM `tabSaving Fund Payment` tsfp
+								WHERE tsfp.employee = ter.employee
+								AND tsfp.posting_date > em.date_of_joining
+								AND tsfp.docstatus = 1
+								AND tsfp.status = 'Left'
 							)
-						SELECT
-							e.employee,
-							e.employee_name,
-							IFNULL(c.total_employee_contr, 0) AS total_employee_contr,
-							IFNULL(c.total_bank_contr, 0) AS total_bank_contr,
-							IFNULL(c.total_contr, 0) AS total_contr,
-							IFNULL(p.total_employee_pl, 0) AS total_employee_pl,
-							IFNULL(p.total_bank_pl, 0) AS total_bank_pl,
-							IFNULL(p.total_pl, 0) AS total_pl,
-							IFNULL(w.total_paid_amount, 0) AS total_withdraw,
-							CASE
-								WHEN e.status = 'Left' AND l.resignation_date < '2023-11-30' THEN 0
-								ELSE IFNULL(l.liability_amount, 0) 
-							END AS liability_amount,
-							CASE
-								WHEN e.status = 'Left' AND l.resignation_date <= '2023-12-31' THEN 0
-								WHEN e.status = 'Left' AND '{date_to}' > l.resignation_posting_date THEN 0
-								WHEN e.status = 'left' AND DATEDIFF(l.resignation_date, l.date_of_joining) <= 1095 THEN 0
-								ELSE IFNULL(c.total_contr, 0) +
-									 IFNULL(p.total_pl, 0) - 
-          							 IFNULL(w.total_paid_amount, 0) - 
-                  					 IFNULL(l.liability_amount, 0)
-							END AS total_right
-						FROM
-							tabEmployee AS e
-						LEFT JOIN
-							contr c ON e.employee = c.employee
-						LEFT JOIN
-							pl p ON e.employee = p.employee
-						LEFT JOIN
-							withdraw w ON e.employee = w.employee
-						LEFT JOIN
-							liability l ON e.employee = l.employee
-						WHERE {condiotions}
-						;""")					
+							ELSE SUM(ter.employee_equity_amount + ter.bank_equity_amount + ter.emp_income_amount + ter.bank_income_amount)
+						END
+					)
+					ELSE SUM(ter.employee_equity_amount + ter.bank_equity_amount + ter.emp_income_amount + ter.bank_income_amount)
+				END AS liability_amount,
+				MAX(ter.posting_date) AS resignation_posting_date,
+				MAX(ter.resignation_date) AS resignation_date,
+				MAX(ter.date_of_joining) AS date_of_joining
+			FROM `tabEmployee Resignation` ter
+			INNER JOIN `tabEmployee` em ON ter.employee = em.name
+			WHERE
+				ter.posting_date > em.date_of_joining
+				AND month(ter.posting_date) + ((year(ter.posting_date) - 1) * 12) <= '{up_to}'
+				AND ter.docstatus = 1
+			GROUP BY ter.employee, ter.employee_name, ter.resignation_date
+		)
+		SELECT
+			e.employee,
+			e.employee_name,
+			IFNULL(c.total_employee_contr, 0) AS total_employee_contr,
+			IFNULL(c.total_bank_contr, 0) AS total_bank_contr,
+			IFNULL(c.total_contr, 0) AS total_contr,
+			IFNULL(p.total_employee_pl, 0) AS total_employee_pl,
+			IFNULL(p.total_bank_pl, 0) AS total_bank_pl,
+			IFNULL(p.total_pl, 0) AS total_pl,
+			IFNULL(w.total_paid_amount, 0) AS total_withdraw,
+			CASE
+				WHEN e.status = 'Left' AND l.resignation_date < '2023-11-30' THEN 0
+				ELSE IFNULL(l.liability_amount, 0) 
+			END AS liability_amount,
+			CASE
+				WHEN e.status = 'Left' AND l.resignation_date <= '2023-12-31' THEN 0
+				WHEN e.status = 'Left' AND '{date_to}' > l.resignation_posting_date THEN 0
+				WHEN e.status = 'left' AND DATEDIFF(l.resignation_date, l.date_of_joining) <= 1095 THEN 0
+				ELSE IFNULL(c.total_contr, 0) +
+					 IFNULL(p.total_pl, 0) - 
+					 IFNULL(w.total_paid_amount, 0) - 
+					 IFNULL(l.liability_amount, 0)
+			END AS total_right
+		FROM tabEmployee AS e
+		LEFT JOIN contr c ON e.employee = c.employee
+		LEFT JOIN pl p ON e.employee = p.employee
+		LEFT JOIN withdraw w ON e.employee = w.employee
+		LEFT JOIN liability l ON e.employee = l.employee
+		WHERE {condiotions}
+		;""")
 
 def get_columns():
 	return [

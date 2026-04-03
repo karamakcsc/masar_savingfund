@@ -29,7 +29,7 @@ def get_employee_savefund_balance(selected_employees,date_to):
             From `tabIncome Allocation Line` tial
             Inner Join `tabIncome Allocation` tia on tial.parent =tia.name
             Inner Join `tabEmployee` te on tial.employee = te.name
-            Where tia.posting_date > te.date_of_joining and tial.employee  in {employees_tuple} and month(tia.posting_date) + ((year(tia.posting_date) - 1) * 12) < '{up_to}' and tia.docstatus = 1
+            Where tia.posting_date > te.date_of_joining and tial.employee  in {employees_tuple} and month(tia.posting_date) + ((year(tia.posting_date) - 1) * 12) <= '{up_to}' and tia.docstatus = 1
             Group By tial.employee,tial.employee_name),
 
             contr as (Select tecl.employee,tecl.employee_name ,SUM(tecl.employee_contr) total_employee_contr,SUM(tecl.bank_contr) total_bank_contr,
@@ -82,7 +82,7 @@ def get_employee_savefund_balance(selected_employees,date_to):
             From `tabIncome Allocation Line` tial
             Inner Join `tabIncome Allocation` tia on tial.parent =tia.name
             Inner Join `tabEmployee` te on tial.employee = te.name                 
-            Where tia.posting_date > te.date_of_joining and tial.employee  = '{emp}' and month(tia.posting_date) + ((year(tia.posting_date) - 1) * 12) < '{up_to}' and tia.docstatus = 1
+            Where tia.posting_date > te.date_of_joining and tial.employee  = '{emp}' and month(tia.posting_date) + ((year(tia.posting_date) - 1) * 12) <= '{up_to}' and tia.docstatus = 1
             Group By tial.employee,tial.employee_name),
 
             contr as (Select tecl.employee,tecl.employee_name ,SUM(tecl.employee_contr) total_employee_contr,SUM(tecl.bank_contr) total_bank_contr,
