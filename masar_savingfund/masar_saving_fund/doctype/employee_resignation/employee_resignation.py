@@ -111,11 +111,17 @@ class EmployeeResignation(AccountsController):
             self.bank_equity_amount = 0
             self.emp_income_amount = 0
             self.bank_income_amount = 0
+            self.income_bank_amount = 0
+            self.income_bank_amount_pl = 0
+            self.income_emp_amount = 0
+            self.income_emp_amount_pl = 0
         elif number_of_years >= 1 and number_of_years < 3:
             self.employee_equity_amount = employee_equity
             self.bank_equity_amount = 0
             self.emp_income_amount = emp_income
             self.bank_income_amount = 0
+            self.income_bank_amount = 0
+            self.income_bank_amount_pl = 0
         else:
             self.employee_equity_amount = employee_equity
             self.bank_equity_amount = bank_equity
