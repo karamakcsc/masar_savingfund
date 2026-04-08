@@ -13,9 +13,11 @@
   "resignation_date",
   "income_section",
   "pl_employee_contr",
+  "pl_employee_contr_diff",
   "pl_total",
   "column_break_13",
   "pl_bank_contr",
+  "pl_bank_contr_diff",
   "column_break_6",
   "total_rights_section",
   "employee_contr",
@@ -90,11 +92,25 @@
    "search_index": 1
   },
   {
+   "default": "0",
+   "fieldname": "pl_employee_contr_diff",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "P&L Employee Diff"
+  },
+  {
    "fieldname": "pl_bank_contr",
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "P&L Bank Contribution",
    "search_index": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "pl_bank_contr_diff",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "P&L Bank Diff"
   },
   {
    "default": "0",

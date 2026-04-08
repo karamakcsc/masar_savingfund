@@ -44,11 +44,15 @@ class EmployeeResignation(AccountsController):
             {
                 'employee': self.employee,
                 'docstatus': 1,
-                'status': ('=', self.status),
+                'name': ('!=', self.name),
             },
         )
         if exists:
             frappe.throw('This Employee Has Resigned')
+
+        # إعادة حساب الرصيد عند الإرسال لضمان دقة البيانات
+        self.fetch_employee_balances()
+        self.calculate_equity_and_income()
     
     def set_default_accounts(self):
         if not self.liability_account:
@@ -268,12 +272,9 @@ class EmployeeResignation(AccountsController):
                 make_gl_entries(gl_entries, cancel=0, adv_adj=0)
 
     def delete_linked_gl_entries(self):
-        cancelled_doc = frappe.db.sql_list("""select name from `tabEmployee Resignation` 
-        where docstatus = 2 """)
-        if cancelled_doc:
-            frappe.db.sql("""delete from `tabGL Entry` 
-                        where voucher_type = 'Employee Resignation' and voucher_no in (%s)""" 
-                        % (', '.join(['%s']*len(cancelled_doc))), tuple(cancelled_doc))
+        frappe.db.sql("""delete from `tabGL Entry`
+                    where voucher_type = 'Employee Resignation' and voucher_no = %s""",
+                    self.name)
 
 
 ### Default Accounts and Cost Center ###

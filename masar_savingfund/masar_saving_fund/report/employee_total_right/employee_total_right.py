@@ -124,7 +124,7 @@ def get_data(filters):
 			CASE
 				WHEN e.status = 'Left' AND l.resignation_date <= '2023-12-31' THEN 0
 				WHEN e.status = 'Left' AND '{date_to}' > l.resignation_posting_date THEN 0
-				WHEN e.status = 'left' AND DATEDIFF(l.resignation_date, l.date_of_joining) <= 1095 THEN 0
+				WHEN e.status = 'Left' AND DATEDIFF(l.resignation_date, l.date_of_joining) <= 1095 THEN 0
 				ELSE IFNULL(c.total_contr, 0) +
 					 IFNULL(p.total_pl, 0) - 
 					 IFNULL(w.total_paid_amount, 0) - 

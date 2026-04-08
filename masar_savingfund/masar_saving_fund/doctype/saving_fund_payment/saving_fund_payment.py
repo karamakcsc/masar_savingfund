@@ -216,8 +216,6 @@ class SavingFundPayment(AccountsController):
 
 
     def delete_linked_gl_entries(self):
-        cancelled_doc = frappe.db.sql_list("""select name from `tabSaving Fund Payment` 
-		where docstatus = 2 """)
-        frappe.db.sql("""delete from `tabGL Entry` 
-                    where voucher_type = 'Saving Fund Payment' and voucher_no in (%s)""" 
-                    % (', '.join(['%s']*len(cancelled_doc))), tuple(cancelled_doc))
+        frappe.db.sql("""DELETE FROM `tabGL Entry`
+            WHERE voucher_type = 'Saving Fund Payment' AND voucher_no = %s""",
+            self.name)
