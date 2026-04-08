@@ -147,16 +147,16 @@ class EmployeeResignation(AccountsController):
                 self.emp_income_amount = max(0, flt(self.pl_employee_contr) - (withdraw_amount * emp_income_ratio))
                 self.bank_income_amount = max(0, flt(self.pl_bank_contr) - (withdraw_amount * bank_income_ratio))
         
-        income_emp = flt(self.employee_equity_amount) - flt(self.employee_contr)
-        income_emp_pl = flt(self.emp_income_amount) - flt(self.pl_employee_contr)
-        income_bank = flt(self.bank_equity_amount) - flt(self.bank_contr)
-        income_bank_pl = flt(self.bank_income_amount) - flt(self.pl_bank_contr)
-        
+        income_emp = flt(self.employee_equity_amount) - flt(self.employee_contr) if flt(self.employee_equity_amount) > 0 else 0
+        income_emp_pl = flt(self.emp_income_amount) - flt(self.pl_employee_contr) if flt(self.emp_income_amount) > 0 else 0
+        income_bank = flt(self.bank_equity_amount) - flt(self.bank_contr) if flt(self.bank_equity_amount) > 0 else 0
+        income_bank_pl = flt(self.bank_income_amount) - flt(self.pl_bank_contr) if flt(self.bank_income_amount) > 0 else 0
+
         self.income_emp_amount = abs(income_emp)
         self.income_emp_amount_pl = abs(income_emp_pl)
         self.income_bank_amount = abs(income_bank)
         self.income_bank_amount_pl = abs(income_bank_pl)
-        
+
         total_income = income_emp + income_bank + income_emp_pl + income_bank_pl
         self.income_amount = abs(total_income)
         
