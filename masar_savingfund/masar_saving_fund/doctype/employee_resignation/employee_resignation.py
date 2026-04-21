@@ -5,12 +5,13 @@ from __future__ import unicode_literals
 import json
 import frappe, datetime
 from frappe import _, scrub, ValidationError
-from frappe.utils import flt, comma_or, nowdate, getdate
+from frappe.utils import flt, comma_or, nowdate, getdate, add_months
 from erpnext.setup.utils import get_exchange_rate
 from erpnext.controllers.accounts_controller import AccountsController
 from frappe.model.document import Document
 from erpnext.accounts.general_ledger import make_gl_entries, process_gl_map, make_reverse_gl_entries
 from masar_savingfund.custom.employee.employee import get_employee_savefund_balance
+import calendar
 
 class InvalidEmployeeResignation(ValidationError):
     pass
@@ -161,11 +162,13 @@ class EmployeeResignation(AccountsController):
         self.income_amount = abs(total_income)
         
     def make_gl(self):
+        posting_date = get_effective_posting_date(self.resignation_date)
         if self.resignation_date and self.date_of_joining:
             gl_entries = []
             if self.deserved_amount:
                 gl_entries.append(
                     self.get_gl_dict({
+                        "posting_date": posting_date,
                         "account": self.liability_account,
                         "against": self.employee_equity,
                         "credit_in_account_currency": self.deserved_amount,
@@ -177,6 +180,7 @@ class EmployeeResignation(AccountsController):
             if self.employee_equity_amount:
                 gl_entries.append(
                     self.get_gl_dict({
+                        "posting_date": posting_date,
                         "account": self.employee_equity,
                         "against": self.liability_account,
                         "debit_in_account_currency": self.employee_equity_amount,
@@ -188,6 +192,7 @@ class EmployeeResignation(AccountsController):
             if self.bank_equity_amount:
                 gl_entries.append(
                     self.get_gl_dict({
+                        "posting_date": posting_date,
                         "account": self.bank_equity,
                         "against": self.liability_account,
                         "debit_in_account_currency": self.bank_equity_amount,
@@ -199,6 +204,7 @@ class EmployeeResignation(AccountsController):
             if self.bank_income_amount:
                 gl_entries.append(
                     self.get_gl_dict({
+                        "posting_date": posting_date,
                         "account": self.retained_earning,
                         "against": self.liability_account,
                         "debit_in_account_currency": self.bank_income_amount,
@@ -210,6 +216,7 @@ class EmployeeResignation(AccountsController):
             if self.emp_income_amount:
                 gl_entries.append(
                     self.get_gl_dict({
+                        "posting_date": posting_date,
                         "account": self.retained_earning,
                         "against": self.liability_account,
                         "debit_in_account_currency": self.emp_income_amount,
@@ -221,6 +228,7 @@ class EmployeeResignation(AccountsController):
             if self.income_emp_amount:
                 gl_entries.append(
                     self.get_gl_dict({
+                        "posting_date": posting_date,
                         "account": self.employee_equity,
                         "against": self.liability_account,
                         "debit_in_account_currency": self.income_emp_amount,
@@ -232,6 +240,7 @@ class EmployeeResignation(AccountsController):
             if self.income_emp_amount_pl:
                 gl_entries.append(
                     self.get_gl_dict({
+                        "posting_date": posting_date,
                         "account": self.retained_earning,
                         "against": self.liability_account,
                         "debit_in_account_currency": self.income_emp_amount_pl,
@@ -243,6 +252,7 @@ class EmployeeResignation(AccountsController):
             if self.income_bank_amount:
                 gl_entries.append(
                     self.get_gl_dict({
+                        "posting_date": posting_date,
                         "account": self.bank_equity,
                         "against": self.liability_account,
                         "debit_in_account_currency": self.income_bank_amount,
@@ -254,6 +264,7 @@ class EmployeeResignation(AccountsController):
             if self.income_bank_amount_pl:
                 gl_entries.append(
                     self.get_gl_dict({
+                        "posting_date": posting_date,
                         "account": self.retained_earning,
                         "against": self.liability_account,
                         "debit_in_account_currency": self.income_bank_amount_pl,
@@ -265,6 +276,7 @@ class EmployeeResignation(AccountsController):
             if self.income_amount:
                 gl_entries.append(
                     self.get_gl_dict({
+                        "posting_date": posting_date,
                         "account": self.staff_withdrawal_account if flt(self.number_of_years) > 3 else self.income_account,
                         "against": self.liability_account,
                         "credit_in_account_currency": self.income_amount,
@@ -282,7 +294,17 @@ class EmployeeResignation(AccountsController):
                     where voucher_type = 'Employee Resignation' and voucher_no = %s""",
                     self.name)
 
+def get_effective_posting_date(resignation_date):
+    date = getdate(resignation_date)
 
+    last_day = calendar.monthrange(date.year, date.month)[1]
+    if date.day == last_day:
+        next_month_date = add_months(date, 1)
+        next_last_day = calendar.monthrange(next_month_date.year, next_month_date.month)[1]
+
+        return next_month_date.replace(day=next_last_day)
+
+    return date
 ### Default Accounts and Cost Center ###
 @frappe.whitelist()
 def get_employee_equity_account():

@@ -72,7 +72,7 @@ def get_employee_savefund_balance(selected_employees, date_to):
             INNER JOIN `tabEmployee` te ON tsfp.employee = te.name
             WHERE tsfp.posting_date > te.date_of_joining
               AND {emp_condition_with}
-              AND MONTH(tsfp.posting_date) + ((YEAR(tsfp.posting_date) - 1) * 12) < %s
+              AND MONTH(tsfp.posting_date) + ((YEAR(tsfp.posting_date) - 1) * 12) <= %s
               AND tsfp.docstatus = 1
             GROUP BY tsfp.employee, tsfp.employee_name
         ),

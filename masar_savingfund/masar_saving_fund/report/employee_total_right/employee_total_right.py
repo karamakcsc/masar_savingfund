@@ -119,16 +119,24 @@ def get_data(filters):
 			IFNULL(w.total_paid_amount, 0) AS total_withdraw,
 			CASE
 				WHEN e.status = 'Left' AND l.resignation_date < '2023-11-30' THEN 0
-				ELSE IFNULL(l.liability_amount, 0) 
+				WHEN e.status = 'Left'
+					AND DAY(l.resignation_date) = DAY(LAST_DAY(l.resignation_date))
+					AND MONTH(l.resignation_date) + ((YEAR(l.resignation_date) - 1) * 12) = '{up_to}'
+					THEN 0
+				ELSE IFNULL(l.liability_amount, 0)
 			END AS liability_amount,
 			CASE
 				WHEN e.status = 'Left' AND l.resignation_date <= '2023-12-31' THEN 0
+				WHEN e.status = 'Left'
+					AND DAY(l.resignation_date) = DAY(LAST_DAY(l.resignation_date))
+					AND MONTH(l.resignation_date) + ((YEAR(l.resignation_date) - 1) * 12) = '{up_to}'
+					THEN IFNULL(l.liability_amount, 0)
 				WHEN e.status = 'Left' AND '{date_to}' > l.resignation_posting_date THEN 0
 				WHEN e.status = 'Left' AND DATEDIFF(l.resignation_date, l.date_of_joining) <= 1095 THEN 0
 				ELSE IFNULL(c.total_contr, 0) +
-					 IFNULL(p.total_pl, 0) - 
-					 IFNULL(w.total_paid_amount, 0) - 
-					 IFNULL(l.liability_amount, 0)
+					IFNULL(p.total_pl, 0) - 
+					IFNULL(w.total_paid_amount, 0) - 
+					IFNULL(l.liability_amount, 0)
 			END AS total_right
 		FROM tabEmployee AS e
 		LEFT JOIN contr c ON e.employee = c.employee

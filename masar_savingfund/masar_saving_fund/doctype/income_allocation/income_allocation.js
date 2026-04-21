@@ -175,8 +175,10 @@ frappe.ui.form.on("Income Allocation", "refresh", function(frm) {
             frm.doc.employees[e].pl_total=0;
             frm.doc.employees[e].pl_employee_contr=0;
             frm.doc.employees[e].pl_bank_contr=0;
-              if (frm.doc.employees[e].status == 'Active') {
-                selected_employees.push(frm.doc.employees[e].employee);
+            var emp = frm.doc.employees[e];
+            if (emp.status == 'Active' || 
+                (emp.status == 'Left' && isLastDayOfMonth(emp.resignation_date))) {
+                selected_employees.push(emp.employee);
               }
             }
 
@@ -267,3 +269,10 @@ frappe.ui.form.on("Income Allocation", "refresh", function(frm) {
 
   });
 });        
+
+function isLastDayOfMonth(dateStr) {
+    if (!dateStr) return false;
+    var d = new Date(dateStr);
+    var lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+    return d.getDate() === lastDay;
+}
